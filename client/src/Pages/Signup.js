@@ -19,8 +19,17 @@ const SignupDesc = styled.div`
     padding: 0;
     font-size: 20px;
   }
-  p {
-    font-size: 14px;
+  .sentence {
+    display: flex;
+    align-items: center;
+    .material-icons {
+      padding: 2px;
+      font-size: 20px;
+      color: #0a95ff;
+    }
+    p {
+      font-size: 14px;
+    }
   }
   @keyframes slide {
     to {
@@ -42,6 +51,7 @@ const SignupForm = styled.form`
   width: 250px;
   padding: 20px;
   border-radius: 10px;
+  animation: rightslide 0.5s forwards 1 ease-out;
   label {
     margin-bottom: 5px;
     font-weight: 600;
@@ -73,8 +83,17 @@ const SignupForm = styled.form`
     color: white;
     border-radius: 5px;
     padding: 10px;
+    cursor: pointer;
     :hover {
       background-color: #0074cc;
+    }
+  }
+  @keyframes rightslide {
+    to {
+      transform: translate(0px);
+    }
+    from {
+      transform: translate(300px);
     }
   }
 `;
@@ -98,10 +117,23 @@ const Signup = () => {
       <SignupDesc className="desc">
         <h2>Join the Stack Overflow community</h2>
         <div>
-          <p>Get unstuck — ask a question</p>
-          <p> Unlock new privileges like voting and commenting</p>
-          <p> Save your favorite tags, filters, and jobs</p>
-          <p> Earn reputation and badges</p>
+          <div className="sentence">
+            <span className="material-icons">live_help</span>
+            <p>Get unstuck — ask a question</p>
+          </div>
+          <div className="sentence">
+            <span className="material-icons">check</span>
+            <p> Unlock new privileges like voting and commenting</p>
+          </div>
+          <div className="sentence">
+            <span className="material-icons">local_offer</span>
+
+            <p> Save your favorite tags, filters, and jobs</p>
+          </div>
+          <div className="sentence">
+            <span className="material-icons">emoji_events</span>
+            <p> Earn reputation and badges</p>
+          </div>
         </div>
       </SignupDesc>
       <div>
