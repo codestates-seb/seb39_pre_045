@@ -56,6 +56,7 @@ const SignupForm = styled.form`
     margin-bottom: 5px;
     font-weight: 600;
     color: #0c0d0e;
+    font-size: 14px;
   }
   input {
     padding: 8px;
