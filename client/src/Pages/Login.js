@@ -1,10 +1,11 @@
 import styled from 'styled-components';
 
 const Container = styled.div`
-  background: rgb(241, 242, 243);
+  background-color: #f1f2f3;
   font-size: 14px;
-  width: 100vw;
-  height: 100vh;
+  width: 100%;
+  margin-top: 50px;
+  height: calc(100vh - 50px);
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -19,11 +20,7 @@ const Container = styled.div`
     }
   }
   @media only screen and (min-width: 768px) {
-    width: 70vw;
-  }
-  @media only screen and (min-width: 1200px) {
-    width: 70vw;
-    max-width: 1200px;
+    width: 100vw;
   }
 `;
 
@@ -44,8 +41,8 @@ const PasswordDiv = styled.div`
 `;
 
 const Input = styled.input`
-  border-radius: 2px;
-  border: 1px solid black;
+  border-radius: 5px;
+  border: 1px solid #babfc4;
   height: 32px;
   padding: 5px 9px;
   margin: 10px 0 20px 0;
