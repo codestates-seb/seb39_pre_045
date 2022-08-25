@@ -9,6 +9,7 @@ const NavHeader = styled.header`
   box-sizing: border-box;
   position: fixed;
   z-index: 5;
+  box-shadow: 0px 2px 5px #b0bec5;
   .topColored {
     width: 100%;
     height: 3px;
