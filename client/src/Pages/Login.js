@@ -1,4 +1,6 @@
+// import { useEffect } from 'react';
 import styled from 'styled-components';
+// import axios from 'axios';
 
 const Container = styled.div`
   background-color: #f1f2f3;
@@ -73,6 +75,12 @@ const Btn = styled.button`
 `;
 
 const Login = () => {
+  // useEffect(() => {
+  //   axios
+  //     .post('/test', { name: 'hihihi' })
+  //     .then((res) => console.log(res))
+  //     .catch((err) => console.log(err));
+  // }, []);
   return (
     <Container>
       <Wrapper>
