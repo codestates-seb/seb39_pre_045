@@ -1,9 +1,11 @@
 import styled from 'styled-components';
+import { Link } from 'react-router-dom';
 const NavHeader = styled.header`
   width: 100%;
   height: 50px;
   background-color: #e1ecf4;
   box-sizing: border-box;
+  position: fixed;
   .headerContainer {
     display: flex;
     padding: 10px 20px;
@@ -54,10 +56,9 @@ const NavHeader = styled.header`
       font-size: 14px;
       border: 1px solid hsl(205, 41%, 63%);
       cursor: pointer;
-      :last-child {
+      &.signupBtn {
         color: white;
-
-        background-color: #6bbbf7;
+        background-color: #0a95ff;
         :hover {
           background-color: #0074cc;
         }
@@ -76,8 +77,12 @@ const Nav = () => {
           <input type="text" maxLength={30} placeholder="Search..." />
         </div>
         <div className="logInOut">
-          <span>Log in</span>
-          <span>Sign up</span>
+          <Link to={'/login'}>
+            <span className="loginBtn">Log in</span>
+          </Link>
+          <Link to={'/signup'}>
+            <span className="signupBtn">Sign up</span>
+          </Link>
         </div>
       </div>
     </NavHeader>
