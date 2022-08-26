@@ -11,6 +11,7 @@ const NavHeader = styled.header`
   position: fixed;
   z-index: 5;
   box-shadow: 0px 2px 5px #b0bec5;
+  top: 0;
   ::after {
     content: '';
     position: absolute;
