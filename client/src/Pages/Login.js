@@ -5,8 +5,8 @@ import styled from 'styled-components';
 const Container = styled.div`
   background-color: #f1f2f3;
   font-size: 14px;
-  width: 100%;
   margin-top: 50px;
+  width: 100vw;
   height: calc(100vh - 50px);
   display: flex;
   flex-direction: column;
@@ -21,8 +21,10 @@ const Container = styled.div`
       flex-direction: column;
     }
   }
-  @media only screen and (min-width: 768px) {
-    width: 100vw;
+  @media only screen and (min-width: 768px) and (max-width: 1200px) {
+    form {
+      width: 220px;
+    }
   }
 `;
 
