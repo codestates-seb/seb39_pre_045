@@ -7,7 +7,7 @@ import MyPageEdit from '../Components/MyPageEdit';
 // import { useState } from 'react';
 
 const PageWrapper = styled.div`
-  margin-top: 50px;
+  margin: 50px 0 0 230px;
   display: flex;
   flex-direction: column;
   width: 100%;
