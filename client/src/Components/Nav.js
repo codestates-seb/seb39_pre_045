@@ -87,6 +87,7 @@ const NavHeader = styled.header`
         color: white;
         background-color: #0a95ff;
         margin-right: 0;
+        box-shadow: inset 0 1px 0 0 rgba(255, 255, 255, 0.4);
         :hover {
           background-color: #0074cc;
         }
@@ -138,6 +139,7 @@ const NavHeader = styled.header`
 const Nav = () => {
   const [isblock, setIsblock] = useState(false);
   const searchVal = useRef();
+
   // const [searchVal, setSearchVal] = useState('');
   const showBlock = () => {
     setIsblock(!isblock);
@@ -153,9 +155,9 @@ const Nav = () => {
   return (
     <NavHeader className="header" display={`${isblock}`}>
       <div className="headerContainer">
-        <div className="logo" url={link}>
-          {/* <img src={link} alt="" /> */}
-        </div>
+        <Link to={'/'}>
+          <div className="logo" url={link}></div>
+        </Link>
 
         <div className="searchHeader">
           <span className="material-icons md-18">search</span>
