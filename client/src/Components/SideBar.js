@@ -2,6 +2,7 @@ import styled from 'styled-components';
 // import { useState } from 'react';
 
 const Container = styled.nav`
+  background-color: #f1f2f3;
   width: 230px;
   padding: 0;
   height: 100vh;
@@ -15,6 +16,9 @@ const Container = styled.nav`
   }
   @media only screen and (max-width: 767px) {
     display: none;
+  }
+  @media only screen and (min-width: 768px) and (max-width: 1200px) {
+    width: 210px;
   }
 `;
 

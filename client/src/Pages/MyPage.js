@@ -12,7 +12,8 @@ const PageWrapper = styled.div`
   flex-direction: column;
   width: 100%;
   @media only screen and (max-width: 767px) {
-    .ul {
+    margin: 50px 0 0 20px;
+    .menuContainer {
       display: flex;
       flex-direction: row;
       width: 250px;
@@ -23,6 +24,14 @@ const PageWrapper = styled.div`
     }
     li {
       padding-right: 10px;
+    }
+  }
+  @media only screen and (min-width: 768px) and (max-width: 1200px) {
+    .menuContainer {
+      padding-left: 30px;
+    }
+    div {
+      width: 90%;
     }
   }
 `;
@@ -44,8 +53,7 @@ const InsideContentWrapper = styled(Section)`
   @media only screen and (max-width: 767px) {
     padding: 20px 0 0 0;
     div {
-      width: 85vw;
-      margin-left: 0;
+      width: 85%;
     }
   }
 `;
@@ -78,7 +86,7 @@ const MyPage = () => {
     <PageWrapper>
       <MyPageProfile />
       <Section className="section">
-        <MenuContainer className="ul">
+        <MenuContainer className="menuContainer">
           <Li border="none" radius="15px" size="13px">
             Questions
           </Li>
