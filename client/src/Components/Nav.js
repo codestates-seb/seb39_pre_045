@@ -138,6 +138,7 @@ const NavHeader = styled.header`
 const Nav = () => {
   const [isblock, setIsblock] = useState(false);
   const searchVal = useRef();
+
   // const [searchVal, setSearchVal] = useState('');
   const showBlock = () => {
     setIsblock(!isblock);
@@ -153,9 +154,9 @@ const Nav = () => {
   return (
     <NavHeader className="header" display={`${isblock}`}>
       <div className="headerContainer">
-        <div className="logo" url={link}>
-          {/* <img src={link} alt="" /> */}
-        </div>
+        <Link to={'/'}>
+          <div className="logo" url={link}></div>
+        </Link>
 
         <div className="searchHeader">
           <span className="material-icons md-18">search</span>
