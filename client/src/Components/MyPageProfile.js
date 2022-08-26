@@ -1,15 +1,15 @@
 import styled from 'styled-components';
 
 const Section = styled.div`
-  padding: 20px 0 0 20px;
+  padding: 20px 20px;
   display: flex;
-  div {
+  .greeting {
+    padding: 20px 20px;
     font-size: 40px;
-    padding: 10px;
     font-weight: 600;
   }
-  span {
-    padding: inherit;
+  .status {
+    padding-left: 20px;
     font-size: 20px;
   }
   @media only screen and (max-width: 767px) {
@@ -20,13 +20,18 @@ const Section = styled.div`
     }
   }
   @media only screen and (min-width: 768px) and (max-width: 1200px) {
-    padding-left: 100px;
-    span {
-      font-size: 15px;
-    }
+    padding-left: 50px;
     img {
-      width: 110px;
-      height: 110px;
+      width: 120px;
+      height: 120px;
+    }
+  }
+  @media only screen and (max-width: 1200px) {
+    .greeting {
+      font-size: 25px;
+    }
+    .status {
+      font-size: 15px;
     }
   }
 `;
@@ -46,8 +51,8 @@ const MyPageProfile = () => {
         src="https://cdn.pixabay.com/photo/2022/08/18/09/20/houses-7394390__480.jpg"
       />
       <div>
-        <div>Hello, 닉네임!</div>
-        <span>상태메시지 넣을까요...</span>
+        <div className="greeting">Hello, 닉네임!</div>
+        <span className="status">상태메시지 넣을까요...</span>
       </div>
     </Section>
   );

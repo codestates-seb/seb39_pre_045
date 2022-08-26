@@ -17,6 +17,9 @@ const Container = styled.nav`
   @media only screen and (max-width: 767px) {
     display: none;
   }
+  @media only screen and (min-width: 768px) and (max-width: 1200px) {
+    width: 210px;
+  }
 `;
 
 export const Li = styled.li`
