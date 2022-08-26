@@ -5,6 +5,9 @@ const Container = styled.nav`
   width: 230px;
   padding: 0;
   height: 100vh;
+  position: fixed;
+  top: 0;
+  left: 0;
   border-right: 0.3px solid rgba(77, 77, 77, 0.45);
   ul {
     margin-top: 70px;
