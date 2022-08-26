@@ -4,6 +4,8 @@ import SideBar from './Components/SideBar';
 import { Route, Routes } from 'react-router-dom';
 import Login from './Pages/Login';
 import Signup from './Pages/Signup';
+import MyPage from './Pages/MyPage';
+import MainLogout from './Pages/MainLogout';
 
 function App() {
   return (
@@ -12,8 +14,10 @@ function App() {
       <div className="container">
         <SideBar />
         <Routes>
-          <Route path="/login" element={<Login />}></Route>
+          <Route path={'/'} element={<MainLogout />} />
+          <Route path="/login" element={<Login />} />
           <Route path="/signup" element={<Signup />} />
+          <Route path="/mypage" element={<MyPage />} />
         </Routes>
       </div>
     </div>
