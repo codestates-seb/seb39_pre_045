@@ -12,17 +12,24 @@ const PageWrapper = styled.div`
   flex-direction: column;
   width: 100%;
   @media only screen and (max-width: 767px) {
+    margin: 50px 0 0 20px;
     .ul {
       display: flex;
       flex-direction: row;
       width: 250px;
       justify-content: space-between;
+      padding-left: 100px;
     }
     .section {
       flex-direction: column;
     }
     li {
       padding-right: 10px;
+    }
+  }
+  @media only screen and (min-width: 768px) and (max-width: 1200px) {
+    .ul {
+      padding-left: 100px;
     }
   }
 `;

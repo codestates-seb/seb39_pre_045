@@ -11,14 +11,18 @@ const NavHeader = styled.header`
   position: fixed;
   z-index: 5;
   box-shadow: 0px 2px 5px #b0bec5;
-  .topColored {
+  top: 0;
+  ::after {
+    content: '';
+    position: absolute;
     width: 100%;
     height: 3px;
     background-color: orange;
+    top: 0;
   }
   .headerContainer {
     display: flex;
-    /* padding: 5px 10px; */
+    padding-right: 5px;
     max-width: 1200px;
     margin: 10px auto;
     justify-content: space-between;
@@ -111,9 +115,10 @@ const NavHeader = styled.header`
       .searchHeader {
         /* flex: 1 1 50%; */
         position: absolute;
+        margin: 5px 5%;
         top: 50px;
-        width: 100%;
-        display: ${(props) => (props.display === false ? 'none' : 'flex')};
+        width: 90%;
+        display: ${(props) => (props.display === 'false' ? 'none' : 'flex')};
         padding: 5px;
         :focus {
           box-shadow: 0px 0px 5px #0a95ff;
@@ -146,8 +151,7 @@ const Nav = () => {
     }
   };
   return (
-    <NavHeader className="header" display={isblock}>
-      <div className="topColored"></div>
+    <NavHeader className="header" display={`${isblock}`}>
       <div className="headerContainer">
         <div className="logo" url={link}>
           {/* <img src={link} alt="" /> */}

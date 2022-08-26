@@ -12,6 +12,23 @@ const Section = styled.div`
     padding: inherit;
     font-size: 20px;
   }
+  @media only screen and (max-width: 767px) {
+    padding-left: 0;
+    img {
+      width: 100px;
+      height: 100px;
+    }
+  }
+  @media only screen and (min-width: 768px) and (max-width: 1200px) {
+    padding-left: 100px;
+    span {
+      font-size: 15px;
+    }
+    img {
+      width: 110px;
+      height: 110px;
+    }
+  }
 `;
 
 const Img = styled.img`

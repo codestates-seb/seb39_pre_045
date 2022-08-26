@@ -2,6 +2,7 @@ import styled from 'styled-components';
 // import { useState } from 'react';
 
 const Container = styled.nav`
+  background-color: #f1f2f3;
   width: 230px;
   padding: 0;
   height: 100vh;
@@ -9,6 +10,7 @@ const Container = styled.nav`
   top: 0;
   left: 0;
   border-right: 0.3px solid rgba(77, 77, 77, 0.45);
+  z-index: 4;
   ul {
     margin-top: 70px;
   }
