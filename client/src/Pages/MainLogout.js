@@ -30,8 +30,6 @@ export const MainContainer = styled.div`
   }
   @media screen and (max-width: 768px) {
     margin: 50px auto;
-    /* justify-content: center; */
-    align-items: center;
   }
 `;
 

@@ -11,7 +11,7 @@ const Question = styled.li`
   display: flex;
 
   .info {
-    flex: 1 1 10%;
+    flex: 1 1 15%;
     display: flex;
     flex-direction: column;
     justify-content: flex-start;
@@ -52,15 +52,15 @@ const Question = styled.li`
       margin: 5px;
     }
   }
-  @media screen and (max-width: 820px) {
+  /* @media screen and (max-width: 820px) {
     display: flex;
     flex-direction: column;
-    padding: 10px 10px 10px 5px;
+    padding: 10px 10px 10px 0;
     .info {
       flex-direction: row;
       align-items: flex-start;
     }
-  }
+  } */
   @media screen and (max-width: 768px) {
     display: flex;
     flex-direction: column;
