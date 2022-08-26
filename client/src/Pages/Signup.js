@@ -1,5 +1,5 @@
 // import { useState } from 'react';
-import { useRef } from 'react';
+import { useRef, useState } from 'react';
 import { Link } from 'react-router-dom';
 import styled from 'styled-components';
 
@@ -13,6 +13,17 @@ const SignupContainer = styled.div`
   background-color: #f1f2f3;
   padding: 10px;
   /* 이거 전체 배경색으로 바꿔야함 */
+  .alreadyAcc {
+    width: 250px;
+    text-align: center;
+    padding: 10px;
+    font-size: 14px;
+    a {
+      margin-left: 5px;
+      text-decoration: none;
+      color: #0a95ff;
+    }
+  }
 `;
 const SignupDesc = styled.div`
   margin-right: 30px;
@@ -38,15 +49,11 @@ const SignupDesc = styled.div`
       transform: translate(0px);
     }
     from {
-      transform: translate(-300px);
+      transform: translate(-100px);
     }
   }
   @media screen and (max-width: 768px) {
     display: none;
-  }
-  .alreadyAcc {
-    width: 250px;
-    text-align: center;
   }
 `;
 const SignupForm = styled.form`
@@ -58,6 +65,8 @@ const SignupForm = styled.form`
   padding: 30px 20px 50px;
   border-radius: 10px;
   animation: rightslide 0.5s forwards 1 ease-out;
+  box-shadow: 0 10px 24px rgba(0, 0, 0, 0.05), 0 20px 48px rgba(0, 0, 0, 0.05),
+    0 1px 4px rgba(0, 0, 0, 0.1);
   label {
     margin-bottom: 5px;
     font-weight: 600;
@@ -68,8 +77,27 @@ const SignupForm = styled.form`
     padding: 8px;
     border: 1px solid #babfc4;
     border-radius: 5px;
-    margin-bottom: 5px;
+    margin-bottom: 15px;
     outline: none;
+    position: relative;
+    &#signupName {
+      background-color: ${(props) =>
+        props.nameValid === 'false' ? 'rgba(255, 0, 0, 0.1)' : 'initial'};
+    }
+
+    /* & #signupName { */
+    :after {
+      content: ${(props) =>
+        props.nameValid === 'false' ? 'Email cannot be empty.' : ''};
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      width: 250px;
+      height: 10px;
+      font-size: 12px;
+      color: black;
+    }
+    /* } */
     :focus {
       box-shadow: 0px 0px 5px #0a95ff;
     }
@@ -85,6 +113,7 @@ const SignupForm = styled.form`
     border-radius: 5px;
     padding: 10px;
     cursor: pointer;
+    box-shadow: inset 0 1px 0 0 rgba(255, 255, 255, 0.4);
     :hover {
       background-color: #0074cc;
     }
@@ -94,7 +123,7 @@ const SignupForm = styled.form`
       transform: translate(0px);
     }
     from {
-      transform: translate(300px);
+      transform: translate(100px);
     }
   }
   @media screen and (max-width: 768px) {
@@ -110,20 +139,48 @@ const SignupForm = styled.form`
   }
 `;
 const Signup = () => {
-  const name = useRef();
-  const email = useRef();
-  const password = useRef();
+  const formName = useRef();
+  const formEmail = useRef();
+  const formPassword = useRef();
   // const [formdata, Setformdata] = useState({
-  //   name,
-  //   email,
-  //   password,
+  //   name: '',
+  //   email: '',
+  //   password: '',
   // });
-
-  const submitSignup = (e) => {
+  const [isvalid, setIsValid] = useState({
+    displayName: undefined,
+    email: undefined,
+    password: undefined,
+  });
+  const handleSubmit = (e) => {
     e.preventDefault();
+    const name = formName.current.value;
+    const email = formEmail.current.value;
+    const password = formPassword.current.value;
+    const newObj = { ...isvalid };
+    if (name === '') {
+      newObj.displayName = false;
+    } else {
+      newObj.displayName = true;
+    }
+    if (email === '') {
+      newObj.email = false;
+    } else {
+      newObj.email = true;
+    }
+    if (password === '') {
+      newObj.password = false;
+    } else {
+      newObj.email = true;
+    }
+    setIsValid({ ...newObj });
+    alert(isvalid.email);
+
     return;
   };
-
+  // const handleFormState =()=>{
+  //   if
+  // }
   return (
     <SignupContainer>
       <SignupDesc className="desc">
@@ -150,21 +207,33 @@ const Signup = () => {
       </SignupDesc>
       <div>
         {/* <div>에센에스로긴</div> */}
-        <SignupForm action="">
+        <SignupForm
+          action=""
+          nameValid={`${isvalid.displayName}`}
+          emailValid={`${isvalid.email}`}
+          pwValid={`${isvalid.password}`}
+        >
           <label htmlFor="signupName">Display name</label>
-          <input id="signupName" type="text" ref={name} />
+          <input id="signupName" type="text" ref={formName} />
 
           <label htmlFor="signupEmail">Email</label>
-          <input id="signupEmail" type="email" ref={email} />
+          <input
+            id="signupEmail"
+            type="email"
+            ref={formEmail}
+            minLength="9"
+            maxLength="30"
+          />
 
           <label htmlFor="signupPw">Password</label>
-          <input id="signupPw" type="password" ref={password} />
+          <input id="signupPw" type="password" ref={formPassword} />
           <div className="agreeCheck">
             <input type="checkbox" name="" id="" />
             어쩌구에 동의하시겠습니까?
           </div>
-          <button onClick={submitSignup}>Sign up</button>
+          <button onClick={handleSubmit}>Sign up</button>
         </SignupForm>
+
         <div className="alreadyAcc">
           Already have an account?
           <Link to={'/login'}>Log in</Link>
