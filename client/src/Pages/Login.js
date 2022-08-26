@@ -42,7 +42,7 @@ const PasswordDiv = styled.div`
   justify-content: space-between;
 `;
 
-const Input = styled.input`
+export const Input = styled.input`
   border-radius: 5px;
   border: 1px solid #babfc4;
   height: 32px;
@@ -54,12 +54,13 @@ const Input = styled.input`
   }
 `;
 
-const Span = styled.div`
+const Div = styled.div`
   color: ${(props) => props.color || 'black'};
   font-size: ${(props) => props.size || '14px'};
 `;
 
-const Btn = styled.button`
+export const Btn = styled.button`
+  margin-bottom: ${(props) => props.bottom || 'auto'};
   background: #2495ff;
   padding: 10px 0;
   border: none;
@@ -67,6 +68,7 @@ const Btn = styled.button`
   border-radius: 5px;
   font-weight: 600;
   box-shadow: 0px 0px 5px 1px #0071db inset;
+  width: ${(props) => props.width || 'auto'};
   &:hover {
     background-color: #0057a8;
     box-shadow: 0px 0px 1px 2px #b8dcff;
@@ -84,16 +86,16 @@ const Login = () => {
   return (
     <Container>
       <Wrapper>
-        Email
-        <Input type="email" />
+        <label htmlFor="loginEmail">Email</label>
+        <Input id="loginEmail" type="email" />
         <PasswordDiv>
-          <Span>Password</Span>
-          <Span color="#3e7bf4" size="11px">
+          <label htmlFor="loginPassword">Password</label>
+          <Div color="#3e7bf4" size="11px">
             Forgot Password?
-          </Span>
+          </Div>
         </PasswordDiv>
-        <Input type="password" />
-        <Btn>Log in</Btn>
+        <Input autoComplete="off" id="loginPassword" type="password" />
+        <Btn type="submit">Log in</Btn>
       </Wrapper>
     </Container>
   );
