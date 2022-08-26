@@ -1,5 +1,6 @@
 // import { useState } from 'react';
 import { useRef } from 'react';
+import { Link } from 'react-router-dom';
 import styled from 'styled-components';
 
 const SignupContainer = styled.div`
@@ -10,6 +11,7 @@ const SignupContainer = styled.div`
   align-items: center;
   justify-content: center;
   background-color: #f1f2f3;
+  padding: 10px;
   /* 이거 전체 배경색으로 바꿔야함 */
 `;
 const SignupDesc = styled.div`
@@ -39,8 +41,12 @@ const SignupDesc = styled.div`
       transform: translate(-300px);
     }
   }
-  @media screen and (max-width: 786px) {
+  @media screen and (max-width: 768px) {
     display: none;
+  }
+  .alreadyAcc {
+    width: 250px;
+    text-align: center;
   }
 `;
 const SignupForm = styled.form`
@@ -49,7 +55,7 @@ const SignupForm = styled.form`
   justify-content: center;
   background-color: white;
   width: 250px;
-  padding: 20px;
+  padding: 30px 20px 50px;
   border-radius: 10px;
   animation: rightslide 0.5s forwards 1 ease-out;
   label {
@@ -67,12 +73,6 @@ const SignupForm = styled.form`
     :focus {
       box-shadow: 0px 0px 5px #0a95ff;
     }
-  }
-  div.recap {
-    width: 100%;
-    height: 100px;
-    background-color: beige;
-    margin-bottom: 20px;
   }
   div.agreeCheck {
     margin-bottom: 10px;
@@ -95,6 +95,17 @@ const SignupForm = styled.form`
     }
     from {
       transform: translate(300px);
+    }
+  }
+  @media screen and (max-width: 768px) {
+    animation: scale 0.5s forwards 1 ease-out;
+    @keyframes scale {
+      to {
+        transform: scale(1);
+      }
+      from {
+        transform: scale(0.5);
+      }
     }
   }
 `;
@@ -148,13 +159,16 @@ const Signup = () => {
 
           <label htmlFor="signupPw">Password</label>
           <input id="signupPw" type="password" ref={password} />
-          <div className="recap">리캡쳐자리</div>
           <div className="agreeCheck">
             <input type="checkbox" name="" id="" />
             어쩌구에 동의하시겠습니까?
           </div>
           <button onClick={submitSignup}>Sign up</button>
         </SignupForm>
+        <div className="alreadyAcc">
+          Already have an account?
+          <Link to={'/login'}>Log in</Link>
+        </div>
       </div>
     </SignupContainer>
   );
