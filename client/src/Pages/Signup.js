@@ -113,6 +113,7 @@ const SignupForm = styled.form`
     border-radius: 5px;
     padding: 10px;
     cursor: pointer;
+    box-shadow: inset 0 1px 0 0 rgba(255, 255, 255, 0.4);
     :hover {
       background-color: #0074cc;
     }
