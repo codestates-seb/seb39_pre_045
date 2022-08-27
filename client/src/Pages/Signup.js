@@ -183,6 +183,7 @@ const Signup = () => {
   });
   const handleSubmit = (e) => {
     e.preventDefault();
+    console.log(formData);
     if (
       formData.username === '' ||
       formData.email === '' ||
@@ -198,7 +199,8 @@ const Signup = () => {
   };
   const handleFormState = (e) => {
     console.log(e.target.value);
-    SetFormData({ ...formData, username: e.target.value });
+    console.log(e.target.name, 'name');
+    SetFormData({ ...formData, [e.target.name]: e.target.value });
   };
   const checkisInvalid = (ref, value, min, max) => {
     if (ref === checkEmail) {
@@ -253,7 +255,8 @@ const Signup = () => {
             id="signupName"
             type="text"
             onChange={handleFormState}
-            onBlur={() => checkisInvalid(checkName, formData.name, 2, 8)}
+            name="username"
+            onBlur={() => checkisInvalid(checkName, formData.username, 2, 8)}
           />
           <span className="alert" ref={checkName}></span>
           <label htmlFor="signupEmail">Email</label>
@@ -261,15 +264,19 @@ const Signup = () => {
             id="signupEmail"
             type="email"
             minLength="9"
+            name="email"
             maxLength="30"
-            onBlur={() => checkisInvalid(checkEmail, formData.name, 9, 30)}
+            onChange={handleFormState}
+            onBlur={() => checkisInvalid(checkEmail, formData.email, 9, 30)}
           />
           <span className="alert" ref={checkEmail}></span>
           <label htmlFor="signupPw">Password</label>
           <input
             id="signupPw"
+            name="password"
             type="password"
-            onBlur={() => checkisInvalid(checkPw, formData.name, 4, 8)}
+            onChange={handleFormState}
+            onBlur={() => checkisInvalid(checkPw, formData.password, 4, 8)}
           />
           <span className="alert" ref={checkPw}></span>
           <fieldset className="genderFieldset">
