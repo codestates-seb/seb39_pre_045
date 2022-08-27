@@ -1,8 +1,7 @@
 package pre045.board_service.answer;
 
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import lombok.*;
 import pre045.board_service.comment.Comment;
 import pre045.board_service.member.Member;
 import pre045.board_service.question.Question;
@@ -14,6 +13,11 @@ import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * 추후 리팩토링
+ * 1. setter 사용 제한
+ */
+
 @Entity
 @Getter
 @Setter
@@ -24,18 +28,24 @@ public class Answer {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long answerId;
 
+    //추가함
+    private String answerUsername;
+
     private String answerContent;
 
+    @Column(updatable = false)
     private LocalDateTime createdAt;
 
     private LocalDateTime modifiedAt;
 
     @ManyToOne
     @JoinColumn(name = "MEMBER_ID")
+    @JsonIgnore
     private Member member;
 
     @ManyToOne
     @JoinColumn(name = "QUESTION_ID")
+    @JsonIgnore
     private Question question;
 
     @OneToMany(mappedBy = "answer", cascade = CascadeType.REMOVE)
@@ -43,6 +53,34 @@ public class Answer {
 
     @OneToMany(mappedBy = "answer", cascade = CascadeType.REMOVE)
     private List<AnswerVote> answerVotes = new ArrayList<>();
+
+    //테스트용 생성자
+    public Answer(String answerContent, LocalDateTime createdAt, LocalDateTime modifiedAt) {
+        this.answerContent = answerContent;
+        this.createdAt = createdAt;
+        this.modifiedAt = modifiedAt;
+    }
+
+    public void addMember(Member member) {
+        if (this.member != null) {
+            this.member.getAnswers().remove(this);
+        }
+        this.member = member;
+        if (!member.getAnswers().contains(this)) {
+            member.addAnswer(this);
+        }
+    }
+
+    public void addQuestion(Question question) {
+        if (this.question != null) {
+            this.question.getAnswers().remove(this);
+        }
+        this.question = question;
+        if (!question.getAnswers().contains(this)) {
+            question.addAnswer(this);
+        }
+    }
+
 
 
 }
