@@ -1,3 +1,5 @@
+/*eslint-disable*/
+
 import styled from 'styled-components';
 const Question = styled.li`
   width: 100%;
@@ -26,7 +28,14 @@ const Question = styled.li`
       border: ${(props) =>
         props.answered === 'yes' ? '1px solid #3d8f58' : 'none'};
       border-radius: 3px;
-      color: ${(props) => (props.answered === 'yes' ? '#3d8f58' : 'inherit')};
+      color: ${(props) =>
+        props.answered === 'yes'
+          ? props.chosen === 'true'
+            ? 'white'
+            : '#3d8f58'
+          : 'inherit'};
+      background-color: ${(props) =>
+        props.chosen === 'true' ? '#3d8f58' : 'inherit'};
     }
   }
   .question {
@@ -53,15 +62,6 @@ const Question = styled.li`
       margin: 5px;
     }
   }
-  /* @media screen and (max-width: 820px) {
-    display: flex;
-    flex-direction: column;
-    padding: 10px 10px 10px 0;
-    .info {
-      flex-direction: row;
-      align-items: flex-start;
-    }
-  } */
   @media screen and (max-width: 768px) {
     display: flex;
     flex-direction: column;
@@ -71,34 +71,22 @@ const Question = styled.li`
     }
   }
 `;
-const QuestItem = () => {
-  const test = {
-    vote: 2,
-    answer: Math.round(Math.random() * 1),
-    view: 13,
-    title:
-      'Selecting Multiple Values from a Dropdown List Across Multiple Columns',
-    content:
-      'I am trying to select multiple options from a dropdown list across multiple columns. I have taken the widely used script for one coloumn and converted it but it is having some negative effects across ...',
-    author: 'Clare Vallely',
-    time: 2022,
-  };
-
+const QuestItem = ({ el }) => {
   return (
-    <Question answered={test.answer > 0 ? 'yes' : 'no'}>
+    <Question answered={el.answer > 0 ? 'yes' : 'no'} chosen={`${el.chosen}`}>
       <div className="info">
-        <span>{test.vote} votes</span>
-        <span className="answer">{test.answer} answers</span>
-        <span>{test.view} views</span>
+        <span>{el.vote} votes</span>
+        <span className="answer">{el.answer} answers</span>
+        <span>{el.view} views</span>
       </div>
       <div className="question">
         <h3 className="title">
-          <a href="/">{test.title}</a>
+          <a href="/">{el.title}</a>
         </h3>
-        <p className="content">{test.content}</p>
+        <p className="content">{el.content}</p>
         <div className="userNdate">
-          <span>{test.author}</span>
-          <span>{test.time}</span>
+          <span>{el.author}</span>
+          <span>{el.time}</span>
         </div>
       </div>
     </Question>
