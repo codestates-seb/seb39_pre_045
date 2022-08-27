@@ -1,11 +1,9 @@
 package pre045.board_service.answer;
 
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 import pre045.board_service.comment.Comment;
 import pre045.board_service.member.Member;
-import pre045.board_service.question.Question;
+import pre045.board_service.question.entity.Question;
 import pre045.board_service.vote.answer_vote.AnswerVote;
 
 import javax.persistence.Entity;

@@ -1,10 +1,8 @@
 package pre045.board_service.vote.question_vote;
 
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 import pre045.board_service.member.Member;
-import pre045.board_service.question.Question;
+import pre045.board_service.question.entity.Question;
 
 import javax.persistence.*;
 

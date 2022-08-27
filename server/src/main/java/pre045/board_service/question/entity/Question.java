@@ -1,8 +1,6 @@
-package pre045.board_service.question;
+package pre045.board_service.question.entity;
 
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 import pre045.board_service.answer.Answer;
 import pre045.board_service.comment.Comment;
 import pre045.board_service.member.Member;
@@ -23,15 +21,20 @@ public class Question {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long questionId;
 
+    @Column(nullable = false)
     private String title;
 
+    @Column(nullable = false)
     private String questionContent;
 
-    private LocalDateTime createdAt;
+    @Column(nullable = false)
+    private LocalDateTime createdAt = LocalDateTime.now();
 
     private LocalDateTime modifiedAt;
 
-    private int view;
+    @Column(nullable = false)
+    private int view = 0;
+
 
     @ManyToOne
     @JoinColumn(name = "MEMBER_ID")
