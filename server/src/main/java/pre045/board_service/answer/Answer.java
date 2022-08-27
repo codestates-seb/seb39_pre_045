@@ -38,14 +38,17 @@ public class Answer {
 
     private LocalDateTime modifiedAt;
 
+    //채택
+    @Column(columnDefinition = "TINYINT", length = 1)
+    private boolean isAdopted;
+
+
     @ManyToOne
     @JoinColumn(name = "MEMBER_ID")
-    @JsonIgnore
     private Member member;
 
     @ManyToOne
     @JoinColumn(name = "QUESTION_ID")
-    @JsonIgnore
     private Question question;
 
     @OneToMany(mappedBy = "answer", cascade = CascadeType.REMOVE)

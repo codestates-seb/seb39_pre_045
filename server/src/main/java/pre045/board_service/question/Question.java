@@ -35,6 +35,10 @@ public class Question {
 
     private int view;
 
+    @Column(columnDefinition = "TINYINT", length = 1)
+    private boolean checkAdopted;
+
+
     @ManyToOne
     @JoinColumn(name = "MEMBER_ID")
     @NotFound(action = NotFoundAction.IGNORE)
@@ -58,6 +62,5 @@ public class Question {
         if (answer.getQuestion() != this) {
             answer.setQuestion(this);
         }
-
     }
 }

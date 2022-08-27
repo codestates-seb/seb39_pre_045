@@ -61,4 +61,13 @@ public class AnswerController {
         answerService.deleteAnswer(answerId);
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
+
+    @PostMapping("/{answer-id}/adopt")
+    public ResponseEntity adoptAnswer(@PathVariable("answer-id") Long answerId) {
+        answerService.adoptAnswer(answerId);
+
+        return new ResponseEntity(HttpStatus.CREATED);
+    }
+
+
 }

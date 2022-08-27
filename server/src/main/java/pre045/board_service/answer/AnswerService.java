@@ -68,7 +68,27 @@ public class AnswerService {
         answerRepository.delete(foundAnswer);
     }
 
+    public void adoptAnswer(Long answerId) {
+        Answer foundAnswer = verifyExistAnswer(answerId);
+        Question foundQuestion = verifyIfAdopted(foundAnswer);
 
+        foundAnswer.setAdopted(true);
+        foundQuestion.setCheckAdopted(true);
+
+        foundAnswer.addQuestion(foundQuestion);
+        foundQuestion.addAnswer(foundAnswer);
+
+        answerRepository.save(foundAnswer);
+    }
+
+    //이미 채택한 질문인지 확인
+    private Question verifyIfAdopted(Answer answer) {
+        Question foundQuestion = verifyExistQuestion(answer.getQuestion().getQuestionId());
+        if (foundQuestion.isCheckAdopted()) {
+            throw new AnswerException("답변 채택은 한번만 가능합니다.");
+        }
+        return foundQuestion;
+    }
 
 
     //존재하는 멤버인지 확인

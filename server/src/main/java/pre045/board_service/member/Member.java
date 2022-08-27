@@ -39,7 +39,6 @@ public class Member {
 
     @OneToMany(mappedBy = "member")
     @JsonIgnore
-//    @NotFound(action = NotFoundAction.IGNORE)
     private List<Answer> answers = new ArrayList<>();
 
     @OneToMany(mappedBy = "member")
