@@ -34,9 +34,10 @@ const Question = styled.li`
     h3.title {
       margin: 0;
       padding: 0;
+      font-weight: 400;
       a {
         text-decoration: none;
-        color: #00747c;
+        color: #0074cc;
         font-size: 16px;
       }
     }

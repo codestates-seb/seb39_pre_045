@@ -14,6 +14,10 @@ export const MainContainer = styled.div`
     align-items: center;
     justify-content: space-between;
     max-width: 850px;
+    h2 {
+      padding: 0 10px;
+      font-weight: 500;
+    }
     button {
       border: none;
       background-color: #0a95ff;
@@ -28,6 +32,9 @@ export const MainContainer = styled.div`
       }
     }
   }
+  ul {
+    padding: 0;
+  }
   @media screen and (max-width: 768px) {
     margin: 50px auto;
   }
@@ -40,11 +47,12 @@ const MainLogout = () => {
         <h2>All Questions</h2>
         <button>Ask Question</button>
       </div>
-
-      <QuestItem />
-      <QuestItem />
-      <QuestItem />
-      <QuestItem />
+      <ul>
+        <QuestItem />
+        <QuestItem />
+        <QuestItem />
+        <QuestItem />
+      </ul>
     </MainContainer>
   );
 };
