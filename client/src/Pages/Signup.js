@@ -72,34 +72,64 @@ const SignupForm = styled.form`
     font-weight: 600;
     color: #0c0d0e;
     font-size: 14px;
+    :last-of-type {
+      position: relative;
+      ::after {
+        content: '※ optional';
+        font-size: 10px;
+        width: 100px;
+        height: 12px;
+        position: absolute;
+        left: 30px;
+        top: 3px;
+        font-style: italic;
+      }
+    }
   }
   input {
     padding: 8px;
     border: 1px solid #babfc4;
     border-radius: 5px;
-    margin-bottom: 15px;
     outline: none;
     position: relative;
-    &#signupName {
-      background-color: ${(props) =>
-        props.nameValid === 'false' ? 'rgba(255, 0, 0, 0.1)' : 'initial'};
-    }
 
-    /* & #signupName { */
-    :after {
-      content: ${(props) =>
-        props.nameValid === 'false' ? 'Email cannot be empty.' : ''};
-      position: absolute;
-      bottom: 0;
-      left: 0;
-      width: 250px;
-      height: 10px;
-      font-size: 12px;
-      color: black;
-    }
-    /* } */
     :focus {
       box-shadow: 0px 0px 5px #0a95ff;
+    }
+  }
+  .alert {
+    font-size: 12px;
+    color: red;
+    height: 15px;
+    font-weight: 700;
+  }
+  fieldset {
+    border: none;
+    padding: 0;
+    margin-bottom: 10px;
+    legend {
+      padding: 0;
+      margin-bottom: 5px;
+      font-weight: 600;
+      color: #0c0d0e;
+      font-size: 14px;
+      position: relative;
+      ::after {
+        content: '※ optional';
+        font-size: 10px;
+        width: 100px;
+        height: 12px;
+        position: absolute;
+        left: 50px;
+        top: 3px;
+        font-style: italic;
+      }
+    }
+    input {
+      margin-left: 0;
+    }
+    input[value='male'] {
+      margin-left: 20px;
     }
   }
   div.agreeCheck {
@@ -107,6 +137,7 @@ const SignupForm = styled.form`
     font-size: 14px;
   }
   button {
+    margin-top: 15px;
     border: none;
     background-color: #0a95ff;
     color: white;
@@ -139,48 +170,57 @@ const SignupForm = styled.form`
   }
 `;
 const Signup = () => {
-  const formName = useRef();
-  const formEmail = useRef();
-  const formPassword = useRef();
-  // const [formdata, Setformdata] = useState({
-  //   name: '',
-  //   email: '',
-  //   password: '',
-  // });
-  const [isvalid, setIsValid] = useState({
-    displayName: undefined,
-    email: undefined,
-    password: undefined,
+  const checkName = useRef();
+  const checkEmail = useRef();
+  const checkPw = useRef();
+  // const [user, setuser] = useState({});
+  const [formData, SetFormData] = useState({
+    username: '',
+    email: '',
+    password: '',
+    gender: null,
+    age: null,
   });
   const handleSubmit = (e) => {
     e.preventDefault();
-    const name = formName.current.value;
-    const email = formEmail.current.value;
-    const password = formPassword.current.value;
-    const newObj = { ...isvalid };
-    if (name === '') {
-      newObj.displayName = false;
+    if (
+      formData.username === '' ||
+      formData.email === '' ||
+      formData.password === ''
+    ) {
+      alert('입력하지 않은 정보가 있습니다');
+      return;
     } else {
-      newObj.displayName = true;
+      //통신 자리
+      // axios.post(url,formData).then(({data})=>{함수를 만들어야하나? useNavigate써서 리다이렉트 }).catch(err=>alert('회원가입에 실패하였습니다')
     }
-    if (email === '') {
-      newObj.email = false;
-    } else {
-      newObj.email = true;
-    }
-    if (password === '') {
-      newObj.password = false;
-    } else {
-      newObj.email = true;
-    }
-    setIsValid({ ...newObj });
-    alert(isvalid.email);
-
     return;
   };
-  // const handleFormState =()=>{
-  //   if
-  // }
+  const handleFormState = (e) => {
+    console.log(e.target.value);
+    SetFormData({ ...formData, username: e.target.value });
+  };
+  const checkisInvalid = (ref, value, min, max) => {
+    if (ref === checkEmail) {
+      if (value === '') {
+        ref.current.textContent = '※빈칸을 채워주세요';
+      } else {
+        if (value.includes('@') === false) {
+          ref.current.textContent = '※올바른 이메일 주소를 입력해주세요';
+        } else {
+          ref.current.textContent = '';
+        }
+      }
+    } else {
+      if (value === '') {
+        ref.current.textContent = '※빈칸을 채워주세요';
+      } else if ((value !== '' && value.length < min) || value.length > max) {
+        ref.current.textContent = `※최소 ${min}자 최대 ${max}자로 설정해주세요`;
+      } else {
+        ref.current.textContent = '';
+      }
+    }
+  };
   return (
     <SignupContainer>
       <SignupDesc className="desc">
@@ -207,30 +247,45 @@ const Signup = () => {
       </SignupDesc>
       <div>
         {/* <div>에센에스로긴</div> */}
-        <SignupForm
-          action=""
-          nameValid={`${isvalid.displayName}`}
-          emailValid={`${isvalid.email}`}
-          pwValid={`${isvalid.password}`}
-        >
+        <SignupForm action="">
           <label htmlFor="signupName">Display name</label>
-          <input id="signupName" type="text" ref={formName} />
-
+          <input
+            id="signupName"
+            type="text"
+            onChange={handleFormState}
+            onBlur={() => checkisInvalid(checkName, formData.name, 2, 8)}
+          />
+          <span className="alert" ref={checkName}></span>
           <label htmlFor="signupEmail">Email</label>
           <input
             id="signupEmail"
             type="email"
-            ref={formEmail}
             minLength="9"
             maxLength="30"
+            onBlur={() => checkisInvalid(checkEmail, formData.name, 9, 30)}
           />
-
+          <span className="alert" ref={checkEmail}></span>
           <label htmlFor="signupPw">Password</label>
-          <input id="signupPw" type="password" ref={formPassword} />
-          <div className="agreeCheck">
+          <input
+            id="signupPw"
+            type="password"
+            onBlur={() => checkisInvalid(checkPw, formData.name, 4, 8)}
+          />
+          <span className="alert" ref={checkPw}></span>
+          <fieldset className="genderFieldset">
+            <legend>Gender</legend>
+            <input type="radio" value="female" name="gender" />
+            female
+            <input type="radio" value="male" name="gender" />
+            male
+          </fieldset>
+          <label htmlFor="age">Age</label>
+          <input type="number" id="age" min="8" max="100" />
+
+          {/* <div className="agreeCheck">
             <input type="checkbox" name="" id="" />
             어쩌구에 동의하시겠습니까?
-          </div>
+          </div> */}
           <button onClick={handleSubmit}>Sign up</button>
         </SignupForm>
 
