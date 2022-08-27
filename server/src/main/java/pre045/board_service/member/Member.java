@@ -1,8 +1,12 @@
 package pre045.board_service.member;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import lombok.ToString;
+import org.hibernate.annotations.NotFound;
+import org.hibernate.annotations.NotFoundAction;
 import pre045.board_service.answer.Answer;
 import pre045.board_service.comment.Comment;
 import pre045.board_service.question.Question;
@@ -34,19 +38,25 @@ public class Member {
     private int age;
 
     @OneToMany(mappedBy = "member")
+    @JsonIgnore
+//    @NotFound(action = NotFoundAction.IGNORE)
     private List<Answer> answers = new ArrayList<>();
 
     @OneToMany(mappedBy = "member")
+    @NotFound(action = NotFoundAction.IGNORE)
     private List<Question> questions = new ArrayList<>();
 
     @OneToMany(mappedBy = "member")
+    @NotFound(action = NotFoundAction.IGNORE)
     private List<Comment> comments = new ArrayList<>();
 
-    @OneToOne(mappedBy = "member")
-    private AnswerVote answerVote;
+    @OneToMany(mappedBy = "member")
+    @NotFound(action = NotFoundAction.IGNORE)
+    private List<AnswerVote> answerVotes = new ArrayList<>();
 
-    @OneToOne(mappedBy = "member")
-    private QuestionVote questionVote;
+    @OneToMany(mappedBy = "member")
+    @NotFound(action = NotFoundAction.IGNORE)
+    private List<QuestionVote> questionVotes = new ArrayList<>();
 
     public Member(String email, String password, String username, String gender, int age) {
         this.email = email;
@@ -55,4 +65,13 @@ public class Member {
         this.gender = gender;
         this.age = age;
     }
+
+    public void addAnswer(Answer answer) {
+        this.answers.add(answer);
+
+        if (answer.getMember() != this) {
+            answer.setMember(this);
+        }
+    }
+
 }

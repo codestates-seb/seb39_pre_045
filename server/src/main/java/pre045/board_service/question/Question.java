@@ -1,8 +1,9 @@
 package pre045.board_service.question;
 
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import lombok.*;
+import org.hibernate.annotations.NotFound;
+import org.hibernate.annotations.NotFoundAction;
 import pre045.board_service.answer.Answer;
 import pre045.board_service.comment.Comment;
 import pre045.board_service.member.Member;
@@ -17,6 +18,7 @@ import java.util.List;
 @Getter
 @Setter
 @NoArgsConstructor
+@AllArgsConstructor
 public class Question {
 
     @Id
@@ -35,15 +37,27 @@ public class Question {
 
     @ManyToOne
     @JoinColumn(name = "MEMBER_ID")
+    @NotFound(action = NotFoundAction.IGNORE)
     private Member member;
 
     @OneToMany(mappedBy = "question", cascade = CascadeType.REMOVE)
     private List<Answer> answers = new ArrayList<>();
 
     @OneToMany(mappedBy = "question", cascade = CascadeType.REMOVE)
+    @NotFound(action = NotFoundAction.IGNORE)
     private List<Comment> comments = new ArrayList<>();
 
     @OneToMany(mappedBy = "question", cascade = CascadeType.REMOVE)
+    @NotFound(action = NotFoundAction.IGNORE)
     private List<QuestionVote> questionVotes = new ArrayList<>();
 
+
+    public void addAnswer(Answer answer) {
+        this.answers.add(answer);
+
+        if (answer.getQuestion() != this) {
+            answer.setQuestion(this);
+        }
+
+    }
 }
