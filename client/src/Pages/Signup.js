@@ -1,5 +1,5 @@
 // import { useState } from 'react';
-import { useRef } from 'react';
+import { useRef, useState } from 'react';
 import { Link } from 'react-router-dom';
 import styled from 'styled-components';
 
@@ -13,6 +13,17 @@ const SignupContainer = styled.div`
   background-color: #f1f2f3;
   padding: 10px;
   /* 이거 전체 배경색으로 바꿔야함 */
+  .alreadyAcc {
+    width: 250px;
+    text-align: center;
+    padding: 10px;
+    font-size: 14px;
+    a {
+      margin-left: 5px;
+      text-decoration: none;
+      color: #0a95ff;
+    }
+  }
 `;
 const SignupDesc = styled.div`
   margin-right: 30px;
@@ -38,15 +49,11 @@ const SignupDesc = styled.div`
       transform: translate(0px);
     }
     from {
-      transform: translate(-300px);
+      transform: translate(-100px);
     }
   }
   @media screen and (max-width: 768px) {
     display: none;
-  }
-  .alreadyAcc {
-    width: 250px;
-    text-align: center;
   }
 `;
 const SignupForm = styled.form`
@@ -58,20 +65,71 @@ const SignupForm = styled.form`
   padding: 30px 20px 50px;
   border-radius: 10px;
   animation: rightslide 0.5s forwards 1 ease-out;
+  box-shadow: 0 10px 24px rgba(0, 0, 0, 0.05), 0 20px 48px rgba(0, 0, 0, 0.05),
+    0 1px 4px rgba(0, 0, 0, 0.1);
   label {
     margin-bottom: 5px;
     font-weight: 600;
     color: #0c0d0e;
     font-size: 14px;
+    :last-of-type {
+      position: relative;
+      ::after {
+        content: '※ optional';
+        font-size: 10px;
+        width: 100px;
+        height: 12px;
+        position: absolute;
+        left: 30px;
+        top: 3px;
+        font-style: italic;
+      }
+    }
   }
   input {
     padding: 8px;
     border: 1px solid #babfc4;
     border-radius: 5px;
-    margin-bottom: 5px;
     outline: none;
+    position: relative;
+
     :focus {
       box-shadow: 0px 0px 5px #0a95ff;
+    }
+  }
+  .alert {
+    font-size: 12px;
+    color: red;
+    height: 15px;
+    font-weight: 700;
+  }
+  fieldset {
+    border: none;
+    padding: 0;
+    margin-bottom: 10px;
+    legend {
+      padding: 0;
+      margin-bottom: 5px;
+      font-weight: 600;
+      color: #0c0d0e;
+      font-size: 14px;
+      position: relative;
+      ::after {
+        content: '※ optional';
+        font-size: 10px;
+        width: 100px;
+        height: 12px;
+        position: absolute;
+        left: 50px;
+        top: 3px;
+        font-style: italic;
+      }
+    }
+    input {
+      margin-left: 0;
+    }
+    input[value='male'] {
+      margin-left: 20px;
     }
   }
   div.agreeCheck {
@@ -79,12 +137,14 @@ const SignupForm = styled.form`
     font-size: 14px;
   }
   button {
+    margin-top: 15px;
     border: none;
     background-color: #0a95ff;
     color: white;
     border-radius: 5px;
     padding: 10px;
     cursor: pointer;
+    box-shadow: inset 0 1px 0 0 rgba(255, 255, 255, 0.4);
     :hover {
       background-color: #0074cc;
     }
@@ -94,7 +154,7 @@ const SignupForm = styled.form`
       transform: translate(0px);
     }
     from {
-      transform: translate(300px);
+      transform: translate(100px);
     }
   }
   @media screen and (max-width: 768px) {
@@ -110,20 +170,59 @@ const SignupForm = styled.form`
   }
 `;
 const Signup = () => {
-  const name = useRef();
-  const email = useRef();
-  const password = useRef();
-  // const [formdata, Setformdata] = useState({
-  //   name,
-  //   email,
-  //   password,
-  // });
-
-  const submitSignup = (e) => {
+  const checkName = useRef();
+  const checkEmail = useRef();
+  const checkPw = useRef();
+  // const [user, setuser] = useState({});
+  const [formData, SetFormData] = useState({
+    username: '',
+    email: '',
+    password: '',
+    gender: null,
+    age: null,
+  });
+  const handleSubmit = (e) => {
     e.preventDefault();
+    console.log(formData);
+    if (
+      formData.username === '' ||
+      formData.email === '' ||
+      formData.password === ''
+    ) {
+      alert('입력하지 않은 정보가 있습니다');
+      return;
+    } else {
+      //통신 자리
+      // axios.post(url,formData).then(({data})=>{함수를 만들어야하나? useNavigate써서 리다이렉트 }).catch(err=>alert('회원가입에 실패하였습니다')
+    }
     return;
   };
-
+  const handleFormState = (e) => {
+    console.log(e.target.value);
+    console.log(e.target.name, 'name');
+    SetFormData({ ...formData, [e.target.name]: e.target.value });
+  };
+  const checkisInvalid = (ref, value, min, max) => {
+    if (ref === checkEmail) {
+      if (value === '') {
+        ref.current.textContent = '※빈칸을 채워주세요';
+      } else {
+        if (value.includes('@') === false) {
+          ref.current.textContent = '※올바른 이메일 주소를 입력해주세요';
+        } else {
+          ref.current.textContent = '';
+        }
+      }
+    } else {
+      if (value === '') {
+        ref.current.textContent = '※빈칸을 채워주세요';
+      } else if ((value !== '' && value.length < min) || value.length > max) {
+        ref.current.textContent = `※최소 ${min}자 최대 ${max}자로 설정해주세요`;
+      } else {
+        ref.current.textContent = '';
+      }
+    }
+  };
   return (
     <SignupContainer>
       <SignupDesc className="desc">
@@ -152,19 +251,51 @@ const Signup = () => {
         {/* <div>에센에스로긴</div> */}
         <SignupForm action="">
           <label htmlFor="signupName">Display name</label>
-          <input id="signupName" type="text" ref={name} />
-
+          <input
+            id="signupName"
+            type="text"
+            onChange={handleFormState}
+            name="username"
+            onBlur={() => checkisInvalid(checkName, formData.username, 2, 8)}
+          />
+          <span className="alert" ref={checkName}></span>
           <label htmlFor="signupEmail">Email</label>
-          <input id="signupEmail" type="email" ref={email} />
-
+          <input
+            id="signupEmail"
+            type="email"
+            minLength="9"
+            name="email"
+            maxLength="30"
+            onChange={handleFormState}
+            onBlur={() => checkisInvalid(checkEmail, formData.email, 9, 30)}
+          />
+          <span className="alert" ref={checkEmail}></span>
           <label htmlFor="signupPw">Password</label>
-          <input id="signupPw" type="password" ref={password} />
-          <div className="agreeCheck">
+          <input
+            id="signupPw"
+            name="password"
+            type="password"
+            onChange={handleFormState}
+            onBlur={() => checkisInvalid(checkPw, formData.password, 4, 8)}
+          />
+          <span className="alert" ref={checkPw}></span>
+          <fieldset className="genderFieldset">
+            <legend>Gender</legend>
+            <input type="radio" value="female" name="gender" />
+            female
+            <input type="radio" value="male" name="gender" />
+            male
+          </fieldset>
+          <label htmlFor="age">Age</label>
+          <input type="number" id="age" min="8" max="100" />
+
+          {/* <div className="agreeCheck">
             <input type="checkbox" name="" id="" />
             어쩌구에 동의하시겠습니까?
-          </div>
-          <button onClick={submitSignup}>Sign up</button>
+          </div> */}
+          <button onClick={handleSubmit}>Sign up</button>
         </SignupForm>
+
         <div className="alreadyAcc">
           Already have an account?
           <Link to={'/login'}>Log in</Link>
