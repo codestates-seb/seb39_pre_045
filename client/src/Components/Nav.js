@@ -136,7 +136,7 @@ const NavHeader = styled.header`
   }
 `;
 
-const Nav = () => {
+const Nav = ({ handleMobileMenuOpen }) => {
   const [isblock, setIsblock] = useState(false);
   const searchVal = useRef();
   const navigate = useNavigate();
@@ -171,7 +171,9 @@ const Nav = () => {
           />
         </div>
         <div className="logInOut">
-          <button className="material-icons">menu_open</button>
+          <button onClick={handleMobileMenuOpen} className="material-icons">
+            menu_open
+          </button>
           <button className="material-icons" onClick={showBlock}>
             search
           </button>

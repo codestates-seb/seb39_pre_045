@@ -1,5 +1,5 @@
 import styled from 'styled-components';
-import { useState } from 'react';
+// import { useState } from 'react';
 
 const Container = styled.nav`
   background-color: #f1f2f3;
@@ -24,7 +24,7 @@ const Container = styled.nav`
   }
   @media only screen and (max-width: 767px) {
     display: ${(props) => props.display || 'content'};
-    margin-left: 30px;
+    left: 50%;
     height: 400px;
     border: 1px solid rgba(77, 77, 77, 0.45);
     box-shadow: 0 10px 24px hsla(0, 0%, 0%, 0.05),
@@ -55,21 +55,14 @@ export const Li = styled.li`
   }
 `;
 
-const SideBar = () => {
+const SideBar = ({ openMobileMenu }) => {
   // const [isLogin, setIsLogin] = useState(false);
-  const [openMobileMenu, setOpenMobileMenu] = useState(false);
-
-  //온클릭 이벤트는 메뉴 아이콘에 적용하기
-  const handleMobileMenuOpen = () => {
-    setOpenMobileMenu(!openMobileMenu);
-  };
 
   return (
-    <Container display={openMobileMenu ? 'none' : 'content'}>
+    <Container display={openMobileMenu ? 'content' : 'none'}>
       <ul>
         <Li margin="10px">Home</Li>
         <Li
-          onClick={handleMobileMenuOpen}
           cursor="default"
           size="11px"
           color="#656765"
