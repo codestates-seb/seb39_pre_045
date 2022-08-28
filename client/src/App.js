@@ -6,6 +6,7 @@ import Login from './Pages/Login';
 import Signup from './Pages/Signup';
 import MyPage from './Pages/MyPage';
 import MainLogout from './Pages/MainLogout';
+import SearchResult from './Pages/SearchResult';
 
 function App() {
   return (
@@ -18,6 +19,7 @@ function App() {
           <Route path="/login" element={<Login />} />
           <Route path="/signup" element={<Signup />} />
           <Route path="/mypage" element={<MyPage />} />
+          <Route path="/search" element={<SearchResult />} />
         </Routes>
       </div>
     </div>
