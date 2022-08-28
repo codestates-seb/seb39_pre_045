@@ -1,5 +1,5 @@
 import styled from 'styled-components';
-// import { useState } from 'react';
+import { useState } from 'react';
 
 const Container = styled.nav`
   background-color: #f1f2f3;
@@ -14,8 +14,22 @@ const Container = styled.nav`
   ul {
     margin-top: 70px;
   }
+  @keyframes openMenu {
+    0% {
+      transform: translate3d(0, -100%, 0);
+    }
+    to {
+      transform: translateZ(0);
+    }
+  }
   @media only screen and (max-width: 767px) {
-    display: none;
+    display: ${(props) => props.display || 'content'};
+    margin-left: 30px;
+    height: 400px;
+    border: 1px solid rgba(77, 77, 77, 0.45);
+    box-shadow: 0 10px 24px hsla(0, 0%, 0%, 0.05),
+      0 20px 48px hsla(0, 0%, 0%, 0.05), 0 1px 4px hsla(0, 0%, 0%, 0.1);
+    animation: openMenu 1s;
   }
   @media only screen and (min-width: 768px) and (max-width: 1200px) {
     width: 210px;
@@ -43,15 +57,23 @@ export const Li = styled.li`
 
 const SideBar = () => {
   // const [isLogin, setIsLogin] = useState(false);
+  const [openMobileMenu, setOpenMobileMenu] = useState(false);
+
+  //온클릭 이벤트는 메뉴 아이콘에 적용하기
+  const handleMobileMenuOpen = () => {
+    setOpenMobileMenu(!openMobileMenu);
+  };
+
   return (
-    <Container>
+    <Container display={openMobileMenu ? 'none' : 'content'}>
       <ul>
         <Li margin="10px">Home</Li>
         <Li
+          onClick={handleMobileMenuOpen}
           cursor="default"
           size="11px"
           color="#656765"
-          bg="white"
+          bg="#f1f2f3"
           border="none"
         >
           PUBLIC
