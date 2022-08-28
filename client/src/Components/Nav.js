@@ -1,5 +1,5 @@
 import styled from 'styled-components';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import link from '../image/stackoverflow.png';
 import { useRef, useState } from 'react';
 const NavHeader = styled.header`
@@ -139,6 +139,7 @@ const NavHeader = styled.header`
 const Nav = () => {
   const [isblock, setIsblock] = useState(false);
   const searchVal = useRef();
+  const navigate = useNavigate();
 
   // const [searchVal, setSearchVal] = useState('');
   const showBlock = () => {
@@ -149,7 +150,7 @@ const Nav = () => {
     if (e.key === 'Enter') {
       // setSearchVal(e.target.value);
       // alert(searchVal);
-      alert(e.target.value);
+      navigate(`/search?q=${e.target.value}`);
     }
   };
   return (
@@ -170,6 +171,7 @@ const Nav = () => {
           />
         </div>
         <div className="logInOut">
+          <button className="material-icons">menu_open</button>
           <button className="material-icons" onClick={showBlock}>
             search
           </button>

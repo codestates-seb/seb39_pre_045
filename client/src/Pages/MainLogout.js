@@ -41,7 +41,7 @@ export const MainContainer = styled.div`
     padding: 0 10px;
     .totalQuestion {
       padding: 0 10px;
-      font-size: 18px;
+      font-size: 16px;
     }
   }
   ul {
