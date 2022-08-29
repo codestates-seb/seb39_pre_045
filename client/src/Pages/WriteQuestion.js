@@ -1,31 +1,62 @@
+import MarkdownEditor from '../Components/MarkdownEditor';
 import styled from 'styled-components';
-import { QuestionForm, WrapperDiv } from './EditQuestion';
-const WriteWrapper = styled(WrapperDiv)`
-  span.desc {
-    font-size: 12px;
-    margin-bottom: 2px;
+import { useRef, useState } from 'react';
+import { Input, Wrapper, Btn } from '../Pages/Login';
+
+const WritePage = styled.div`
+  height: calc(100vh - 50px);
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  label {
+    font-weight: 600;
   }
 `;
+
+const TitleInput = styled(Input)`
+  width: 100%;
+  padding: 0.5em 0;
+`;
+
+const P = styled.p`
+  font-size: 0.8em;
+`;
+
 const WriteQuestion = () => {
+  const [title, setTitle] = useState('');
+  const editor = useRef();
+
+  const handleRegisterButton = (e) => {
+    e.preventDefault();
+    console.log(title);
+    console.log(editor.current.getInstance().getHTML());
+    console.log(editor.current.getInstance().getMarkdown());
+  };
+
   return (
-    <WriteWrapper>
-      <h2>Ask a public question</h2>
-      <QuestionForm>
-        <label htmlFor="askTitle">Title</label>
-        <span className="desc">
+    <WritePage>
+      <Wrapper width="500px" maxWidth="800px" mobile="0" middle="200px">
+        <label htmlFor="title">Title</label>
+        <P>
           Be specific and imagine you’re asking a question to another person
-        </span>
-        <input type="text" id="askTitle" />
-        <label htmlFor="askContent">Body</label>
-        <span className="desc">
+        </P>
+        <TitleInput
+          type="text"
+          id="title"
+          value={title}
+          onChange={(e) => setTitle(e.target.value)}
+        />
+        <label htmlFor="body">Body</label>
+        <P>
           Include all the information someone would need to answer your question
-        </span>
-        <textarea className="askContent"></textarea>
-      </QuestionForm>{' '}
-      <div className="btns">
-        <button className="submitBtn">Review your Question</button>
-      </div>
-    </WriteWrapper>
+        </P>
+        <MarkdownEditor id="body" ref={editor} />
+        <Btn width="180px" onClick={handleRegisterButton}>
+          Review your Question
+        </Btn>
+      </Wrapper>
+    </WritePage>
   );
 };
 
