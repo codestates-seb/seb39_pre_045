@@ -22,6 +22,9 @@ public class Comment {
 
     private String commentContent;
 
+    //추가
+    private String commentUsername;
+
     @ManyToOne
     @JoinColumn(name = "MEMBER_ID")
     private Member member;
