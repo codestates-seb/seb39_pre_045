@@ -13,35 +13,33 @@ const Container = styled.div`
   justify-content: center;
   align-items: center;
   font-weight: 600;
-  @media only screen and (max-width: 767px) {
-    form {
-      width: 10em;
-    }
-    div {
-      flex-direction: column;
-    }
-  }
-  @media only screen and (min-width: 768px) and (max-width: 1200px) {
-    form {
-      width: 220px;
-    }
-  }
 `;
 
-const Wrapper = styled.form`
+export const Wrapper = styled.form`
   display: flex;
   flex-direction: column;
   background: white;
   border-radius: 10px;
   padding: 3em 3em;
-  width: 288px;
+  width: ${(props) => props.maxWidth || '288px'};
   box-shadow: 0 10px 24px hsla(0, 0%, 0%, 0.05),
     0 20px 48px hsla(0, 0%, 0%, 0.05), 0 1px 4px hsla(0, 0%, 0%, 0.1);
+  @media only screen and (max-width: 767px) {
+    width: ${(props) => props.width || '10em'};
+    margin-left: ${(props) => props.mobile || 'auto'};
+  }
+  @media only screen and (min-width: 768px) and (max-width: 1200px) {
+    width: ${(props) => props.width || '220px'};
+    margin-left: ${(props) => props.middle || 'auto'};
+  }
 `;
 
 const PasswordDiv = styled.div`
   display: flex;
   justify-content: space-between;
+  @media only screen and (max-width: 767px) {
+    flex-direction: column;
+  }
 `;
 
 export const Input = styled.input`
