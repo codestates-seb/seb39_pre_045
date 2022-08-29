@@ -1,8 +1,6 @@
 package pre045.board_service.vote.answer_vote;
 
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 import pre045.board_service.answer.Answer;
 import pre045.board_service.member.Member;
 
@@ -21,7 +19,7 @@ public class AnswerVote {
     private int aCount;
 
     @Column(columnDefinition = "TINYINT", length = 1)
-    private int aCheck;
+    private boolean aCheck;
 
     @ManyToOne
     @JoinColumn(name = "MEMBER_ID")

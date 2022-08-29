@@ -1,10 +1,8 @@
 package pre045.board_service.vote.question_vote;
 
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 import pre045.board_service.member.Member;
-import pre045.board_service.question.Question;
+import pre045.board_service.question.entity.Question;
 
 import javax.persistence.*;
 
@@ -21,7 +19,7 @@ public class QuestionVote {
     private int qCount;
 
     @Column(columnDefinition = "TINYINT", length = 1)
-    private int qCheck;
+    private boolean qCheck;
 
     @ManyToOne
     @JoinColumn(name = "MEMBER_ID")
