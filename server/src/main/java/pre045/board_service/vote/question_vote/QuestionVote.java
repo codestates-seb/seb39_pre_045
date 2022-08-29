@@ -19,7 +19,7 @@ public class QuestionVote {
     private int qCount;
 
     @Column(columnDefinition = "TINYINT", length = 1)
-    private int qCheck;
+    private boolean qCheck;
 
     @ManyToOne
     @JoinColumn(name = "MEMBER_ID")

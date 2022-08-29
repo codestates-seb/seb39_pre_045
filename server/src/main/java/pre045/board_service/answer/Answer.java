@@ -1,5 +1,6 @@
 package pre045.board_service.answer;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import lombok.*;
 import pre045.board_service.comment.Comment;
 import pre045.board_service.member.Member;
@@ -32,6 +33,7 @@ public class Answer {
     @JoinColumn(name = "MEMBER_ID")
     private Member member;
 
+    @JsonBackReference
     @ManyToOne
     @JoinColumn(name = "QUESTION_ID")
     private Question question;
