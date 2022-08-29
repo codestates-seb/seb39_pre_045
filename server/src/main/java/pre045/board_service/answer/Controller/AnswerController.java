@@ -1,4 +1,4 @@
-package pre045.board_service.answer;
+package pre045.board_service.answer.Controller;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -6,10 +6,10 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
-import pre045.board_service.question.Question;
-
-import javax.validation.constraints.Positive;
-import java.util.HashMap;
+import pre045.board_service.answer.dto.AnswerDto;
+import pre045.board_service.answer.mapper.AnswerMapper;
+import pre045.board_service.answer.service.AnswerService;
+import pre045.board_service.answer.entity.Answer;
 
 
 @RestController
@@ -71,7 +71,7 @@ public class AnswerController {
      * @param answerId - 채택할 답변 ID
      * @return - CREATED
      */
-    @PostMapping("/adopt/{answer-id}")
+    @PostMapping("/{answer-id}/adopt")
     public ResponseEntity adoptAnswer(@PathVariable("answer-id") Long answerId) {
         answerService.adoptAnswer(answerId);
 

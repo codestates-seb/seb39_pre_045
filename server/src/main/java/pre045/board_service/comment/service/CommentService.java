@@ -1,10 +1,11 @@
-package pre045.board_service.comment;
+package pre045.board_service.comment.service;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
-import pre045.board_service.answer.Answer;
-import pre045.board_service.answer.AnswerRepository;
-import pre045.board_service.member.Member;
+import pre045.board_service.answer.repository.AnswerRepository;
+import pre045.board_service.comment.repository.CommentRepository;
+import pre045.board_service.comment.entity.Comment;
+import pre045.board_service.member.entity.Member;
 import pre045.board_service.member.MemberRepository;
 
 import javax.transaction.Transactional;

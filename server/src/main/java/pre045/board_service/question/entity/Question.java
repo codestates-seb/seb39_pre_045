@@ -2,10 +2,10 @@ package pre045.board_service.question.entity;
 
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import lombok.*;
-import pre045.board_service.answer.Answer;
-import pre045.board_service.comment.Comment;
-import pre045.board_service.member.Member;
-import pre045.board_service.vote.question_vote.QuestionVote;
+import pre045.board_service.answer.entity.Answer;
+import pre045.board_service.comment.entity.Comment;
+import pre045.board_service.member.entity.Member;
+import pre045.board_service.vote.question_vote.entity.QVote;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
@@ -29,7 +29,7 @@ public class Question {
     private String questionContent;
 
     @Column(nullable = false)
-    private LocalDateTime createdAt = LocalDateTime.now();
+    private LocalDateTime createdAt;
 
     private LocalDateTime modifiedAt;
 
@@ -53,7 +53,7 @@ public class Question {
     private List<Comment> comments = new ArrayList<>();
 
     @OneToMany(mappedBy = "question", cascade = CascadeType.REMOVE)
-    private List<QuestionVote> questionVotes = new ArrayList<>();
+    private List<QVote> questionVotes = new ArrayList<>();
 
 
     // dB에서 외래키로 가지고 있어서
@@ -74,7 +74,7 @@ public class Question {
         }
     }
 
-    public void addQuestionVote(QuestionVote questionVote) {
+    public void addQuestionVote(QVote questionVote) {
         questionVotes.add(questionVote);
 
         if (questionVote.getQuestion() != this){

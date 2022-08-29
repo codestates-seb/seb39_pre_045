@@ -1,4 +1,4 @@
-package pre045.board_service.member;
+package pre045.board_service.member.controller;
 
 
 import lombok.extern.slf4j.Slf4j;

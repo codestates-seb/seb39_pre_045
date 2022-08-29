@@ -1,7 +1,7 @@
-package pre045.board_service.vote.question_vote;
+package pre045.board_service.vote.question_vote.entity;
 
 import lombok.*;
-import pre045.board_service.member.Member;
+import pre045.board_service.member.entity.Member;
 import pre045.board_service.question.entity.Question;
 
 import javax.persistence.*;
@@ -10,7 +10,7 @@ import javax.persistence.*;
 @Getter
 @Setter
 @NoArgsConstructor
-public class QuestionVote {
+public class QVote {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

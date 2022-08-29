@@ -1,8 +1,9 @@
-package pre045.board_service.comment;
+package pre045.board_service.comment.mapper;
 
 import org.mapstruct.Mapper;
 import org.mapstruct.ReportingPolicy;
 import pre045.board_service.comment.dto.CommentDto;
+import pre045.board_service.comment.entity.Comment;
 
 @Mapper(componentModel = "Spring", unmappedTargetPolicy = ReportingPolicy.IGNORE)
 public interface CommentMapper {

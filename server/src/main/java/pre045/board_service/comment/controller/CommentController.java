@@ -1,4 +1,4 @@
-package pre045.board_service.comment;
+package pre045.board_service.comment.controller;
 
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -6,6 +6,9 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
+import pre045.board_service.comment.entity.Comment;
+import pre045.board_service.comment.mapper.CommentMapper;
+import pre045.board_service.comment.service.CommentService;
 import pre045.board_service.comment.dto.CommentDto;
 
 
@@ -34,7 +37,7 @@ public class CommentController {
     }
 
     @PatchMapping("/{comment-id}/edit")
-    public ResponseEntity editComment(@PathVariable("comment-Id") Long commentId, @RequestBody CommentDto.Patch patchDto) {
+    public ResponseEntity editComment(@PathVariable("comment-id") Long commentId, @RequestBody CommentDto.Patch patchDto) {
         patchDto.setCommentId(commentId);
 
         Comment comment = mapper.commentPatchToComment(patchDto);
@@ -46,7 +49,7 @@ public class CommentController {
     }
 
     @DeleteMapping("/{comment-id}")
-    public ResponseEntity deleteComment(@PathVariable("comment-Id") Long commentId) { //코멘트 아이디 확인후 삭제
+    public ResponseEntity deleteComment(@PathVariable("comment-id") Long commentId) { //코멘트 아이디 확인후 삭제
         commentService.deleteComment(commentId);
 
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);

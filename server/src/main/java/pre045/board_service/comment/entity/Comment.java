@@ -1,9 +1,9 @@
-package pre045.board_service.comment;
+package pre045.board_service.comment.entity;
 
 
 import lombok.*;
-import pre045.board_service.answer.Answer;
-import pre045.board_service.member.Member;
+import pre045.board_service.answer.entity.Answer;
+import pre045.board_service.member.entity.Member;
 import pre045.board_service.question.entity.Question;
 
 import javax.persistence.Entity;

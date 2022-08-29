@@ -29,6 +29,8 @@ public class QuestionService {
         // 유효성 검사 (질문 게시물 작성하는 유저가 회원인지)
         verifyQuestion(question);
 
+        // Todo 조회수, 작성날짜 증가 로직 구현 요망
+
         return saveQuestion(question);
     }
 
@@ -38,7 +40,7 @@ public class QuestionService {
 
     private void verifyQuestion(Question question) {
         // 질문을 작성하는 유저가 회원인지 아닌지 여부
-//        memberService.findVerifiedMember(question.getMember().getMemberId());
+        // Todo Member 정보 메소드 호출 기능 구현 요망
 
     }
 
@@ -53,6 +55,8 @@ public class QuestionService {
 
         Optional.ofNullable(question.getQuestionContent())
                 .ifPresent(questionContent -> findByQuestionId.setQuestionContent(questionContent));
+
+        // Todo 수정 날짜 구현
 
         return questionRepository.save(findByQuestionId);
 

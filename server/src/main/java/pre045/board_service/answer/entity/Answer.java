@@ -1,10 +1,11 @@
-package pre045.board_service.answer;
+package pre045.board_service.answer.entity;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import lombok.*;
-import pre045.board_service.comment.Comment;
-import pre045.board_service.member.Member;
+import pre045.board_service.comment.entity.Comment;
+import pre045.board_service.member.entity.Member;
 import pre045.board_service.question.entity.Question;
-import pre045.board_service.vote.answer_vote.AnswerVote;
+import pre045.board_service.vote.answer_vote.entity.AVote;
 
 import javax.persistence.Entity;
 import javax.persistence.*;
@@ -58,7 +59,7 @@ public class Answer {
     private List<Comment> comments = new ArrayList<>();
 
     @OneToMany(mappedBy = "answer", cascade = CascadeType.REMOVE)
-    private List<AnswerVote> answerVotes = new ArrayList<>();
+    private List<AVote> answerVotes = new ArrayList<>();
 
     //테스트용 생성자
     public Answer(String answerContent, LocalDateTime createdAt, LocalDateTime modifiedAt) {

@@ -1,10 +1,9 @@
-package pre045.board_service.answer;
+package pre045.board_service.answer.dto;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import pre045.board_service.member.Member;
-import pre045.board_service.question.Question;
+import pre045.board_service.question.entity.Question;
 
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;

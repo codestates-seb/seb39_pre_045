@@ -1,11 +1,11 @@
-package pre045.board_service.member;
+package pre045.board_service.member.entity;
 
 import lombok.*;
-import pre045.board_service.answer.Answer;
-import pre045.board_service.comment.Comment;
+import pre045.board_service.answer.entity.Answer;
+import pre045.board_service.comment.entity.Comment;
 import pre045.board_service.question.entity.Question;
-import pre045.board_service.vote.answer_vote.AnswerVote;
-import pre045.board_service.vote.question_vote.QuestionVote;
+import pre045.board_service.vote.answer_vote.entity.AVote;
+import pre045.board_service.vote.question_vote.entity.QVote;
 
 import javax.persistence.*;
 import java.util.ArrayList;
@@ -41,10 +41,10 @@ public class Member {
     private List<Comment> comments = new ArrayList<>();
 
     @OneToMany(mappedBy = "member")
-    private List<AnswerVote> answerVotes = new ArrayList<>();
+    private List<AVote> answerVotes = new ArrayList<>();
 
     @OneToMany(mappedBy = "member")
-    private List<QuestionVote> questionVotes = new ArrayList<>();
+    private List<QVote> questionVotes = new ArrayList<>();
 
     public Member(String email, String password, String username, String gender, int age) {
         this.email = email;
@@ -53,4 +53,13 @@ public class Member {
         this.gender = gender;
         this.age = age;
     }
+
+    public void addAnswer(Answer answer) {
+        this.answers.add(answer);
+
+        if (answer.getMember() != this) {
+            answer.setMember(this);
+        }
+    }
+
 }

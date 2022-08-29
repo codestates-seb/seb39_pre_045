@@ -1,13 +1,16 @@
-package pre045.board_service.answer;
+package pre045.board_service.answer.service;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import pre045.board_service.member.Member;
-import pre045.board_service.member.MemberRepository;
-import pre045.board_service.question.Question;
-import pre045.board_service.question.QuestionRepository;
+import pre045.board_service.answer.AnswerException;
+import pre045.board_service.answer.entity.Answer;
+import pre045.board_service.answer.repository.AnswerRepository;
+import pre045.board_service.member.entity.Member;
+// import pre045.board_service.member.repository.MemberRepository;
+import pre045.board_service.question.entity.Question;
+import pre045.board_service.question.repository.QuestionRepository;
 
 import java.time.LocalDateTime;
 import java.util.Optional;

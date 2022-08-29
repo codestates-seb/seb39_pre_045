@@ -1,20 +1,20 @@
-package pre045.board_service.vote.answer_vote;
+package pre045.board_service.vote.question_vote.controller;
+
 
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.PatchMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @Validated
 @Slf4j
-public class AnswerVoteController {
+public class QVoteController {
 
-    @PatchMapping("/questions/{question-id}/upvote")
-    public ResponseEntity upVoteQuestion() {
+    @PatchMapping("/answers/{answer-id}/upvote")
+    public ResponseEntity upVoteAnswer() {
         return new ResponseEntity<>(HttpStatus.TEMPORARY_REDIRECT); //?
     }
 }

@@ -43,7 +43,7 @@ public class QuestionController {
                 new SingleResponseDto<>(mapper.questionToQuestionResponseDto(question)), HttpStatus.CREATED);
     }
 
-    @PatchMapping("/edit/{question-id}")
+    @PatchMapping("/{question-id}")
     public ResponseEntity editQuestion(@PathVariable("question-id") @Positive long questionId,
                                        @Valid @RequestBody QuestionPatchDto questionPatchDto) {
         Question question =
@@ -53,7 +53,7 @@ public class QuestionController {
                 new SingleResponseDto<>(mapper.questionToQuestionResponseDto(question)), HttpStatus.OK);
     }
 
-    @GetMapping("/{question-id}")
+    @GetMapping("/{question-id}") // 단일 질문 조회
     public ResponseEntity getQuestion(@PathVariable("question-id") @Positive long questionId) {
         Question question = questionService.findQuestion(questionId);
 
@@ -61,6 +61,9 @@ public class QuestionController {
                 new SingleResponseDto<>(mapper.questionToQuestionResponseDto(question)),
                 HttpStatus.OK);
     }
+
+    // Todo 게시물 검색 기능 구현 요망 (리퀘스트 파람), 정렬 기능 추가, Member와 매핑
+    // Todo API 명세서 참조
 
     @GetMapping
     public ResponseEntity getQuestions(@Positive @RequestParam int page,
@@ -73,9 +76,9 @@ public class QuestionController {
                 HttpStatus.OK);
     }
 
-//    @DeleteMapping("/{question-id}")
-//    public ResponseEntity deleteQuestion(@PathVariable("question-id") @Positive long questionId) {
-//        questionService.deleteQuestion(questionId);
-//        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
-//    }
+    @DeleteMapping("/{question-id}")
+    public ResponseEntity deleteQuestion(@PathVariable("question-id") @Positive long questionId) {
+        questionService.deleteQuestion(questionId);
+        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+    }
 }

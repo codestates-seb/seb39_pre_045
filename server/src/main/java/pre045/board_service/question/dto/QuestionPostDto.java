@@ -2,12 +2,9 @@ package pre045.board_service.question.dto;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
-import pre045.board_service.member.Member;
 
 import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Positive;
-import java.time.LocalDateTime;
 
 @Getter
 @AllArgsConstructor

@@ -3,8 +3,8 @@ package pre045.board_service.comment.dto;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import pre045.board_service.answer.Answer;
-import pre045.board_service.member.Member;
+import pre045.board_service.answer.entity.Answer;
+import pre045.board_service.member.entity.Member;
 
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
