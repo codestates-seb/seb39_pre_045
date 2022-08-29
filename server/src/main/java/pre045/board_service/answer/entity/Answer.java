@@ -22,15 +22,12 @@ import java.util.List;
 @Getter
 @Setter
 @NoArgsConstructor
-//@ToString
 public class Answer {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long answerId;
 
-    //추가함
-    //프론트에서 유저 정보 데이터를 가지고 있다고 하면 삭제
     private String answerUsername;
 
     private String answerContent;
@@ -40,7 +37,6 @@ public class Answer {
 
     private LocalDateTime modifiedAt;
 
-    //채택
     @Column(columnDefinition = "TINYINT", length = 1)
     private boolean isAdopted;
 

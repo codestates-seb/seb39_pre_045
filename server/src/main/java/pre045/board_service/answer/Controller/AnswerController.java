@@ -1,4 +1,4 @@
-package pre045.board_service.answer.Controller;
+package pre045.board_service.answer.controller;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -25,9 +25,9 @@ public class AnswerController {
     /**
      *
      * @param postDto - memberId, question, answerContent
-     * @return - CREATED / username, answerContent, createdAt, modifiedAt (항상 null이긴 한데 그럼 responseDto 따로 만들까요......)
+     * @return - CREATED / username, answerContent, createdAt, modifiedAt
      */
-    @PostMapping("/add")
+    @PostMapping
     public ResponseEntity addAnswer(@RequestBody AnswerDto.Post postDto) {
         Answer answer = mapper.answerPostToAnswer(postDto);
         Answer createdAnswer = answerService.createAnswer(postDto.getMemberId(), answer);
@@ -75,7 +75,7 @@ public class AnswerController {
     public ResponseEntity adoptAnswer(@PathVariable("answer-id") Long answerId) {
         answerService.adoptAnswer(answerId);
 
-        return new ResponseEntity(HttpStatus.CREATED);
+        return new ResponseEntity<>(HttpStatus.CREATED);
     }
 
 
