@@ -1,6 +1,7 @@
 // import { useEffect, useState } from 'react';
 // import { useParams } from 'react-router-dom';
 // import axios from 'axios'
+import LikeOrDislike from '../Components/LikeOrDislike';
 import styled from 'styled-components';
 const DetailQuestion = () => {
   // const id = useParams()
@@ -18,6 +19,42 @@ const DetailQuestion = () => {
     padding: 20px;
     background-color: white;
     box-sizing: border-box;
+    color: #232629;
+    .questionDesc {
+      border-bottom: 1px solid #babfc49b;
+      .titleNbtn {
+        max-width: 1000px;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+
+        h2 {
+          font-weight: 400;
+          font-size: 24px;
+          color: #3b4045;
+          margin: 0;
+        }
+      }
+
+      .dateNview {
+        margin: 10px;
+        span {
+          margin-right: 20px;
+        }
+      }
+    }
+    .wrapper {
+      display: flex;
+      max-width: 1000px;
+      .content {
+        height: 300px;
+      }
+      .com {
+        background-color: aqua;
+        width: 100%;
+        height: 50px;
+      }
+    }
   `;
   const data = {
     question: {
@@ -25,7 +62,9 @@ const DetailQuestion = () => {
       title: 'How to place the ~/.composer/vendor/bin directory in your PATH?',
       author: 'which1ispink',
       createdAt: '20220425',
+      modifiedAt: '20220623',
       view: 12341234,
+      likeCount: 34,
       content: `I'm on Ubuntu 14.04 and I've been trying all possible methods to install Laravel to no avail. Error messages everything I try. I'm now trying the first method in the quickstart documentation, that is, via Laravel Installer, but it says to "Make sure to place the ~/.composer/vendor/bin directory in your PATH so the Laravel executable is found when you run the Laravel command in your terminal." so my question is, how do I do that? This may be a simple question but I'm really frustrated and would appreciate any help.`,
       comments: [
         {
@@ -170,14 +209,33 @@ const DetailQuestion = () => {
   };
   return (
     <DivWrapper>
-      <h2>{data.question.title}</h2>
-      <div>
-        <span>{data.question.createdAt}</span>
-        <span>{data.question.modifiedAt}</span>
-        <span>{data.question.view}</span>
+      <div className="questionDesc">
+        <div className="titleNbtn">
+          <h2>{data.question.title}</h2>
+          <button>Ask Question</button>
+        </div>
+        <div className="dateNview">
+          <span>{data.question.createdAt}</span>
+          <span>{data.question.modifiedAt}</span>
+          <span>{data.question.view}</span>
+        </div>
       </div>
-      <div className="wrapper"></div>
-      <div></div>
+      <div className="wrapper">
+        <LikeOrDislike />
+        <div>
+          <div className="content" style={{ whiteSpace: 'pre-wrap' }}>
+            {data.question.content}
+          </div>
+          <div className="comment">
+            <div className="com"></div>
+            <div className="com"></div>
+            <div className="com"></div>
+            <div className="com"></div>
+            <div className="com"></div>
+          </div>
+        </div>
+      </div>
+
       {/* 여기에다가 질문 컴포넌트   */}
       {/* 질문안에 감싼상태의 댓글컴포넌트 맵돌리기 */}
     </DivWrapper>
