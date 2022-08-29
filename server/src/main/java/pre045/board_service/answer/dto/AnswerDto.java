@@ -12,7 +12,8 @@ import java.time.LocalDateTime;
 
 /**
  * 보완사항
- * 1. Member 객체 자체를 그대로 받고 있음
+ * 1. 로그인 구현 후 Member 처리 방법 변경
+ * 2. 최종 설계 완성 후 Entity의 Setter 제거 후 Dto에 Builder 설정 고려
  */
 public class AnswerDto {
 
@@ -29,11 +30,6 @@ public class AnswerDto {
         private String answerContent;
     }
 
-    /**
-     * 보완 사항
-     * 1. Member
-     *  -> 로그인 기능 구현 시 세션에서 username을 가져와 response로 client에 반환해주도록 수정할 것
-     */
     @Getter
     @AllArgsConstructor
     @NoArgsConstructor
