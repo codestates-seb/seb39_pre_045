@@ -1,5 +1,6 @@
 import styled from 'styled-components';
 // import { useState } from 'react';
+import { Link } from 'react-router-dom';
 
 const Container = styled.nav`
   background-color: #f1f2f3;
@@ -13,6 +14,12 @@ const Container = styled.nav`
   z-index: 4;
   ul {
     margin-top: 70px;
+  }
+  a {
+    text-decoration: none;
+    &:visited {
+      color: inherit;
+    }
   }
   @keyframes openMenu {
     0% {
@@ -71,9 +78,12 @@ const SideBar = ({ openMobileMenu }) => {
         >
           PUBLIC
         </Li>
-        <Li>
-          <span className="material-icons">language</span>Questions
-        </Li>
+        <Link to="/">
+          <Li>
+            <span className="material-icons">language</span>
+            Questions
+          </Li>
+        </Link>
         {/* {isLogin ? <li>Users</li> : null} */}
       </ul>
     </Container>

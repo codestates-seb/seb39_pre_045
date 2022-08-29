@@ -24,13 +24,14 @@ export const Wrapper = styled.form`
   width: ${(props) => props.maxWidth || '288px'};
   box-shadow: 0 10px 24px hsla(0, 0%, 0%, 0.05),
     0 20px 48px hsla(0, 0%, 0%, 0.05), 0 1px 4px hsla(0, 0%, 0%, 0.1);
+
   @media only screen and (max-width: 767px) {
     width: ${(props) => props.width || '10em'};
-    margin-left: ${(props) => props.mobile || 'auto'};
+    margin-left: ${(props) => props.mobile || '0'};
   }
   @media only screen and (min-width: 768px) and (max-width: 1200px) {
     width: ${(props) => props.width || '220px'};
-    margin-left: ${(props) => props.middle || 'auto'};
+    margin-left: ${(props) => props.middle || '0'};
   }
 `;
 
