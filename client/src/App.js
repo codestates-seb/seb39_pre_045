@@ -8,6 +8,7 @@ import Signup from './Pages/Signup';
 import MyPage from './Pages/MyPage';
 import MainLogout from './Pages/MainLogout';
 import SearchResult from './Pages/SearchResult';
+import WriteQuestion from './Pages/WriteQuestion';
 
 function App() {
   const [openMobileMenu, setOpenMobileMenu] = useState(false);
@@ -27,6 +28,7 @@ function App() {
           <Route path="/signup" element={<Signup />} />
           <Route path="/mypage" element={<MyPage />} />
           <Route path="/search" element={<SearchResult />} />
+          <Route path="/write" element={<WriteQuestion />} />
         </Routes>
       </div>
     </div>
