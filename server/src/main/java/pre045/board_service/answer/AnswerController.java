@@ -6,6 +6,10 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
+import pre045.board_service.question.Question;
+
+import javax.validation.constraints.Positive;
+import java.util.HashMap;
 
 
 @RestController

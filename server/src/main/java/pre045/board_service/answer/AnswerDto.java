@@ -3,6 +3,7 @@ package pre045.board_service.answer;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import pre045.board_service.member.Member;
 import pre045.board_service.question.Question;
 
 import javax.validation.constraints.NotBlank;
