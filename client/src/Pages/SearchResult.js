@@ -43,7 +43,7 @@ const SearchResult = () => {
         <button>Ask Question</button>
       </div>
       <div className="resultQueryDiv">
-        Results for {location.search.slice(3)}
+        Results for {decodeURI(location.search.slice(3))}
         <br /> query Search options not deleted
       </div>
       <div className="totalNbtns">
