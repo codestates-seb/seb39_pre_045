@@ -69,7 +69,7 @@ public class QuestionController {
         List<Question> questions = pageQuestions.getContent();
 
         return new ResponseEntity<>(
-                new MultiResponseDto<>(mapper.questionToQuestionResponseDto(questions), pageQuestions),
+                new MultiResponseDto<>(mapper.questionsToQuestionResponseDtos(questions), pageQuestions),
                 HttpStatus.OK);
     }
 

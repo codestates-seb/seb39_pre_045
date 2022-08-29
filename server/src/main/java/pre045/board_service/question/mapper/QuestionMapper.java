@@ -7,6 +7,8 @@ import pre045.board_service.question.dto.QuestionPostDto;
 import pre045.board_service.question.dto.QuestionResponseDto;
 import pre045.board_service.question.entity.Question;
 
+import java.util.List;
+
 @Mapper(componentModel = "spring", unmappedTargetPolicy = ReportingPolicy.IGNORE)
 public interface QuestionMapper {
 
@@ -17,5 +19,7 @@ public interface QuestionMapper {
 
     // Response 는 클라이언트로 넘겨줘야하기 때문에 역으로 Question 으로 매핑.
     QuestionResponseDto questionToQuestionResponseDto(Question question);
+
+    List<QuestionResponseDto> questionsToQuestionResponseDtos(List<Question> question);
 
 }
