@@ -9,7 +9,9 @@ import MyPage from './Pages/MyPage';
 import MainLogout from './Pages/MainLogout';
 import SearchResult from './Pages/SearchResult';
 import WriteQuestion from './Pages/WriteQuestion';
-
+import EditQuestion from './Pages/EditQuestion';
+import EditAnswer from './Pages/EditAnswer';
+import DetailQuestion from './Pages/DetailQuestion';
 function App() {
   const [openMobileMenu, setOpenMobileMenu] = useState(false);
 
@@ -29,6 +31,9 @@ function App() {
           <Route path="/mypage" element={<MyPage />} />
           <Route path="/search" element={<SearchResult />} />
           <Route path="/write" element={<WriteQuestion />} />
+          <Route path="/questions/edit" element={<EditQuestion />} />
+          <Route path="/answer/edit" element={<EditAnswer />} />
+          <Route path="/questions" element={<DetailQuestion />} />
         </Routes>
       </div>
     </div>
