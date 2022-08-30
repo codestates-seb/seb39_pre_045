@@ -2,7 +2,6 @@ import '@toast-ui/editor/dist/toastui-editor.css';
 import { forwardRef } from 'react';
 import { Editor } from '@toast-ui/react-editor';
 import styled from 'styled-components';
-import MarkdownViewer from './MarkdownViewer';
 // import '@toast-ui/editor/dist/i18n/ko-kr';
 
 const Div = styled.div`
@@ -24,7 +23,6 @@ const MarkdownEditor = (props, ref) => {
           ['code', 'codeblock'],
         ]}
       ></Editor>
-      <MarkdownViewer />
     </Div>
   );
 };
