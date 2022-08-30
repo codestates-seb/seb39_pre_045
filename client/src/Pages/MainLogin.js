@@ -37,7 +37,7 @@ const MainLogin = () => {
     <MainContainer>
       <div className="pageDesc">
         <h2>Top Questions</h2>
-        <button>Ask Question</button>
+        <button onClick={() => navigate('/write')}>Ask Question</button>
       </div>
 
       <RightAlignBtns>
