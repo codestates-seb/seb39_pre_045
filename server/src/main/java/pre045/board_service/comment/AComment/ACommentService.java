@@ -87,7 +87,7 @@ public class ACommentService {
 
     private Member verifyMember(Long memberId) {
         return memberRepository.findById(memberId)
-                .orElseThrow(()-> new NullPointerException());
+                .orElseThrow(()-> new BusinessLogicException(ExceptionCode.ANSWER_CANNOT_POST));
     }
 
     private AComment verifyExistAComment(Long aCommentId) {

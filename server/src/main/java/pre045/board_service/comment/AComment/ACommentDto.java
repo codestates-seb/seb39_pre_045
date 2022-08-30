@@ -39,7 +39,7 @@ public class ACommentDto {
         @Positive
         private Long memberId;
 
-        private Long commentId;
+        private Long aCommentId;
 
 
         @NotNull
@@ -49,7 +49,7 @@ public class ACommentDto {
         @NotBlank
         private  String aCommentContent;
 
-        public void setCommentId(Long commentId) {this.commentId = commentId;}
+        public void setCommentId(Long aCommentId) {this.aCommentId = aCommentId;}
 
     }
 
@@ -57,6 +57,8 @@ public class ACommentDto {
     @AllArgsConstructor
 
     public static class Response {
+
+        private String aCommentId;
 
         private String aCommentUsername;
 

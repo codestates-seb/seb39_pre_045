@@ -37,7 +37,7 @@ public class QCommentDto {
         @Positive
         private Long memberId;
 
-        private Long commentId;
+        private Long qCommentId;
 
 
         @NotNull
@@ -47,7 +47,7 @@ public class QCommentDto {
         @NotBlank
         private  String qCommentContent;
 
-        public void setCommentId(Long commentId) {this.commentId = commentId;}
+        public void setCommentId(Long qCommentId) {this.qCommentId = qCommentId;}
 
     }
 
@@ -55,6 +55,9 @@ public class QCommentDto {
     @AllArgsConstructor
 
     public static class Response {
+
+        private String qCommentId;
+
         private String qCommentUsername;
 
         private String qCommentContent;
