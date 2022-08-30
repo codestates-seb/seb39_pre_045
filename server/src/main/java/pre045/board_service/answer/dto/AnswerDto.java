@@ -11,6 +11,7 @@ import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Positive;
 import java.time.LocalDateTime;
+import java.util.List;
 
 /**
  * 보완사항
@@ -68,7 +69,11 @@ public class AnswerDto {
 
         private LocalDateTime modifiedAt;
 
-        private AComment aComment;
+        private List<AComment> aComments;
+
+        private int totalVotes;
+
+        private boolean isAdopted;
     }
 
 }
