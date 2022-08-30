@@ -12,6 +12,7 @@ const SignupContainer = styled.div`
   justify-content: center;
   background-color: #f1f2f3;
   padding: 10px;
+  box-sizing: border-box;
   /* 이거 전체 배경색으로 바꿔야함 */
   .alreadyAcc {
     width: 250px;
