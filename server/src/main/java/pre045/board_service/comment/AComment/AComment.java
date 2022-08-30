@@ -1,6 +1,7 @@
 package pre045.board_service.comment.AComment;
 
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.*;
 
 import pre045.board_service.answer.entity.Answer;
@@ -29,6 +30,7 @@ public class AComment {
 
     @ManyToOne
     @JoinColumn(name = "MEMBER_ID")
+    @JsonIgnore
     private Member member;
 
     @ManyToOne

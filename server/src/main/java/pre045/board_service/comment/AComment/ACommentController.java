@@ -6,7 +6,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
-
+import pre045.board_service.dto.SingleResponseDto;
 
 
 @RestController
@@ -30,10 +30,10 @@ public class ACommentController {
 
        ACommentDto.Response response = mapper.commentToCommentResponse(createdAComment);
 
-        return new ResponseEntity<>(response, HttpStatus.CREATED); // 컨트롤러 리턴값 추가 post, patch
+        return new ResponseEntity<>(new SingleResponseDto<>(response), HttpStatus.CREATED); // 컨트롤러 리턴값 추가 post, patch
     }
 
-    @PatchMapping("/{comment-id}/edit")
+    @PatchMapping("/{comment-id}")
     public ResponseEntity editAComment(@PathVariable("comment-id") Long commentId, @RequestBody ACommentDto.Patch patchDto) {
         patchDto.setCommentId(commentId);
 
@@ -42,7 +42,7 @@ public class ACommentController {
         ACommentDto.Response response = mapper.commentToCommentResponse(editedAComment);
 
 
-        return new ResponseEntity<>(response, HttpStatus.OK);
+        return new ResponseEntity<>(new SingleResponseDto<>(response), HttpStatus.OK);
     }
 
     @DeleteMapping("/{comment-id}")

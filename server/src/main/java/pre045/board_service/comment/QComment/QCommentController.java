@@ -10,6 +10,7 @@ import pre045.board_service.comment.AComment.AComment;
 import pre045.board_service.comment.AComment.ACommentDto;
 import pre045.board_service.comment.AComment.ACommentMapper;
 import pre045.board_service.comment.AComment.ACommentService;
+import pre045.board_service.dto.SingleResponseDto;
 
 
 @RestController
@@ -33,7 +34,7 @@ public class QCommentController {
 
         QCommentDto.Response response = mapper.commentToCommentResponse(createdQComment);
 
-        return new ResponseEntity<>(response, HttpStatus.CREATED); // 컨트롤러 리턴값 추가 post, patch
+        return new ResponseEntity<>(new SingleResponseDto<>(response), HttpStatus.CREATED); // 컨트롤러 리턴값 추가 post, patch
     }
 
     @PatchMapping("/{comment-id}")
@@ -45,7 +46,7 @@ public class QCommentController {
         QCommentDto.Response response = mapper.commentToCommentResponse(editedAComment);
 
 
-        return new ResponseEntity<>(response, HttpStatus.OK);
+        return new ResponseEntity<>(new SingleResponseDto<>(response), HttpStatus.OK);
     }
 
     @DeleteMapping("/{comment-id}")

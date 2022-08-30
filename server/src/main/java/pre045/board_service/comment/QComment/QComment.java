@@ -1,5 +1,6 @@
 package pre045.board_service.comment.QComment;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -26,6 +27,7 @@ public class QComment {
 
     @ManyToOne
     @JoinColumn(name = "MEMBER_ID")
+    @JsonIgnore
     private Member member;
 
     @ManyToOne
