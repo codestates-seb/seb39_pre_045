@@ -1,9 +1,10 @@
 package pre045.board_service.question.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import lombok.*;
 import pre045.board_service.answer.entity.Answer;
-import pre045.board_service.comment.entity.Comment;
+import pre045.board_service.comment.QComment.QComment;
 import pre045.board_service.member.entity.Member;
 import pre045.board_service.vote.question_vote.entity.QVote;
 
@@ -33,8 +34,8 @@ public class Question {
 
     private LocalDateTime modifiedAt;
 
-    @Column(nullable = false)
-    private int view = 0;
+    @Column
+    private int view;
 
     @Column(columnDefinition = "TINYINT", length = 1)
     private boolean checkAdopted;
@@ -42,9 +43,13 @@ public class Question {
     @Column(nullable = false)
     private String username;
 
+    @Column
+    private int totalVotes;
+
 
     @ManyToOne
     @JoinColumn(name = "MEMBER_ID")
+    @JsonIgnore // 리스폰스로 보내지 않아도 됨
     private Member member;
 
     @JsonManagedReference
@@ -53,9 +58,10 @@ public class Question {
     private List<Answer> answers = new ArrayList<>();
 
     @OneToMany(mappedBy = "question", cascade = CascadeType.REMOVE)
-    private List<Comment> comments = new ArrayList<>();
+    private List<QComment> qComments = new ArrayList<>();
 
     @OneToMany(mappedBy = "question", cascade = CascadeType.REMOVE)
+    @JsonIgnore // 리스폰스로 보내지 않아도 됨
     private List<QVote> questionVotes = new ArrayList<>();
 
 
@@ -80,11 +86,11 @@ public class Question {
         }
     }
 
-    public void addComment(Comment comment) {
-        comments.add(comment);
-        // this -> comment 자기 자신
-        if (comment.getQuestion() != this) {
-            comment.setQuestion(this);
+    public void addQComment(QComment qComment) {
+        qComments.add(qComment);
+        // this -> qComment 자기 자신
+        if (qComment.getQuestion() != this) {
+            qComment.setQuestion(this);
         }
     }
 
