@@ -1,7 +1,8 @@
 // import { useEffect, useState } from 'react';
 // import { useParams } from 'react-router-dom';
 // import axios from 'axios'
-import LikeOrDislike from '../Components/LikeOrDislike';
+import Question from '../Components/Question';
+import Answer from '../Components/Answer';
 import styled from 'styled-components';
 const DetailQuestion = () => {
   // const id = useParams()
@@ -16,7 +17,7 @@ const DetailQuestion = () => {
     display: flex;
     flex-direction: column;
     margin: 50px 0 0 230px;
-    padding: 20px;
+    padding: 10px;
     background-color: white;
     box-sizing: border-box;
     color: #232629;
@@ -34,6 +35,19 @@ const DetailQuestion = () => {
           color: #3b4045;
           margin: 0;
         }
+        button {
+          border: none;
+          background-color: #0a95ff;
+          color: white;
+          border-radius: 5px;
+          padding: 10px;
+          cursor: pointer;
+          user-select: none;
+          box-shadow: inset 0 1px 0 0 rgba(255, 255, 255, 0.4);
+          :hover {
+            background-color: #0074cc;
+          }
+        }
       }
 
       .dateNview {
@@ -43,16 +57,14 @@ const DetailQuestion = () => {
         }
       }
     }
-    .wrapper {
-      display: flex;
-      max-width: 1000px;
-      .content {
-        height: 300px;
-      }
-      .com {
-        background-color: aqua;
-        width: 100%;
-        height: 50px;
+
+    @media screen and (max-width: 768px) {
+      margin: 50px auto;
+      .titleNbtn {
+        flex-direction: column-reverse;
+        button {
+          align-self: flex-end;
+        }
       }
     }
   `;
@@ -84,12 +96,13 @@ const DetailQuestion = () => {
         },
         {
           author: 'dbswlsdbswls',
-          content: '아마 이거 테스트?',
+          content:
+            '아마 이거asdasdasdadsadadadadasdadsadadasdgrejtyslkfhfgfhfjtjfhfshfhfhfdhdsdfsdfsdfsdasdsssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssfsdfdfsddfhdfhdfh 테스트?',
           createdAt: '20220825',
         },
         {
           author: 'dbswlsdbswls',
-          content: '아마 이거 테스트?',
+          content: '아마 이거 테asdasdasdasdasdadad스트?',
           createdAt: '20220825',
         },
       ],
@@ -220,24 +233,10 @@ const DetailQuestion = () => {
           <span>{data.question.view}</span>
         </div>
       </div>
-      <div className="wrapper">
-        <LikeOrDislike />
-        <div>
-          <div className="content" style={{ whiteSpace: 'pre-wrap' }}>
-            {data.question.content}
-          </div>
-          <div className="comment">
-            <div className="com"></div>
-            <div className="com"></div>
-            <div className="com"></div>
-            <div className="com"></div>
-            <div className="com"></div>
-          </div>
-        </div>
-      </div>
-
-      {/* 여기에다가 질문 컴포넌트   */}
-      {/* 질문안에 감싼상태의 댓글컴포넌트 맵돌리기 */}
+      <Question question={data.question} />
+      {data.answers.map((el, index) => (
+        <Answer answer={el} key={index} />
+      ))}
     </DivWrapper>
   );
 };
