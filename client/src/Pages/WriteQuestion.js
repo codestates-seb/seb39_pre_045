@@ -4,7 +4,8 @@ import { useRef, useState } from 'react';
 import { Input, Wrapper, Btn } from '../Pages/Login';
 
 const WritePage = styled.div`
-  height: calc(100vh - 50px);
+  height: calc(100vh - 350px);
+  margin: 100px 0;
   width: 100%;
   display: flex;
   justify-content: center;

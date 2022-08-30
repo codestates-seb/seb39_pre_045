@@ -83,19 +83,19 @@ const MyPage = () => {
   const [selectE, setSelectE] = useState(false);
   const navigate = useNavigate();
   const handleClickQuestions = () => {
-    navigate('?questions');
+    navigate('?tab=questions');
     setSelectQ(true);
     setSelectA(false);
     setSelectE(false);
   };
   const handleClickAnswers = () => {
-    navigate('?answers');
+    navigate('?tab=answers');
     setSelectQ(false);
     setSelectA(true);
     setSelectE(false);
   };
   const handleClickEdit = () => {
-    navigate('?edit');
+    navigate('?tab=edit');
     setSelectQ(false);
     setSelectA(false);
     setSelectE(true);
