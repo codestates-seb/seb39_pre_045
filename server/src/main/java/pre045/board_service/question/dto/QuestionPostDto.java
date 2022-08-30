@@ -2,6 +2,7 @@ package pre045.board_service.question.dto;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
+import pre045.board_service.member.entity.Member;
 
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Positive;

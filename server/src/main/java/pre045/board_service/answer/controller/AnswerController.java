@@ -13,6 +13,7 @@ import pre045.board_service.answer.entity.Answer;
 import pre045.board_service.dto.SingleResponseDto;
 
 
+
 @RestController
 @RequestMapping("/answers")
 @RequiredArgsConstructor
@@ -35,6 +36,7 @@ public class AnswerController {
         AnswerDto.Response response = mapper.answerToAnswerResponse(createdAnswer);
 
         return new ResponseEntity<>(new SingleResponseDto<>(response), HttpStatus.CREATED);
+
     }
 
 
