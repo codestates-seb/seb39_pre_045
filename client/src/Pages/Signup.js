@@ -1,7 +1,8 @@
 // import { useState } from 'react';
-import { useRef, useState } from 'react';
+import { useRef, useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import styled from 'styled-components';
+import useStore from '../Store/store';
 
 const SignupContainer = styled.div`
   width: 100%;
@@ -171,6 +172,7 @@ const SignupForm = styled.form`
   }
 `;
 const Signup = () => {
+  const { setLoginMode } = useStore((state) => state);
   const checkName = useRef();
   const checkEmail = useRef();
   const checkPw = useRef();
@@ -182,6 +184,14 @@ const Signup = () => {
     gender: null,
     age: null,
   });
+
+  useEffect(() => {
+    setLoginMode(true);
+    return () => {
+      setLoginMode(false);
+    };
+  }, []);
+
   const handleSubmit = (e) => {
     e.preventDefault();
     console.log(formData);

@@ -1,13 +1,15 @@
 package pre045.board_service.answer.entity;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
-import lombok.*;
-import pre045.board_service.comment.entity.Comment;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+import pre045.board_service.comment.AComment.AComment;
 import pre045.board_service.member.entity.Member;
 import pre045.board_service.question.entity.Question;
 import pre045.board_service.vote.answer_vote.entity.AVote;
 
-import javax.persistence.Entity;
 import javax.persistence.*;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
@@ -44,6 +46,7 @@ public class Answer {
 
     @ManyToOne
     @JoinColumn(name = "MEMBER_ID")
+    @JsonIgnore
     private Member member;
 
     @JsonBackReference
@@ -52,8 +55,9 @@ public class Answer {
     private Question question;
 
     @OneToMany(mappedBy = "answer", cascade = CascadeType.REMOVE)
-    private List<Comment> comments = new ArrayList<>();
+    private List<AComment> aComments = new ArrayList<>();
 
+    @JsonIgnore
     @OneToMany(mappedBy = "answer", cascade = CascadeType.REMOVE)
     private List<AVote> answerVotes = new ArrayList<>();
 

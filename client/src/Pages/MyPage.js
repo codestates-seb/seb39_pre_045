@@ -8,10 +8,11 @@ import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 
 const PageWrapper = styled.div`
-  margin: 50px 0 0 230px;
+  margin: 80px 0 0 30%;
   display: flex;
   flex-direction: column;
   width: 100%;
+  height: calc(100vh - 350px);
   @media only screen and (max-width: 767px) {
     margin: 50px 0 0 20px;
     .menuContainer {
@@ -39,7 +40,7 @@ const PageWrapper = styled.div`
 
 const MenuContainer = styled.ul`
   padding: 0;
-  width: 150px;
+  width: 120px;
 `;
 
 const Section = styled.div`
@@ -48,7 +49,7 @@ const Section = styled.div`
 `;
 
 const InsideContentWrapper = styled(Section)`
-  padding: 20px 0 0 20px;
+  padding: 20px;
   display: flex;
   flex-direction: column;
   @media only screen and (max-width: 767px) {

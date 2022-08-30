@@ -1,8 +1,11 @@
-package pre045.board_service.comment.entity;
+package pre045.board_service.comment.AComment;
 
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.*;
+
 import pre045.board_service.answer.entity.Answer;
+
 import pre045.board_service.member.entity.Member;
 import pre045.board_service.question.entity.Question;
 
@@ -14,19 +17,20 @@ import javax.persistence.*;
 @Getter
 @Setter
 @NoArgsConstructor
-public class Comment {
+public class AComment {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long commentId;
+    private Long aCommentId;
 
-    private String commentContent;
+    private String aCommentContent;
 
     //추가
-    private String commentUsername;
+    private String aCommentUsername;
 
     @ManyToOne
     @JoinColumn(name = "MEMBER_ID")
+    @JsonIgnore
     private Member member;
 
     @ManyToOne

@@ -1,4 +1,4 @@
-import LikeOrDislike from '../Components/LikeOrDislike';
+import LikeOrDislike from './LikeOrDislike';
 import styled from 'styled-components';
 import MarkdownViewer from '../Components/MarkdownViewer';
 import Comment, { WriteComment } from './Comment';

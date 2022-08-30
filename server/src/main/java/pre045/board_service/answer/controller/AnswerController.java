@@ -10,6 +10,8 @@ import pre045.board_service.answer.dto.AnswerDto;
 import pre045.board_service.answer.mapper.AnswerMapper;
 import pre045.board_service.answer.service.AnswerService;
 import pre045.board_service.answer.entity.Answer;
+import pre045.board_service.dto.SingleResponseDto;
+
 
 
 @RestController
@@ -33,7 +35,8 @@ public class AnswerController {
         Answer createdAnswer = answerService.createAnswer(postDto.getMemberId(), answer);
         AnswerDto.Response response = mapper.answerToAnswerResponse(createdAnswer);
 
-        return new ResponseEntity<>(response, HttpStatus.CREATED);
+        return new ResponseEntity<>(new SingleResponseDto<>(response), HttpStatus.CREATED);
+
     }
 
 
@@ -52,7 +55,7 @@ public class AnswerController {
         Answer editedAnswer = answerService.updateAnswer(patchDto.getMemberId(), answer);
         AnswerDto.Response response = mapper.answerToAnswerResponse(editedAnswer);
 
-        return new ResponseEntity<>(response, HttpStatus.OK);
+        return new ResponseEntity<>(new SingleResponseDto<>(response), HttpStatus.OK);
     }
 
     /**
