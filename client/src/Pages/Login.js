@@ -1,6 +1,7 @@
-// import { useEffect } from 'react';
+import { useEffect } from 'react';
 import styled from 'styled-components';
 // import axios from 'axios';
+import useStore from '../Store/store';
 
 const Container = styled.div`
   background-color: #f1f2f3;
@@ -78,6 +79,13 @@ export const Btn = styled.button`
 `;
 
 const Login = () => {
+  const { setLoginMode } = useStore((state) => state);
+  useEffect(() => {
+    setLoginMode(true);
+    return () => {
+      setLoginMode(false);
+    };
+  }, []);
   // useEffect(() => {
   //   axios
   //     .post('/test', { name: 'hihihi' })
