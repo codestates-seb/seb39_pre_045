@@ -39,6 +39,9 @@ public class Question {
     @Column(columnDefinition = "TINYINT", length = 1)
     private boolean checkAdopted;
 
+    @Column(nullable = false)
+    private String username;
+
 
     @ManyToOne
     @JoinColumn(name = "MEMBER_ID")
@@ -58,6 +61,17 @@ public class Question {
 
     // dB에서 외래키로 가지고 있어서
     // 스프링 자체에서 양방향 매핑을 해주기 위함
+    public void setMember(Member member) {
+        if (this.member != null) {
+            this.member.getQuestions().remove(this);
+        }
+        this.member = member;
+        if (!member.getQuestions().contains(this)) {
+            member.addQuestion(this);
+        }
+    }
+
+
     public void addAnswer(Answer answer) {
         answers.add(answer);
         // this -> answer 자기 자신
