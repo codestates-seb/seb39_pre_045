@@ -62,4 +62,12 @@ public class Member {
         }
     }
 
+    public void addQuestion(Question question) {
+        this.questions.add(question);
+
+        if (question.getMember() != this) {
+            question.setMember(this);
+        }
+    }
+
 }

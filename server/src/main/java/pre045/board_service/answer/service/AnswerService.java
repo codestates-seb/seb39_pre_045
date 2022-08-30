@@ -23,7 +23,6 @@ public class AnswerService {
 
     private final QuestionRepository questionRepository;
     private final AnswerRepository answerRepository;
-
     private final MemberRepository memberRepository;
 
     /**
