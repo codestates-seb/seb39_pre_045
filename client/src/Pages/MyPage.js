@@ -4,7 +4,8 @@ import MyPageProfile from '../Components/MyPageProfile';
 import MyPageQItem from '../Components/MyPageQItem';
 import MyPageAItem from '../Components/MyPageAItem';
 import MyPageEdit from '../Components/MyPageEdit';
-// import { useState } from 'react';
+import { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 
 const PageWrapper = styled.div`
   margin: 50px 0 0 230px;
@@ -76,31 +77,57 @@ export const Content = styled.div`
 `;
 
 const MyPage = () => {
-  // const [selectQ, setSelectQ] = useState('');
-  // const [selectA, setSelectA] = useState('');
-  // const [selectE, setSelectE] = useState('');
-  // const onClickEvent = () => {
-  //   setSelectQ(`#ebebeb`);
-  // };
+  const [selectQ, setSelectQ] = useState(true);
+  const [selectA, setSelectA] = useState(false);
+  const [selectE, setSelectE] = useState(false);
+  const navigate = useNavigate();
+  const handleClickQuestions = () => {
+    navigate('?questions');
+    setSelectQ(true);
+    setSelectA(false);
+    setSelectE(false);
+  };
+  const handleClickAnswers = () => {
+    navigate('?answers');
+    setSelectQ(false);
+    setSelectA(true);
+    setSelectE(false);
+  };
+  const handleClickEdit = () => {
+    navigate('?edit');
+    setSelectQ(false);
+    setSelectA(false);
+    setSelectE(true);
+  };
   return (
     <PageWrapper>
       <MyPageProfile />
       <Section className="section">
         <MenuContainer className="menuContainer">
-          <Li border="none" radius="15px" size="13px">
+          <Li
+            onClick={handleClickQuestions}
+            border="none"
+            radius="15px"
+            size="13px"
+          >
             Questions
           </Li>
-          <Li border="none" radius="15px" size="13px">
+          <Li
+            onClick={handleClickAnswers}
+            border="none"
+            radius="15px"
+            size="13px"
+          >
             Answers
           </Li>
-          <Li border="none" radius="15px" size="13px">
+          <Li onClick={handleClickEdit} border="none" radius="15px" size="13px">
             Edit Profile
           </Li>
         </MenuContainer>
         <InsideContentWrapper>
-          <MyPageQItem />
-          <MyPageAItem />
-          <MyPageEdit />
+          {selectQ ? <MyPageQItem /> : null}
+          {selectA ? <MyPageAItem /> : null}
+          {selectE ? <MyPageEdit /> : null}
         </InsideContentWrapper>
       </Section>
     </PageWrapper>

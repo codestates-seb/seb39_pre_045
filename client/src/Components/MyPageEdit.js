@@ -2,6 +2,7 @@ import styled from 'styled-components';
 import { Btn, Input } from '../Pages/Login';
 import { Content, Title } from '../Pages/MyPage';
 import { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 
 const Form = styled.form`
   display: flex;
@@ -32,9 +33,11 @@ const MyPageEdit = () => {
   const [name, setName] = useState('');
   const [password, setPassword] = useState('');
   const [checkPassword, setCheckPassword] = useState('');
+  const navigate = useNavigate();
 
   const onSubmitEvent = (e) => {
     e.preventDefault();
+    navigate('/'), { replace: true };
   };
   return (
     <>
@@ -78,7 +81,7 @@ const MyPageEdit = () => {
             Save Profile
           </Btn>
           <span>Delete Profile</span>
-          <RedBtn>Delete Profile</RedBtn>
+          <RedBtn onClick={onSubmitEvent}>Delete Profile</RedBtn>
         </Form>
       </Content>
     </>
