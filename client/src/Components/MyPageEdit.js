@@ -35,6 +35,7 @@ const MyPageEdit = () => {
   const [checkPassword, setCheckPassword] = useState('');
   const navigate = useNavigate();
 
+  //defaultValue 설정하기
   const onSubmitEvent = (e) => {
     e.preventDefault();
     navigate('/'), { replace: true };

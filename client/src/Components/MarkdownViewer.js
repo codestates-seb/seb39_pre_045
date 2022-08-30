@@ -4,7 +4,7 @@ import styled from 'styled-components';
 
 const Div = styled.div`
   margin: 50px 0;
-  height: 100px;
+  /* height: 500px; */
   border: 1px solid red;
   overflow-y: scroll;
 `;

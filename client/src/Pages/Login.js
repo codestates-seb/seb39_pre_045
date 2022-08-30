@@ -86,6 +86,9 @@ const Login = () => {
       setLoginMode(false);
     };
   }, []);
+  const onSubmitEvent = (e) => {
+    e.preventDefault();
+  };
   // useEffect(() => {
   //   axios
   //     .post('/test', { name: 'hihihi' })
@@ -96,15 +99,17 @@ const Login = () => {
     <Container>
       <Wrapper>
         <label htmlFor="loginEmail">Email</label>
-        <Input id="loginEmail" type="email" />
+        <Input required id="loginEmail" type="email" />
         <PasswordDiv>
           <label htmlFor="loginPassword">Password</label>
           <Div color="#3e7bf4" size="11px">
             Forgot Password?
           </Div>
         </PasswordDiv>
-        <Input autoComplete="off" id="loginPassword" type="password" />
-        <Btn type="submit">Log in</Btn>
+        <Input required autoComplete="off" id="loginPassword" type="password" />
+        <Btn onClick={onSubmitEvent} type="submit">
+          Log in
+        </Btn>
       </Wrapper>
     </Container>
   );

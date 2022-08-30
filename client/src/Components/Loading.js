@@ -4,80 +4,213 @@ const Loading = (props) => (
     xmlnsXlink="http://www.w3.org/1999/xlink"
     style={{
       margin: 'auto',
-      background: 'rgba(255, 255, 255, 0)',
+      background: 'rgb(241, 242, 243)',
       display: 'block',
       shapeRendering: 'auto',
     }}
-    width="200px"
-    height="200px"
+    width="234px"
+    height="234px"
     viewBox="0 0 100 100"
     preserveAspectRatio="xMidYMid"
     {...props}
   >
-    <rect x={18.5} y={28.5} width={13} height={43} fill="#281300">
-      <animate
-        attributeName="y"
-        repeatCount="indefinite"
-        dur="0.9900990099009901s"
-        calcMode="spline"
-        keyTimes="0;0.5;1"
-        values="17.75;28.5;28.5"
-        keySplines="0 0.5 0.5 1;0 0.5 0.5 1"
-        begin="-0.19801980198019803s"
-      />
-      <animate
-        attributeName="height"
-        repeatCount="indefinite"
-        dur="0.9900990099009901s"
-        calcMode="spline"
-        keyTimes="0;0.5;1"
-        values="64.5;43;43"
-        keySplines="0 0.5 0.5 1;0 0.5 0.5 1"
-        begin="-0.19801980198019803s"
-      />
-    </rect>
-    <rect x={43.5} y={28.5} width={13} height={43} fill="#e26c00">
-      <animate
-        attributeName="y"
-        repeatCount="indefinite"
-        dur="0.9900990099009901s"
-        calcMode="spline"
-        keyTimes="0;0.5;1"
-        values="20.4375;28.5;28.5"
-        keySplines="0 0.5 0.5 1;0 0.5 0.5 1"
-        begin="-0.09900990099009901s"
-      />
-      <animate
-        attributeName="height"
-        repeatCount="indefinite"
-        dur="0.9900990099009901s"
-        calcMode="spline"
-        keyTimes="0;0.5;1"
-        values="59.125;43;43"
-        keySplines="0 0.5 0.5 1;0 0.5 0.5 1"
-        begin="-0.09900990099009901s"
-      />
-    </rect>
-    <rect x={68.5} y={28.5} width={13} height={43} fill="#281300">
-      <animate
-        attributeName="y"
-        repeatCount="indefinite"
-        dur="0.9900990099009901s"
-        calcMode="spline"
-        keyTimes="0;0.5;1"
-        values="20.4375;28.5;28.5"
-        keySplines="0 0.5 0.5 1;0 0.5 0.5 1"
-      />
-      <animate
-        attributeName="height"
-        repeatCount="indefinite"
-        dur="0.9900990099009901s"
-        calcMode="spline"
-        keyTimes="0;0.5;1"
-        values="59.125;43;43"
-        keySplines="0 0.5 0.5 1;0 0.5 0.5 1"
-      />
-    </rect>
+    <g transform="translate(80,50)">
+      <g transform="rotate(0)">
+        <circle cx={0} cy={0} r={6} fill="#db7033" fillOpacity={1}>
+          <animateTransform
+            attributeName="transform"
+            type="scale"
+            begin="-0.8571428571428571s"
+            values="1.6500000000000001 1.6500000000000001;1 1"
+            keyTimes="0;1"
+            dur="1s"
+            repeatCount="indefinite"
+          />
+          <animate
+            attributeName="fill-opacity"
+            keyTimes="0;1"
+            dur="1s"
+            repeatCount="indefinite"
+            values="1;0"
+            begin="-0.8571428571428571s"
+          />
+        </circle>
+      </g>
+    </g>
+    <g transform="translate(68.704694055762,73.4549444740409)">
+      <g transform="rotate(51.42857142857143)">
+        <circle
+          cx={0}
+          cy={0}
+          r={6}
+          fill="#db7033"
+          fillOpacity={0.8571428571428571}
+        >
+          <animateTransform
+            attributeName="transform"
+            type="scale"
+            begin="-0.7142857142857143s"
+            values="1.6500000000000001 1.6500000000000001;1 1"
+            keyTimes="0;1"
+            dur="1s"
+            repeatCount="indefinite"
+          />
+          <animate
+            attributeName="fill-opacity"
+            keyTimes="0;1"
+            dur="1s"
+            repeatCount="indefinite"
+            values="1;0"
+            begin="-0.7142857142857143s"
+          />
+        </circle>
+      </g>
+    </g>
+    <g transform="translate(43.32437198131057,79.2478373654547)">
+      <g transform="rotate(102.85714285714286)">
+        <circle
+          cx={0}
+          cy={0}
+          r={6}
+          fill="#db7033"
+          fillOpacity={0.7142857142857143}
+        >
+          <animateTransform
+            attributeName="transform"
+            type="scale"
+            begin="-0.5714285714285714s"
+            values="1.6500000000000001 1.6500000000000001;1 1"
+            keyTimes="0;1"
+            dur="1s"
+            repeatCount="indefinite"
+          />
+          <animate
+            attributeName="fill-opacity"
+            keyTimes="0;1"
+            dur="1s"
+            repeatCount="indefinite"
+            values="1;0"
+            begin="-0.5714285714285714s"
+          />
+        </circle>
+      </g>
+    </g>
+    <g transform="translate(22.97093396292743,63.01651217352675)">
+      <g transform="rotate(154.2857142857143)">
+        <circle
+          cx={0}
+          cy={0}
+          r={6}
+          fill="#db7033"
+          fillOpacity={0.5714285714285714}
+        >
+          <animateTransform
+            attributeName="transform"
+            type="scale"
+            begin="-0.42857142857142855s"
+            values="1.6500000000000001 1.6500000000000001;1 1"
+            keyTimes="0;1"
+            dur="1s"
+            repeatCount="indefinite"
+          />
+          <animate
+            attributeName="fill-opacity"
+            keyTimes="0;1"
+            dur="1s"
+            repeatCount="indefinite"
+            values="1;0"
+            begin="-0.42857142857142855s"
+          />
+        </circle>
+      </g>
+    </g>
+    <g transform="translate(22.970933962927425,36.98348782647326)">
+      <g transform="rotate(205.71428571428572)">
+        <circle
+          cx={0}
+          cy={0}
+          r={6}
+          fill="#db7033"
+          fillOpacity={0.42857142857142855}
+        >
+          <animateTransform
+            attributeName="transform"
+            type="scale"
+            begin="-0.2857142857142857s"
+            values="1.6500000000000001 1.6500000000000001;1 1"
+            keyTimes="0;1"
+            dur="1s"
+            repeatCount="indefinite"
+          />
+          <animate
+            attributeName="fill-opacity"
+            keyTimes="0;1"
+            dur="1s"
+            repeatCount="indefinite"
+            values="1;0"
+            begin="-0.2857142857142857s"
+          />
+        </circle>
+      </g>
+    </g>
+    <g transform="translate(43.32437198131056,20.752162634545293)">
+      <g transform="rotate(257.1428571428571)">
+        <circle
+          cx={0}
+          cy={0}
+          r={6}
+          fill="#db7033"
+          fillOpacity={0.2857142857142857}
+        >
+          <animateTransform
+            attributeName="transform"
+            type="scale"
+            begin="-0.14285714285714285s"
+            values="1.6500000000000001 1.6500000000000001;1 1"
+            keyTimes="0;1"
+            dur="1s"
+            repeatCount="indefinite"
+          />
+          <animate
+            attributeName="fill-opacity"
+            keyTimes="0;1"
+            dur="1s"
+            repeatCount="indefinite"
+            values="1;0"
+            begin="-0.14285714285714285s"
+          />
+        </circle>
+      </g>
+    </g>
+    <g transform="translate(68.704694055762,26.545055525959103)">
+      <g transform="rotate(308.5714285714286)">
+        <circle
+          cx={0}
+          cy={0}
+          r={6}
+          fill="#db7033"
+          fillOpacity={0.14285714285714285}
+        >
+          <animateTransform
+            attributeName="transform"
+            type="scale"
+            begin="0s"
+            values="1.6500000000000001 1.6500000000000001;1 1"
+            keyTimes="0;1"
+            dur="1s"
+            repeatCount="indefinite"
+          />
+          <animate
+            attributeName="fill-opacity"
+            keyTimes="0;1"
+            dur="1s"
+            repeatCount="indefinite"
+            values="1;0"
+            begin="0s"
+          />
+        </circle>
+      </g>
+    </g>
   </svg>
 );
 
