@@ -1,8 +1,10 @@
 package pre045.board_service.answer.dto;
 
+import com.fasterxml.jackson.annotation.JsonInclude;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import pre045.board_service.comment.AComment.AComment;
 import pre045.board_service.question.entity.Question;
 
 import javax.validation.constraints.NotBlank;
@@ -53,8 +55,10 @@ public class AnswerDto {
 
     @Getter
     @AllArgsConstructor
-//    @NoArgsConstructor
+    @JsonInclude(JsonInclude.Include.NON_NULL)
     public static class Response {
+        private Long answerId;
+
         private String answerUsername;
 
         private String answerContent;
@@ -63,6 +67,8 @@ public class AnswerDto {
         private LocalDateTime createdAt;
 
         private LocalDateTime modifiedAt;
+
+        private AComment aComment;
     }
 
 }
