@@ -1,6 +1,13 @@
 import QuestItem from '../Components/QuestItem';
-import { MainContainer } from './MainLogout';
+import { AlignBtns, MainContainer } from './MainLogout';
 import { useEffect, useState } from 'react';
+import NoResult from '../Components/NoResult';
+import styled from 'styled-components';
+
+const RightAlignBtns = styled(AlignBtns)`
+  align-self: flex-end;
+`;
+
 const MainLogin = () => {
   const [data, setData] = useState([]);
   useEffect(() => {
@@ -22,20 +29,36 @@ const MainLogin = () => {
     }
     setData(test);
   }, []);
-
+  const handleSort = (sort) => {
+    // axios.get(`/question?sort=${sort}`).then(({data})=>setData(data)).catch(err=>alert('정렬에 실패했습니다'))
+    alert(sort);
+  };
   return (
     <MainContainer>
       <div className="pageDesc">
         <h2>Top Questions</h2>
         <button>Ask Question</button>
       </div>
-      <ul>
-        {data.map((el) => (
-          <>
-            <QuestItem el={el} />
-          </>
-        ))}
-      </ul>
+
+      <RightAlignBtns>
+        <button onClick={() => handleSort('newest')}>최신순</button>
+        <button onClick={() => handleSort('votes')}>추천순</button>
+        <button onClick={() => handleSort('answers')}>답변순</button>
+      </RightAlignBtns>
+
+      {data.length !== 0 ? (
+        <ul>
+          {data.map((el) => (
+            <>
+              <QuestItem el={el} />
+            </>
+          ))}
+        </ul>
+      ) : (
+        <>
+          <NoResult keyword={'err'} status={'data'} />
+        </>
+      )}
     </MainContainer>
   );
 };

@@ -2,8 +2,8 @@
 import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
+import NoResult from '../Components/NoResult';
 import QuestItem from '../Components/QuestItem';
-
 export const MainContainer = styled.div`
   width: 100%;
   margin-top: 50px;
@@ -11,6 +11,8 @@ export const MainContainer = styled.div`
   display: flex;
   flex-direction: column;
   margin: 50px 0 0 230px;
+  max-width: 850px;
+  /* 이거민영님한테물어보기 */
   /* padding: 20px; */
   .pageDesc {
     padding: 10px;
@@ -65,7 +67,7 @@ const MainLogout = () => {
   const [data, setData] = useState([]);
   const navigate = useNavigate();
   useEffect(() => {
-    // axios.get(url).then({data}=>setData(data)).catch(err=>alert('데이터 조회에 실패하였습니다'))
+    // axios.get(`/question?page=1`).then(({data})=>setData(data)).catch(err=>alert('데이터 조회에 실패하였습니다'))
     const test = [];
     for (let i = 0; i < 20; i++) {
       test.push({
@@ -85,7 +87,7 @@ const MainLogout = () => {
     setData(test);
   }, []);
   const handleSort = (sort) => {
-    // axios.get(`/search?q=${query}&sort=${sort}`).then(({data})=>setData(data)).catch(err=>alert('정렬에 실패했습니다'))
+    // axios.get(`/question?sort=${sort}`).then(({data})=>setData(data)).catch(err=>alert('정렬에 실패했습니다'))
     alert(sort);
   };
   return (
@@ -99,16 +101,22 @@ const MainLogout = () => {
         <AlignBtns>
           <button onClick={() => handleSort('newest')}>최신순</button>
           <button onClick={() => handleSort('votes')}>추천순</button>
-          <button onClick={() => handleSort('answers')}>추천순</button>
+          <button onClick={() => handleSort('answers')}>답변순</button>
         </AlignBtns>
       </div>
-      <ul>
-        {data.map((el) => (
-          <>
-            <QuestItem el={el} />
-          </>
-        ))}
-      </ul>
+      {data.length !== 0 ? (
+        <ul>
+          {data.map((el) => (
+            <>
+              <QuestItem el={el} />
+            </>
+          ))}
+        </ul>
+      ) : (
+        <>
+          <NoResult keyword={'err'} status={'data'} />
+        </>
+      )}
     </MainContainer>
   );
 };

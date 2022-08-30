@@ -4,11 +4,13 @@ import styled from 'styled-components';
 import QuestItem from '../Components/QuestItem';
 // import axios from 'axios'
 import { MainContainer, AlignBtns } from './MainLogout';
-
+import NoResult from '../Components/NoResult';
 const SearchContainer = styled(MainContainer)`
   .resultQueryDiv {
     padding: 0px 20px 20px;
     font-size: 12px;
+    box-sizing: border-box;
+    max-width: 850px;
   }
 `;
 const SearchResult = () => {
@@ -18,7 +20,6 @@ const SearchResult = () => {
   const query = decodeURI(location.search.slice(3));
   useEffect(() => {
     //axios.get(`/search?q=${query}&sort=votes`).then(({data})=>setData(data)).catch(err=>alert('검색에 실패했습니다.'))
-
     const test = [];
     for (let i = 0; i < 20; i++) {
       test.push({
@@ -57,14 +58,18 @@ const SearchResult = () => {
         <AlignBtns>
           <button onClick={() => handleSort('newest')}>최신순</button>
           <button onClick={() => handleSort('votes')}>추천순</button>
-          <button onClick={() => handleSort('answers')}>추천순</button>
+          <button onClick={() => handleSort('answers')}>답변순</button>
         </AlignBtns>
       </div>
-      <ul>
-        {data.map((el) => (
-          <QuestItem key={el.id} el={el} />
-        ))}
-      </ul>
+      {data.length !== 0 ? (
+        <ul>
+          {data.map((el) => (
+            <QuestItem key={el.id} el={el} />
+          ))}
+        </ul>
+      ) : (
+        <NoResult keyword={query} status={'search'} />
+      )}
     </SearchContainer>
   );
 };
