@@ -1,8 +1,8 @@
-import LikeOrDislike from './LikeOrDislike';
 import styled from 'styled-components';
 import MarkdownViewer from '../Components/MarkdownViewer';
 import Comment, { WriteComment } from './Comment';
 import { useState } from 'react';
+import LikeRate from './LikeRate';
 
 const QuestionDiv = styled.div`
   display: flex;
@@ -47,7 +47,7 @@ const Question = ({ question }) => {
   };
   return (
     <QuestionDiv className="wrapper">
-      <LikeOrDislike className="rateLike" />
+      <LikeRate className="rateLike" />
       <div className="test">
         <MarkdownViewer />
         <InfoBarDiv>

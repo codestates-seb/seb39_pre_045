@@ -1,7 +1,9 @@
 /*eslint-disable*/
 import { useEffect, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 import QuestItem from '../Components/QuestItem';
+
 export const MainContainer = styled.div`
   width: 100%;
   margin-top: 50px;
@@ -61,11 +63,13 @@ export const AlignBtns = styled.div`
 
 const MainLogout = () => {
   const [data, setData] = useState([]);
+  const navigate = useNavigate();
   useEffect(() => {
     // axios.get(url).then({data}=>setData(data)).catch(err=>alert('데이터 조회에 실패하였습니다'))
     const test = [];
     for (let i = 0; i < 20; i++) {
       test.push({
+        id: Math.round(Math.random() * 45885326645),
         vote: Math.round(Math.random() * 100),
         answer: Math.round(Math.random() * 4),
         view: Math.round(Math.random() * 4000),
@@ -80,19 +84,23 @@ const MainLogout = () => {
     }
     setData(test);
   }, []);
-
+  const handleSort = (sort) => {
+    // axios.get(`/search?q=${query}&sort=${sort}`).then(({data})=>setData(data)).catch(err=>alert('정렬에 실패했습니다'))
+    alert(sort);
+  };
   return (
     <MainContainer>
       <div className="pageDesc">
         <h2>All Questions</h2>
-        <button>Ask Question</button>
+        <button onClick={() => navigate('/write')}>Ask Question</button>
       </div>
       <div className="totalNbtns">
         <div className="totalQuestion">22,932,174 questions</div>
-        {/* <AlignBtns>
-          <button>최신순</button>
-          <button>추천순</button>
-        </AlignBtns> */}
+        <AlignBtns>
+          <button onClick={() => handleSort('newest')}>최신순</button>
+          <button onClick={() => handleSort('votes')}>추천순</button>
+          <button onClick={() => handleSort('answers')}>추천순</button>
+        </AlignBtns>
       </div>
       <ul>
         {data.map((el) => (

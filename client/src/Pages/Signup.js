@@ -194,7 +194,6 @@ const Signup = () => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    console.log(formData);
     if (
       formData.username === '' ||
       formData.email === '' ||
