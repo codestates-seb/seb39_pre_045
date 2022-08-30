@@ -12,6 +12,7 @@ const Container = styled.nav`
   left: 0;
   border-right: 0.3px solid rgba(77, 77, 77, 0.45);
   z-index: 4;
+  display: ${(props) => props.login || 'content'};
   ul {
     margin-top: 70px;
   }
@@ -62,11 +63,14 @@ export const Li = styled.li`
   }
 `;
 
-const SideBar = ({ openMobileMenu }) => {
+const SideBar = ({ openMobileMenu, login }) => {
   // const [isLogin, setIsLogin] = useState(false);
 
   return (
-    <Container display={openMobileMenu ? 'content' : 'none'}>
+    <Container
+      display={openMobileMenu ? 'content' : 'none'}
+      login={login ? 'none' : 'content'}
+    >
       <ul>
         <Li margin="10px">Home</Li>
         <Li
