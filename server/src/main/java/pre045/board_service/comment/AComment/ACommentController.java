@@ -10,7 +10,7 @@ import pre045.board_service.dto.SingleResponseDto;
 
 
 @RestController
-@RequestMapping("/comments")
+@RequestMapping("/answers/{answer-id}/comments")
 @AllArgsConstructor
 @Validated
 @Slf4j
@@ -33,9 +33,9 @@ public class ACommentController {
         return new ResponseEntity<>(new SingleResponseDto<>(response), HttpStatus.CREATED); // 컨트롤러 리턴값 추가 post, patch
     }
 
-    @PatchMapping("/{comment-id}")
-    public ResponseEntity editAComment(@PathVariable("comment-id") Long commentId, @RequestBody ACommentDto.Patch patchDto) {
-        patchDto.setCommentId(commentId);
+    @PatchMapping("/{a-comment-id}")
+    public ResponseEntity editAComment(@PathVariable("a-comment-id") Long aCommentId, @RequestBody ACommentDto.Patch patchDto) {
+        patchDto.setCommentId(aCommentId);
 
         AComment aComment = mapper.commentPatchToComment(patchDto);
         AComment editedAComment = ACommentService.updateAComment(patchDto.getMemberId(), aComment);
@@ -45,9 +45,9 @@ public class ACommentController {
         return new ResponseEntity<>(new SingleResponseDto<>(response), HttpStatus.OK);
     }
 
-    @DeleteMapping("/{comment-id}")
-    public ResponseEntity deleteQComment(@PathVariable("comment-Id") Long ACommentId) { //코멘트 아이디 확인후 삭제
-        ACommentService.deleteComment(ACommentId);
+    @DeleteMapping("/{a-comment-id}")
+    public ResponseEntity deleteAComment(@PathVariable("a-comment-id") Long aCommentId) { //코멘트 아이디 확인후 삭제
+        ACommentService.deleteComment(aCommentId);
 
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }

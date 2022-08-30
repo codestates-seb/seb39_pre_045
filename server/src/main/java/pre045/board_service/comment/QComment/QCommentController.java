@@ -14,7 +14,7 @@ import pre045.board_service.dto.SingleResponseDto;
 
 
 @RestController
-@RequestMapping("/comments")
+@RequestMapping("/questions/{question-id}/comments")
 @AllArgsConstructor
 @Validated
 @Slf4j
@@ -37,9 +37,9 @@ public class QCommentController {
         return new ResponseEntity<>(new SingleResponseDto<>(response), HttpStatus.CREATED); // 컨트롤러 리턴값 추가 post, patch
     }
 
-    @PatchMapping("/{comment-id}")
-    public ResponseEntity editQComment(@PathVariable("comment-id") Long commentId, @RequestBody QCommentDto.Patch patchDto) {
-        patchDto.setCommentId(commentId);
+    @PatchMapping("/{q-comment-id}")
+    public ResponseEntity editQComment(@PathVariable("q-comment-id") Long qCommentId, @RequestBody QCommentDto.Patch patchDto) {
+        patchDto.setCommentId(qCommentId);
 
         QComment AComment = mapper.commentPatchToComment(patchDto);
         QComment editedAComment = qCommentService.updateQComment(patchDto.getMemberId(), AComment);
@@ -49,8 +49,8 @@ public class QCommentController {
         return new ResponseEntity<>(new SingleResponseDto<>(response), HttpStatus.OK);
     }
 
-    @DeleteMapping("/{comment-id}")
-    public ResponseEntity deleteQComment(@PathVariable("comment-Id") Long qCommentId) { //코멘트 아이디 확인후 삭제
+    @DeleteMapping("/{q-comment-id}")
+    public ResponseEntity deleteQComment(@PathVariable("q-comment-id") Long qCommentId) { //코멘트 아이디 확인후 삭제
         qCommentService.deleteQComment(qCommentId);
 
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
