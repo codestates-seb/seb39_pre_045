@@ -2,7 +2,8 @@ import styled from 'styled-components';
 import { Btn, Input } from '../Pages/Login';
 import { Content, Title } from '../Pages/MyPage';
 import { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+// import { useNavigate } from 'react-router-dom';
+// import axios from 'axios';
 
 const Form = styled.form`
   display: flex;
@@ -10,10 +11,13 @@ const Form = styled.form`
   input {
     width: 300px;
   }
-  label,
-  span {
+  label {
     font-weight: 600;
   }
+`;
+
+const Span = styled.span`
+  font-weight: 600;
 `;
 
 const RedBtn = styled(Btn)`
@@ -33,13 +37,23 @@ const MyPageEdit = () => {
   const [name, setName] = useState('');
   const [password, setPassword] = useState('');
   const [checkPassword, setCheckPassword] = useState('');
-  const navigate = useNavigate();
+  // const navigate = useNavigate();
 
   //defaultValue 설정하기
-  const onSubmitEvent = (e) => {
+  const handleSaveProfile = (e) => {
     e.preventDefault();
-    navigate('/'), { replace: true };
+    alert('hi');
+    // navigate('/'), { replace: true };
+    // axios
+    //   .patch(`/${memberid}`, { name, password })
+    //   .then((res) => console.log(res))
+    //   .catch((err) => alert(err));
   };
+
+  const handleDeleteProfile = (e) => {
+    e.preventDefault();
+  };
+
   return (
     <>
       <Title>Edit Profile</Title>
@@ -53,8 +67,8 @@ const MyPageEdit = () => {
             type="text"
             id="changeName"
           />
-          <label htmlFor="new-message">Status Message</label>
-          <Input type="text" id="new-message" />
+          {/* <label htmlFor="new-message">Status Message</label>
+          <Input type="text" id="new-message" /> */}
           <label htmlFor="new-password">Password</label>
           <Input
             required
@@ -77,13 +91,13 @@ const MyPageEdit = () => {
             bottom="60px"
             width="150px"
             type="submit"
-            onClick={onSubmitEvent}
+            onClick={handleSaveProfile}
           >
             Save Profile
           </Btn>
-          <span>Delete Profile</span>
-          <RedBtn onClick={onSubmitEvent}>Delete Profile</RedBtn>
         </Form>
+        <Span>Delete Profile</Span>
+        <RedBtn onClick={handleDeleteProfile}>Delete Profile</RedBtn>
       </Content>
     </>
   );

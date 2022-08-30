@@ -52,7 +52,7 @@ const MyPageProfile = () => {
       />
       <div>
         <div className="greeting">Hello, 닉네임!</div>
-        <span className="status">상태메시지 넣을까요...</span>
+        <span className="status">Member for 6 days</span>
       </div>
     </Section>
   );
