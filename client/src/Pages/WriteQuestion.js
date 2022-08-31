@@ -3,7 +3,7 @@ import styled from 'styled-components';
 import { useRef, useState } from 'react';
 import { Input, Wrapper, Btn } from '../Pages/Login';
 
-const WritePage = styled.div`
+export const WritePage = styled.div`
   height: calc(100vh - 350px);
   margin: 100px 0;
   width: 100%;
@@ -15,7 +15,7 @@ const WritePage = styled.div`
   }
 `;
 
-const TitleInput = styled(Input)`
+export const TitleInput = styled(Input)`
   width: 100%;
   padding: 0.5em 0;
 `;

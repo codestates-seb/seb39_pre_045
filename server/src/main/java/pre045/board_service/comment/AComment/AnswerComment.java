@@ -1,29 +1,32 @@
-package pre045.board_service.comment.QComment;
+package pre045.board_service.comment.AComment;
+
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
+
 import pre045.board_service.answer.entity.Answer;
+
 import pre045.board_service.member.entity.Member;
 import pre045.board_service.question.entity.Question;
 
+import javax.persistence.Entity;
 import javax.persistence.*;
+
 
 @Entity
 @Getter
 @Setter
 @NoArgsConstructor
-public class QComment {
+public class AnswerComment {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long commentId;
+    private Long answerCommentId;
 
-    private String qCommentContent;
+    private String answerCommentContent;
 
     //추가
-    private String qCommentUsername;
+    private String answerCommentUsername;
 
     @ManyToOne
     @JoinColumn(name = "MEMBER_ID")
@@ -37,5 +40,6 @@ public class QComment {
     @ManyToOne
     @JoinColumn(name = "ANSWER_ID")
     private Answer answer;
+
 
 }
