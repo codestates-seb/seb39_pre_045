@@ -1,9 +1,9 @@
-import LikeOrDislike from './LikeOrDislike';
 import styled from 'styled-components';
 import MarkdownViewer from '../Components/MarkdownViewer';
 import Comment, { WriteComment } from './Comment';
 import { useState } from 'react';
 import { InfoBarDiv } from './Question';
+import LikeRate from './LikeRate';
 const AnswerDiv = styled.div`
   display: flex;
   max-width: 1000px;
@@ -35,7 +35,7 @@ const Answer = ({ answer }) => {
   };
   return (
     <AnswerDiv className="wrapper">
-      <LikeOrDislike className="rateLike" />
+      <LikeRate className="rateLike" />
       <div className="test">
         <MarkdownViewer />
         <InfoBarDiv>

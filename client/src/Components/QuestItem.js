@@ -1,5 +1,4 @@
-/*eslint-disable*/
-
+import { Link } from 'react-router-dom';
 import styled from 'styled-components';
 const Question = styled.li`
   width: 100%;
@@ -81,7 +80,7 @@ const QuestItem = ({ el }) => {
       </div>
       <div className="question">
         <h3 className="title">
-          <a href="/">{el.title}</a>
+          <Link to={`/questions/${el.id}`}>{el.title}</Link>
         </h3>
         <p className="content">{el.content}</p>
         <div className="userNdate">

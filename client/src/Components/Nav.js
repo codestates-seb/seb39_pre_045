@@ -2,6 +2,7 @@ import styled from 'styled-components';
 import { Link, useNavigate } from 'react-router-dom';
 import link from '../image/stackoverflow.png';
 import { useRef, useState } from 'react';
+// import axios from 'axios'
 const NavHeader = styled.header`
   width: 100%;
   height: 50px;
@@ -93,6 +94,24 @@ const NavHeader = styled.header`
         }
       }
     }
+    button.logout {
+      display: inline-block;
+      padding: 7px;
+      border-radius: 3px;
+
+      margin-left: 10px;
+      font-size: 14px;
+
+      border: 1px solid hsl(205, 41%, 63%);
+      cursor: pointer;
+      color: white;
+      background-color: #0a95ff;
+      margin-right: 0;
+      box-shadow: inset 0 1px 0 0 rgba(255, 255, 255, 0.4);
+      :hover {
+        background-color: #0074cc;
+      }
+    }
     button.material-icons {
       padding: 0;
       margin: 0;
@@ -148,11 +167,23 @@ const Nav = ({ handleMobileMenuOpen }) => {
   };
   const handleSearch = (e) => {
     if (e.key === 'Enter') {
+      if (e.target.value === '') {
+        return;
+      }
       // setSearchVal(e.target.value);
       // alert(searchVal);
-      navigate(`/search?q=${e.target.value}`);
+      const result = e.target.value;
+      e.target.value = '';
+      navigate(`/search?q=${result}`);
     }
   };
+  const handleLogout = () => {
+    // axios.post(url,data).then(({data})=>{
+    //   //로그온 정보 싹다 날리기. 해당 헤더 바꾸기위해서 useState설정
+    //   useNavigate('/')}).catch(err=>alert('로그아웃에 실패하였습니다'))
+    alert('test');
+  };
+  const data = { login: false };
   return (
     <NavHeader className="header" display={`${isblock}`}>
       <div className="headerContainer">
@@ -177,12 +208,25 @@ const Nav = ({ handleMobileMenuOpen }) => {
           <button className="material-icons" onClick={showBlock}>
             search
           </button>
-          <Link to={'/login'}>
-            <span className="loginBtn">Log in</span>
-          </Link>
-          <Link to={'/signup'}>
-            <span className="signupBtn">Sign up</span>
-          </Link>
+          {data.login === false ? (
+            <>
+              <Link to={'/login'}>
+                <span className="loginBtn">Log in</span>
+              </Link>
+              <Link to={'/signup'}>
+                <span className="signupBtn">Sign up</span>
+              </Link>
+            </>
+          ) : (
+            <>
+              <Link to={'/mypage'}>
+                <span className="loginBtn">My Page</span>
+              </Link>
+              <button className="logout" onClick={handleLogout}>
+                Log Out
+              </button>
+            </>
+          )}
         </div>
       </div>
     </NavHeader>

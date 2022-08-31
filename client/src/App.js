@@ -9,6 +9,7 @@ const Login = lazy(() => import('./Pages/Login'));
 const Signup = lazy(() => import('./Pages/Signup'));
 const MyPage = lazy(() => import('./Pages/MyPage'));
 const MainLogout = lazy(() => import('./Pages/MainLogout'));
+const MainLogin = lazy(() => import('./Pages/MainLogin'));
 const SearchResult = lazy(() => import('./Pages/SearchResult'));
 const WriteQuestion = lazy(() => import('./Pages/WriteQuestion'));
 const EditQuestion = lazy(() => import('./Pages/EditQuestion'));
@@ -39,6 +40,7 @@ function App() {
           <SideBar login={loginStyle} openMobileMenu={openMobileMenu} />
           <Routes>
             <Route path={'/'} element={<MainLogout />} />
+            <Route path={'/g'} element={<MainLogin />} />
             <Route path="/login" element={<Login />} />
             <Route path="/signup" element={<Signup />} />
             <Route path="/mypage" element={<MyPage />} />
