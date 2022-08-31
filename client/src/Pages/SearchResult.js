@@ -3,8 +3,9 @@ import { useLocation, useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 import QuestItem from '../Components/QuestItem';
 // import axios from 'axios'
-import { MainContainer, AlignBtns } from './MainLogout';
+import { AlignBtns, SortBtns, MainContainer } from './MainLogout';
 import NoResult from '../Components/NoResult';
+import Pagination from '../Components/Pagination';
 const SearchContainer = styled(MainContainer)`
   .resultQueryDiv {
     padding: 0px 20px 20px;
@@ -15,6 +16,8 @@ const SearchContainer = styled(MainContainer)`
 `;
 const SearchResult = () => {
   const [data, setData] = useState([]);
+
+  const [sortClick, setSortClick] = useState('newest');
   const navigate = useNavigate();
   const location = useLocation();
   const query = decodeURI(location.search.slice(3));
@@ -41,6 +44,7 @@ const SearchResult = () => {
   const handleSort = (sort) => {
     // axios.get(`/search?q=${query}&sort=${sort}`).then(({data})=>setData(data)).catch(err=>alert('정렬에 실패했습니다'))
     alert(sort);
+    setSortClick(sort);
   };
 
   return (
@@ -56,17 +60,35 @@ const SearchResult = () => {
       <div className="totalNbtns">
         <div className="totalQuestion">500 results</div>
         <AlignBtns>
-          <button onClick={() => handleSort('newest')}>최신순</button>
-          <button onClick={() => handleSort('votes')}>추천순</button>
-          <button onClick={() => handleSort('answers')}>답변순</button>
+          <SortBtns
+            sort={sortClick === 'newest' && 'active'}
+            onClick={() => handleSort('newest')}
+          >
+            newest
+          </SortBtns>
+          <SortBtns
+            sort={sortClick === 'votes' && 'active'}
+            onClick={() => handleSort('votes')}
+          >
+            votes
+          </SortBtns>
+          <SortBtns
+            sort={sortClick === 'answers' && 'active'}
+            onClick={() => handleSort('answers')}
+          >
+            answers
+          </SortBtns>
         </AlignBtns>
       </div>
       {data.length !== 0 ? (
-        <ul>
-          {data.map((el) => (
-            <QuestItem key={el.id} el={el} />
-          ))}
-        </ul>
+        <>
+          <ul>
+            {data.map((el) => (
+              <QuestItem key={el.id} el={el} />
+            ))}
+          </ul>
+          <Pagination />
+        </>
       ) : (
         <NoResult keyword={query} status={'search'} />
       )}
