@@ -71,9 +71,9 @@ public class AnswerDto {
 
         private List<AnswerComment> answerComments;
 
-        private int totalVotes;
+        private boolean adopted;
 
-        private boolean isAdopted;
+        private int totalVotes;
     }
 
 }
