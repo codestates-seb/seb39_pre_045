@@ -6,7 +6,6 @@ import NoResult from '../Components/NoResult';
 import QuestItem from '../Components/QuestItem';
 export const MainContainer = styled.div`
   width: 100%;
-  margin-top: 50px;
   min-height: calc(100vh - 50px);
   display: flex;
   flex-direction: column;
@@ -19,7 +18,7 @@ export const MainContainer = styled.div`
     display: flex;
     align-items: center;
     justify-content: space-between;
-    max-width: 850px;
+    /* max-width: 850px; */
     h2 {
       padding: 0 10px;
       font-weight: 500;
@@ -41,7 +40,7 @@ export const MainContainer = styled.div`
   .totalNbtns {
     display: flex;
     justify-content: space-between;
-    max-width: 850px;
+    /* max-width: 850px; */
     padding: 0 10px;
     .totalQuestion {
       padding: 0 10px;

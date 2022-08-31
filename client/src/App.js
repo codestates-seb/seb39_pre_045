@@ -48,7 +48,7 @@ function App() {
             <Route path="/write" element={<WriteQuestion />} />
             <Route path="/questions/edit" element={<EditQuestion />} />
             <Route path="/answer/edit" element={<EditAnswer />} />
-            <Route path="/questions" element={<DetailQuestion />} />
+            <Route path="/questions/:id" element={<DetailQuestion />} />
           </Routes>
         </div>
         <Footer />

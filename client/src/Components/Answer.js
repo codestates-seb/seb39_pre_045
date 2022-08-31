@@ -4,6 +4,9 @@ import Comment, { WriteComment } from './Comment';
 import { useState } from 'react';
 import { InfoBarDiv } from './Question';
 import LikeRate from './LikeRate';
+import { useNavigate } from 'react-router-dom';
+import { axios } from 'axios';
+
 const AnswerDiv = styled.div`
   display: flex;
   max-width: 1000px;
@@ -29,23 +32,35 @@ const AnswerDiv = styled.div`
 `;
 
 const Answer = ({ answer }) => {
+  const navigate = useNavigate();
   const [isOpen, setIsOpen] = useState(false);
-  const handleWrite = (e) => {
-    e.preventDefault();
+  const id = 1234;
+  const handleDelete = () => {
+    if (window.confirm('답변을 삭제하시겠습니까?')) {
+      // axios.delete(`/answers/${id}`).then(({ data }) => {
+      //   console.log(data);
+      //   navigate('/');
+      // });
+    } else {
+      return;
+    }
+  };
+  const handleCommentWrite = () => {
+    if (window.confirm('댓글을 등록하시겠습니까?')) {
+      axios.post(`/answers/{answer-id}/comments`);
+    } else {
+      return;
+    }
   };
   return (
     <AnswerDiv className="wrapper">
-      <LikeRate className="rateLike" />
+      <LikeRate className="rateLike" status={'answers'} />
       <div className="test">
         <MarkdownViewer />
         <InfoBarDiv>
           <div>
-            <span>
-              <a href="/">Edit</a>
-            </span>
-            <span>
-              <a href="/">Delete</a>
-            </span>
+            <button onClick={() => navigate(`/answers/${id}`)}>Edit</button>
+            <button onClick={handleDelete}>Delete</button>
           </div>
           <div className="userInfo">
             <span>asked {answer.createdAt}</span>
@@ -54,7 +69,7 @@ const Answer = ({ answer }) => {
         </InfoBarDiv>
         <ul className="comment">
           {answer.comments.map((el, index) => (
-            <Comment comment={el} key={index} />
+            <Comment comment={el} key={index} status={'answers'} />
           ))}
         </ul>
         <div>
@@ -69,7 +84,7 @@ const Answer = ({ answer }) => {
                 x
               </button>
               <textarea id="editComment" />
-              <button onClick={handleWrite} className="submitComment">
+              <button onClick={handleCommentWrite} className="submitComment">
                 Edit
               </button>
             </WriteComment>

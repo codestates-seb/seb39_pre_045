@@ -1,3 +1,4 @@
+import axios from 'axios';
 import { useState } from 'react';
 import styled from 'styled-components';
 const CommentLi = styled.li`
@@ -45,6 +46,7 @@ export const WriteComment = styled.form`
     font-weight: 700;
     margin-bottom: 3px;
     background-color: transparent;
+    cursor: pointer;
   }
   textarea {
     margin: 5px;
@@ -67,11 +69,27 @@ export const WriteComment = styled.form`
     margin: 3px;
   }
 `;
-const Comment = ({ comment }) => {
+const Comment = ({ status, comment }) => {
   const [isOpen, setIsOpen] = useState(false);
-  const handleEdit = (e) => {
-    e.preventDefault();
+  const handleEdit = () => {
+    if (window.confirm('댓글을 수정하시겠습니까?')) {
+      axios.patch(
+        `/${status}/{question-id}/comments/questions/{question-id}/comments/{comment-id}`
+      );
+    } else {
+      return;
+    }
   };
+  const handleDelete = () => {
+    if (window.confirm('댓글을 수정하시겠습니까?')) {
+      axios.delete(
+        `/${status}/{question-id}/comments/questions/{question-id}/comments/{comment-id}`
+      );
+    } else {
+      return;
+    }
+  };
+
   return (
     <CommentLi>
       {isOpen === false ? (
@@ -81,7 +99,7 @@ const Comment = ({ comment }) => {
           <span>{comment.createdAt}</span>
           <div className="editNdelete">
             <button onClick={() => setIsOpen(!isOpen)}>Edit</button>
-            <button>Delete</button>
+            <button onClick={handleDelete}>Delete</button>
           </div>
         </>
       ) : (
@@ -90,7 +108,7 @@ const Comment = ({ comment }) => {
             <button className="close" onClick={() => setIsOpen(!isOpen)}>
               x
             </button>
-            <textarea id="editComment" defaultValue={comment.content} />
+            <textarea className="editComment" defaultValue={comment.content} />
             <button onClick={handleEdit} className="submitComment">
               Edit
             </button>

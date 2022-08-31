@@ -1,8 +1,9 @@
 // import { useEffect, useState } from 'react';
-// import {useParams} from 'react-router-dom'
-// import axios from 'axios';
+import axios from 'axios';
 import link from '../image/stackoverflow.png';
 import styled from 'styled-components';
+import { useParams } from 'react-router-dom';
+import { useState } from 'react';
 const RateWrapper = styled.div`
   min-width: 55px;
   max-width: 55px;
@@ -41,20 +42,39 @@ const RateWrapper = styled.div`
     cursor: pointer;
   }
 `;
-const LikeRate = () => {
-  // const id = useParams()
-  // const [like, setLike]=useState({like:0,count:0,dislike:0})
+const LikeRate = ({ status }) => {
+  const { id } = useParams();
+  // 아마 이거아닐듯 questionId일듯
+  const [like, setLike] = useState({ like: 0, totalVotes: 0, dislike: 0 });
   // useEffect(()=>{
-  //   axios.get(`/question/${id}/`).then(({data})=>setLike(data).catch(err=>console.log(err))
+  //   axios.get(`/${status}/${id}/`).then(({data})=>setLike({...like,..data}).catch(err=>console.log(err))
+  // 이거아닐듯 props로 내려올듯
   // },[])
-  const handleLike = () => {
-    console.log('test');
+  const handleLike = (e) => {
+    if (like.like === 1 || like.dislike === 1) {
+      return;
+    } else {
+      if (e.target.name === 'like') {
+        axios
+          .post(`/${status}/${id}/up`)
+          .then(({ data }) => setLike({ ...like, like: 1, ...data }))
+          .catch((err) => alert(err));
+      } else {
+        axios
+          .post(`/${status}/${id}/down`)
+          .then(({ data }) => setLike({ ...like, dislike: 1, ...data }))
+          .catch((err) => alert(err));
+      }
+    }
+
+    console.log(`/${status}/${id}/`);
+    console.log(`/question/${id}/`);
   };
   return (
     <RateWrapper className="likeNdislike">
-      <button className="like" onClick={handleLike}></button>
+      <button className="like" name="like" onClick={handleLike}></button>
       <div className="likeCount">356</div>
-      <button className="dislike" onClick={handleLike}></button>
+      <button className="dislike" name="dislike" onClick={handleLike}></button>
     </RateWrapper>
   );
 };

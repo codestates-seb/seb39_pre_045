@@ -1,8 +1,10 @@
 import styled from 'styled-components';
 import MarkdownViewer from '../Components/MarkdownViewer';
 import Comment, { WriteComment } from './Comment';
-import { useState } from 'react';
+import { useRef, useState } from 'react';
 import LikeRate from './LikeRate';
+import axios from 'axios';
+import { useNavigate, useParams } from 'react-router-dom';
 
 const QuestionDiv = styled.div`
   display: flex;
@@ -26,12 +28,13 @@ const QuestionDiv = styled.div`
 export const InfoBarDiv = styled.div`
   display: flex;
   justify-content: space-between;
-  span {
-    margin: 0 10px;
-    a {
-      text-decoration: none;
-      color: #0c0d0e;
-    }
+  button {
+    margin: 0 5px;
+    color: #0c0d0e;
+    padding: 5px;
+    border: none;
+    background-color: transparent;
+    cursor: pointer;
   }
   .userInfo {
     display: flex;
@@ -41,23 +44,38 @@ export const InfoBarDiv = styled.div`
 `;
 
 const Question = ({ question }) => {
+  const { id } = useParams();
+  const comment = useRef();
+  const navigate = useNavigate();
   const [isOpen, setIsOpen] = useState(false);
-  const handleWrite = (e) => {
-    e.preventDefault();
+  const handleCommentWrite = () => {
+    if (window.confirm('댓글을 등록하시겠습니까?')) {
+      axios.post(
+        `/questions/{question-id}/comments/questions/{question-id}/comments`
+      );
+    } else {
+      return;
+    }
+  };
+  const handleDelete = () => {
+    if (window.confirm('질문을 삭제하시겠습니까?')) {
+      axios.delete(`/questions/${id}`).then(({ data }) => {
+        console.log(data);
+        navigate('/');
+      });
+    } else {
+      return;
+    }
   };
   return (
     <QuestionDiv className="wrapper">
-      <LikeRate className="rateLike" />
+      <LikeRate className="rateLike" status={'questions'} />
       <div className="test">
         <MarkdownViewer />
         <InfoBarDiv>
           <div>
-            <span>
-              <a href="/">Edit</a>
-            </span>
-            <span>
-              <a href="/">Delete</a>
-            </span>
+            <button onClick={() => navigate(`/questions/${id}`)}>Edit</button>
+            <button onClick={handleDelete}>Delete</button>
           </div>
           <div className="userInfo">
             <span>asked {question.createdAt}</span>
@@ -66,7 +84,7 @@ const Question = ({ question }) => {
         </InfoBarDiv>
         <ul className="comment">
           {question.comments.map((el, index) => (
-            <Comment comment={el} key={index} />
+            <Comment comment={el} key={index} status={'questions'} />
           ))}
         </ul>
         <div>
@@ -80,9 +98,9 @@ const Question = ({ question }) => {
               <button className="close" onClick={() => setIsOpen(!isOpen)}>
                 x
               </button>
-              <textarea id="editComment" />
-              <button onClick={handleWrite} className="submitComment">
-                Edit
+              <textarea ref={comment} name="add" className="TextareaComment" />
+              <button onClick={handleCommentWrite} className="submitComment">
+                submit
               </button>
             </WriteComment>
           )}
