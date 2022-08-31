@@ -4,7 +4,7 @@ import link from '../image/stackoverflow.png';
 const StyledFooter = styled.footer`
   background-color: rgb(41, 42, 45);
   height: 350px;
-  width: 100vw;
+  width: 100%;
   position: relative;
   bottom: 0;
   z-index: 1000;

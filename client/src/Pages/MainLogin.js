@@ -3,6 +3,7 @@ import { AlignBtns, MainContainer } from './MainLogout';
 import { useEffect, useState } from 'react';
 import NoResult from '../Components/NoResult';
 import styled from 'styled-components';
+import { useNavigate } from 'react-router-dom';
 
 const RightAlignBtns = styled(AlignBtns)`
   align-self: flex-end;
@@ -10,6 +11,7 @@ const RightAlignBtns = styled(AlignBtns)`
 
 const MainLogin = () => {
   const [data, setData] = useState([]);
+  const navigate = useNavigate();
   useEffect(() => {
     // axios.get(url).then({data}=>setData(data)).catch(err=>alert('데이터 조회에 실패하였습니다'))
     const test = [];
