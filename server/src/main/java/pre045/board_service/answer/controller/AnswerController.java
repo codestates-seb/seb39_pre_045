@@ -7,9 +7,9 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import pre045.board_service.answer.dto.AnswerDto;
+import pre045.board_service.answer.entity.Answer;
 import pre045.board_service.answer.mapper.AnswerMapper;
 import pre045.board_service.answer.service.AnswerService;
-import pre045.board_service.answer.entity.Answer;
 import pre045.board_service.dto.SingleResponseDto;
 
 
