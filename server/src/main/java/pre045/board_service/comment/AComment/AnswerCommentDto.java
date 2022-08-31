@@ -1,17 +1,18 @@
-package pre045.board_service.comment.QComment;
+package pre045.board_service.comment.AComment;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import pre045.board_service.answer.entity.Answer;
 
-import pre045.board_service.member.entity.Member;
-import pre045.board_service.question.entity.Question;
 
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Positive;
 
-public class QCommentDto {
+
+
+public class AnswerCommentDto {
 
     @Getter
     @AllArgsConstructor
@@ -19,13 +20,13 @@ public class QCommentDto {
     public static class Post {
 
         @NotNull
-        private Long memberId;
+        private Answer answer;
 
         @NotNull
-        private Question question;
+        private Long memberId;
 
         @NotBlank
-        private String qCommentContent;
+        private String answerCommentContent;
 
     }
 
@@ -37,17 +38,17 @@ public class QCommentDto {
         @Positive
         private Long memberId;
 
-        private Long qCommentId;
+        private Long answerCommentId;
 
 
         @NotNull
         @Positive
-        private Question question;
+        private Answer answer;
 
         @NotBlank
-        private  String qCommentContent;
+        private  String answerCommentContent;
 
-        public void setCommentId(Long qCommentId) {this.qCommentId = qCommentId;}
+        public void setAnswerCommentId(Long answerCommentId) {this.answerCommentId = answerCommentId;}
 
     }
 
@@ -56,12 +57,11 @@ public class QCommentDto {
 
     public static class Response {
 
-        private String qCommentId;
+        private Long answerCommentId;
 
-        private String qCommentUsername;
+        private String answerCommentUsername;
 
-        private String qCommentContent;
+        private String answerCommentContent;
 
     }
 }
-
