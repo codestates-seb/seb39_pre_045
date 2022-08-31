@@ -29,7 +29,7 @@ public class QuestionResponseDto {
 
     private boolean checkAdopted;
 
-    private String username;
+    private String questionUsername;
 
     private int totalVotes;
 

@@ -59,7 +59,7 @@ public class QuestionCommentService {
 
         foundQuestionComment.setQuestion(foundQuestion);
 
-        foundQuestionComment.setQuestionCommentContent(foundQuestionComment.getQuestionCommentContent());
+        foundQuestionComment.setQuestionCommentContent(questionComment.getQuestionCommentContent());
         foundQuestionComment.setQuestionCommentUsername(foundMember.getUsername());
 
         return questionCommentRepository.save(foundQuestionComment);
