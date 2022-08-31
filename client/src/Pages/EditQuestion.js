@@ -2,32 +2,37 @@ import styled from 'styled-components';
 import MarkdownEditor from '../Components/MarkdownEditor';
 import { TitleInput } from './WriteQuestion';
 import { Btn } from './Login';
+import { useState, useRef } from 'react';
 
-const PageContainer = styled.div`
+export const PageContainer = styled.div`
   display: flex;
-  height: calc(100vh - 300px);
-  margin: 100px 0;
+  height: max-content;
+  margin: 100px 0 100px 250px;
+  max-width: 1000px;
+  @media only screen and (max-width: 768px) {
+    margin: 100px 0 100px 0;
+  }
   @media only screen and (max-width: 1200px) {
     flex-direction: column;
     align-items: center;
   }
 `;
 
-const ContentWrapper = styled.div`
-  max-width: 1000px;
-  @media only screen and (max-width: 768px) and (max-width: 1200px) {
-    width: 99%;
+export const ContentWrapper = styled.div`
+  margin-right: 20px;
+  max-width: 700px;
+  @media only screen and (max-width: 1200px) {
+    margin-right: 10px;
   }
 `;
 
-const Wrapper = styled.form`
-  max-width: 800px;
-  margin-left: 230px;
-  @media only screen and (max-width: 768px) and (max-width: 1200px) {
-    width: 95%;
-  }
+export const Wrapper = styled.form`
   @media only screen and (max-width: 767px) {
-    margin: 0 10px;
+    margin-left: 10px;
+  }
+  label {
+    font-weight: 600;
+    font-size: 20px;
   }
 `;
 
@@ -36,32 +41,39 @@ const NoticeWrapper = styled(Wrapper)`
   background-color: rgb(251, 247, 226);
   border-radius: 5px;
   height: fit-content;
-  width: ${(props) => props.width || 'inherit'};
-  margin: ${(props) => props.margin || '0 0 30px 230px'};
+  margin-bottom: 10px;
+  width: ${(props) => props.width || 'auto'};
   p {
     padding: 0 10px;
     font-size: 13px;
   }
-  @media only screen and (max-width: 1200px) {
-    margin: 0 0 10px 230px;
-  }
-  @media only screen and (max-width: 767px) {
-    margin: 0 0 10px 0;
-  }
 `;
 
-const ListTitle = styled.div`
-  padding: 10px;
+export const ListTitle = styled.div`
+  padding: 10px 10px 10px 20px;
   background-color: rgba(251, 243, 203, 1);
   border-bottom: 1.5px solid rgb(237, 228, 189);
 `;
 
-const List = styled.li`
+export const List = styled.li`
   padding: 5px 0;
   font-size: 13px;
 `;
 
 const EditQuestion = () => {
+  const [title, setTitle] = useState('');
+  const editor = useRef();
+
+  const handleSubmitQuestion = (e) => {
+    e.preventDefault();
+    if (editor.current.getInstance().getMarkdown() === 'please write here') {
+      alert('내용을 입력해주세요');
+    } else {
+      console.log(title);
+      console.log(editor.current.getInstance().getHTML());
+      console.log(editor.current.getInstance().getMarkdown());
+    }
+  };
   return (
     <PageContainer>
       <ContentWrapper className="contentWrapper">
@@ -75,15 +87,17 @@ const EditQuestion = () => {
             hyperlinks.
           </p>
         </NoticeWrapper>
-        <Wrapper>
-          <label required htmlFor="title">
-            Title
-          </label>
-          <TitleInput id="title" />
+        <Wrapper onSubmit={handleSubmitQuestion}>
+          <label htmlFor="title">Title</label>
+          <TitleInput
+            required
+            id="title"
+            onChange={(e) => setTitle(e.target.value)}
+          />
           <label required htmlFor="body">
             Body
           </label>
-          <MarkdownEditor for="body" />
+          <MarkdownEditor required id="body" ref={editor} />
           <Btn width="100px" type="submit" bottom="30px">
             Edit
           </Btn>
