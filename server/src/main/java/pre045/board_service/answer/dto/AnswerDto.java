@@ -69,11 +69,11 @@ public class AnswerDto {
 
         private LocalDateTime modifiedAt;
 
-        private List<AnswerComment> aComments;
+        private List<AnswerComment> answerComments;
+
+        private boolean adopted;
 
         private int totalVotes;
-
-        private boolean isAdopted;
     }
 
 }

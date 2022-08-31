@@ -2,6 +2,7 @@ package pre045.board_service.answer.entity;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -40,7 +41,7 @@ public class Answer {
     private LocalDateTime modifiedAt;
 
     @Column(columnDefinition = "TINYINT", length = 1)
-    private boolean isAdopted;
+    private boolean adopted = false;
 
     private int totalVotes;
 
@@ -54,6 +55,7 @@ public class Answer {
     @JoinColumn(name = "QUESTION_ID")
     private Question question;
 
+    @JsonManagedReference
     @OneToMany(mappedBy = "answer", cascade = CascadeType.REMOVE)
     private List<AnswerComment> answerComments = new ArrayList<>();
 

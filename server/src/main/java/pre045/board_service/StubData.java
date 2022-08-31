@@ -12,13 +12,13 @@ public class StubData {
 
     //멤버
     public static Member getMember1() {
-        Member member = new Member("arom@gmail.com", "12345", "아롬");
+        Member member = new Member("abcd@gmail.com", "12345", "jp");
 
         return member;
     }
 
     public static Member getMember2() {
-        Member member = new Member("arom2@gmail.com", "f2345", "아롬2");
+        Member member = new Member("cdfg@gmail.com", "1q2w3e4r", "hwany");
 
         return member;
     }

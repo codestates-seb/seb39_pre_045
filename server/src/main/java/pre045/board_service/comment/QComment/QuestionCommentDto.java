@@ -4,6 +4,7 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import pre045.board_service.answer.entity.Answer;
+import pre045.board_service.question.entity.Question;
 
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
@@ -17,7 +18,7 @@ public class QuestionCommentDto {
     public static class Post {
 
         @NotNull
-        private Answer answer;
+        private Question question;
 
         @NotNull
         private Long memberId;
@@ -40,10 +41,10 @@ public class QuestionCommentDto {
 
         @NotNull
         @Positive
-        private Answer answer;
+        private Question question;
 
         @NotBlank
-        private  String questionCommentContent;
+        private String questionCommentContent;
 
         public void setQuestionCommentId(Long questionCommentId) {this.questionCommentId = questionCommentId;}
 
