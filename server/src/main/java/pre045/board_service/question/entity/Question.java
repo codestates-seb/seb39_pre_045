@@ -4,7 +4,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import lombok.*;
 import pre045.board_service.answer.entity.Answer;
-import pre045.board_service.comment.QComment.QComment;
+import pre045.board_service.comment.QComment.QuestionComment;
 import pre045.board_service.member.entity.Member;
 import pre045.board_service.vote.question_vote.entity.QVote;
 
@@ -47,7 +47,7 @@ public class Question {
     private int totalVotes;
 
 
-    @ManyToOne
+    @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "MEMBER_ID")
     @JsonIgnore // 리스폰스로 보내지 않아도 됨
     private Member member;
@@ -58,7 +58,7 @@ public class Question {
     private List<Answer> answers = new ArrayList<>();
 
     @OneToMany(mappedBy = "question", cascade = CascadeType.REMOVE)
-    private List<QComment> qComments = new ArrayList<>();
+    private List<QuestionComment> questionComments = new ArrayList<>();
 
     @OneToMany(mappedBy = "question", cascade = CascadeType.REMOVE)
     @JsonIgnore // 리스폰스로 보내지 않아도 됨
@@ -86,11 +86,11 @@ public class Question {
         }
     }
 
-    public void addQComment(QComment qComment) {
-        qComments.add(qComment);
-        // this -> qComment 자기 자신
-        if (qComment.getQuestion() != this) {
-            qComment.setQuestion(this);
+    public void addQuestionComment(QuestionComment questionComment) {
+        questionComments.add(questionComment);
+
+        if (questionComment.getQuestion() != this) {
+            questionComment.setQuestion(this);
         }
     }
 
