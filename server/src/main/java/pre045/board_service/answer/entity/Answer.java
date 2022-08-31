@@ -5,10 +5,10 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import pre045.board_service.comment.AComment.AComment;
+import pre045.board_service.comment.AComment.AnswerComment;
 import pre045.board_service.member.entity.Member;
 import pre045.board_service.question.entity.Question;
-import pre045.board_service.vote.answer_vote.entity.AVote;
+import pre045.board_service.vote.answer_vote.entity.AnswerVote;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
@@ -55,11 +55,11 @@ public class Answer {
     private Question question;
 
     @OneToMany(mappedBy = "answer", cascade = CascadeType.REMOVE)
-    private List<AComment> aComments = new ArrayList<>();
+    private List<AnswerComment> answerComments = new ArrayList<>();
 
     @JsonIgnore
     @OneToMany(mappedBy = "answer", cascade = CascadeType.REMOVE)
-    private List<AVote> answerVotes = new ArrayList<>();
+    private List<AnswerVote> answerVotes = new ArrayList<>();
 
     //테스트용 생성자
     public Answer(String answerContent, LocalDateTime createdAt, LocalDateTime modifiedAt) {
@@ -88,6 +88,21 @@ public class Answer {
         }
     }
 
+    public void addAnswerComments(AnswerComment answerComment) {
+        this.answerComments.add(answerComment);
+
+        if (answerComment.getAnswer() != this) {
+            answerComment.setAnswer(this);
+        }
+    }
+
+    public void addAnswerVotes(AnswerVote answerVote) {
+        this.answerVotes.add(answerVote);
+
+        if (answerVote.getAnswer() != this) {
+            answerVote.setAnswer(this);
+        }
+    }
 
 
 }

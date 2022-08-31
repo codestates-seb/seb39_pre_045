@@ -4,7 +4,7 @@ import com.fasterxml.jackson.annotation.JsonInclude;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import pre045.board_service.comment.AComment.AComment;
+import pre045.board_service.comment.AComment.AnswerComment;
 import pre045.board_service.question.entity.Question;
 
 import javax.validation.constraints.NotBlank;
@@ -69,7 +69,7 @@ public class AnswerDto {
 
         private LocalDateTime modifiedAt;
 
-        private List<AComment> aComments;
+        private List<AnswerComment> aComments;
 
         private int totalVotes;
 

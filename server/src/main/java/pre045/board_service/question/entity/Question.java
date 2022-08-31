@@ -6,7 +6,7 @@ import lombok.*;
 import pre045.board_service.answer.entity.Answer;
 import pre045.board_service.comment.QComment.QuestionComment;
 import pre045.board_service.member.entity.Member;
-import pre045.board_service.vote.question_vote.entity.QVote;
+import pre045.board_service.vote.question_vote.entity.QuestionVote;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
@@ -62,7 +62,7 @@ public class Question {
 
     @OneToMany(mappedBy = "question", cascade = CascadeType.REMOVE)
     @JsonIgnore // 리스폰스로 보내지 않아도 됨
-    private List<QVote> questionVotes = new ArrayList<>();
+    private List<QuestionVote> questionVotes = new ArrayList<>();
 
 
     // dB에서 외래키로 가지고 있어서
@@ -94,7 +94,7 @@ public class Question {
         }
     }
 
-    public void addQuestionVote(QVote questionVote) {
+    public void addQuestionVote(QuestionVote questionVote) {
         questionVotes.add(questionVote);
 
         if (questionVote.getQuestion() != this){

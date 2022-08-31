@@ -15,6 +15,8 @@ import pre045.board_service.question.repository.QuestionRepository;
 
 import java.time.LocalDateTime;
 
+import static pre045.board_service.exception.ExceptionCode.*;
+
 @Service
 @Transactional
 @RequiredArgsConstructor
@@ -93,7 +95,7 @@ public class AnswerService {
     public void deleteAnswer(Long answerId) {
         Answer foundAnswer = verifyExistAnswer(answerId);
         if (foundAnswer.isAdopted()) {
-            throw new BusinessLogicException(ExceptionCode.ANSWER_CANNOT_DELETE);
+            throw new BusinessLogicException(ANSWER_CANNOT_DELETE);
         }
         answerRepository.delete(foundAnswer);
     }
@@ -120,7 +122,7 @@ public class AnswerService {
     private Question verifyIfAdopted(Answer answer) {
         Question foundQuestion = verifyExistQuestion(answer.getQuestion().getQuestionId());
         if (foundQuestion.isCheckAdopted()) {
-            throw new BusinessLogicException(ExceptionCode.ANSWER_DUPLICATE_ADOPT);
+            throw new BusinessLogicException(ANSWER_DUPLICATE_ADOPT);
         }
         return foundQuestion;
     }
@@ -129,24 +131,24 @@ public class AnswerService {
     //존재하는 멤버인지 확인
     private Member verifyExistMember(Long memberId) {
         return memberRepository.findById(memberId)
-                .orElseThrow(() -> new BusinessLogicException(ExceptionCode.ANSWER_CANNOT_POST));
+                .orElseThrow(() -> new BusinessLogicException(ANSWER_CANNOT_POST));
     }
 
     //존재하는 질문인지 확인
     private Question verifyExistQuestion(Long questionId) {
         return questionRepository.findById(questionId)
-                .orElseThrow(() -> new BusinessLogicException(ExceptionCode.QUESTION_NOT_FOUND));
+                .orElseThrow(() -> new BusinessLogicException(QUESTION_NOT_FOUND));
     }
 
     //존재하는 답변인지 확인
-    private Answer verifyExistAnswer(Long answerId) {
-        return answerRepository.findById(answerId).orElseThrow(() -> new BusinessLogicException(ExceptionCode.ANSWER_NOT_FOUND));
+    public Answer verifyExistAnswer(Long answerId) {
+        return answerRepository.findById(answerId).orElseThrow(() -> new BusinessLogicException(ANSWER_NOT_FOUND));
     }
 
     //작성자 == 수정자 검증
     private void verifySameWriter(Long addMemberId, Long editMemberId) {
         if (!addMemberId.equals(editMemberId)) {
-            throw new BusinessLogicException(ExceptionCode.ANSWER_CANNOT_EDIT);
+            throw new BusinessLogicException(ANSWER_CANNOT_EDIT);
         }
     }
 
@@ -158,7 +160,7 @@ public class AnswerService {
                 .filter(answer -> answer.getMember().getMemberId().equals(memberId))
                 .findAny()
                 .ifPresent(duplicate -> {
-                    throw new BusinessLogicException(ExceptionCode.ANSWER_DUPLICATE_POST);
+                    throw new BusinessLogicException(ANSWER_DUPLICATE_POST);
                 });
 
     }
