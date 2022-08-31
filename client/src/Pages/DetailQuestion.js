@@ -1,73 +1,76 @@
 // import { useEffect, useState } from 'react';
-// import { useParams } from 'react-router-dom';
+import { useParams, useNavigate } from 'react-router-dom';
 // import axios from 'axios'
 import Question from '../Components/Question';
 import Answer from '../Components/Answer';
 import styled from 'styled-components';
+const DivWrapper = styled.div`
+  width: 100%;
+  min-height: calc(100vh - 50px);
+  display: flex;
+  flex-direction: column;
+  max-width: 850px;
+  margin: 50px 0 0 230px;
+  padding: 40px 20px;
+  background-color: white;
+  box-sizing: border-box;
+  color: #232629;
+  .questionDesc {
+    border-bottom: 1px solid #babfc49b;
+    .titleNbtn {
+      max-width: 1000px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+
+      h2 {
+        font-weight: 400;
+        font-size: 24px;
+        color: #3b4045;
+        margin: 0;
+      }
+      button {
+        border: none;
+        background-color: #0a95ff;
+        color: white;
+        border-radius: 5px;
+        padding: 10px;
+        cursor: pointer;
+        user-select: none;
+        box-shadow: inset 0 1px 0 0 rgba(255, 255, 255, 0.4);
+        :hover {
+          background-color: #0074cc;
+        }
+      }
+    }
+
+    .dateNview {
+      margin: 10px;
+      span {
+        margin-right: 20px;
+      }
+    }
+  }
+
+  @media screen and (max-width: 768px) {
+    margin: 50px auto;
+    .titleNbtn {
+      flex-direction: column-reverse;
+      button {
+        align-self: flex-end;
+      }
+    }
+  }
+`;
 const DetailQuestion = () => {
-  // const id = useParams()
+  const id = useParams();
+  const navigate = useNavigate();
+  console.log(id);
   // const [data, setData] = useState([]);
   // useEffect(() => {
   //   axios.get(`/questions/${id}`).then(({data})=>setData(data)).catch(err=>alert('상세조회에 실패하였습니다.');
   // }, []);
-  const DivWrapper = styled.div`
-    width: 100%;
-    margin-top: 50px;
-    min-height: calc(100vh - 50px);
-    display: flex;
-    flex-direction: column;
-    margin: 50px 0 0 230px;
-    padding: 10px;
-    background-color: white;
-    box-sizing: border-box;
-    color: #232629;
-    .questionDesc {
-      border-bottom: 1px solid #babfc49b;
-      .titleNbtn {
-        max-width: 1000px;
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
 
-        h2 {
-          font-weight: 400;
-          font-size: 24px;
-          color: #3b4045;
-          margin: 0;
-        }
-        button {
-          border: none;
-          background-color: #0a95ff;
-          color: white;
-          border-radius: 5px;
-          padding: 10px;
-          cursor: pointer;
-          user-select: none;
-          box-shadow: inset 0 1px 0 0 rgba(255, 255, 255, 0.4);
-          :hover {
-            background-color: #0074cc;
-          }
-        }
-      }
-
-      .dateNview {
-        margin: 10px;
-        span {
-          margin-right: 20px;
-        }
-      }
-    }
-
-    @media screen and (max-width: 768px) {
-      margin: 50px auto;
-      .titleNbtn {
-        flex-direction: column-reverse;
-        button {
-          align-self: flex-end;
-        }
-      }
-    }
-  `;
   const data = {
     question: {
       id: Math.round(Math.random() * 113412304985),
@@ -225,7 +228,7 @@ const DetailQuestion = () => {
       <div className="questionDesc">
         <div className="titleNbtn">
           <h2>{data.question.title}</h2>
-          <button>Ask Question</button>
+          <button onClick={() => navigate('/write')}>Ask Question</button>
         </div>
         <div className="dateNview">
           <span>{data.question.createdAt}</span>
