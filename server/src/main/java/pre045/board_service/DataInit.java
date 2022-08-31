@@ -16,9 +16,8 @@ import pre045.board_service.question.repository.QuestionRepository;
 public class DataInit {
     private final MemberRepository memberRepository;
 //    private final QuestionRepository questionRepository;
+//
 //    private final AnswerRepository answerRepository;
-
-//    private final QuestionRepository;
 
     @EventListener(ApplicationReadyEvent.class)
     private void init() {
@@ -27,7 +26,7 @@ public class DataInit {
 
         Member member2 = StubData.getMember2();
         memberRepository.save(member2);
-//
+
 //        Question question1 = StubData.getQuestion1();
 //        question1.setMember(member1);
 //        question1.setQuestionUsername(member1.getUsername());

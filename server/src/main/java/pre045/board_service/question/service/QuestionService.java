@@ -40,7 +40,7 @@ public class QuestionService {
         Member member = memberVerifyQuestion(memberId);
 
         question.setMember(member);
-        question.setUsername(member.getUsername());
+        question.setQuestionUsername(member.getUsername());
 
         question.setCreatedAt(LocalDateTime.now());
 
@@ -63,7 +63,7 @@ public class QuestionService {
         Member member = memberVerifyQuestion(memberId);
 
         findQuestion.setMember(member);
-        findQuestion.setUsername(member.getUsername());
+        findQuestion.setQuestionUsername(member.getUsername());
 
         findQuestion.setModifiedAt(LocalDateTime.now());
 
@@ -229,7 +229,3 @@ public class QuestionService {
 
 
 }
-
-// Todo 파라미터 수정 요망
-// Todo 페이지 검색
-

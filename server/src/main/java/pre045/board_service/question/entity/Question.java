@@ -41,13 +41,13 @@ public class Question {
     private boolean checkAdopted;
 
     @Column(nullable = false)
-    private String username;
+    private String questionUsername;
 
     @Column
     private int totalVotes;
 
 
-    @ManyToOne(cascade = CascadeType.ALL)
+    @ManyToOne
     @JoinColumn(name = "MEMBER_ID")
     @JsonIgnore // 리스폰스로 보내지 않아도 됨
     private Member member;
@@ -57,6 +57,7 @@ public class Question {
     @OneToMany(mappedBy = "question", cascade = CascadeType.REMOVE)
     private List<Answer> answers = new ArrayList<>();
 
+    @JsonManagedReference
     @OneToMany(mappedBy = "question", cascade = CascadeType.REMOVE)
     private List<QuestionComment> questionComments = new ArrayList<>();
 
@@ -76,7 +77,6 @@ public class Question {
             member.addQuestion(this);
         }
     }
-
 
     public void addAnswer(Answer answer) {
         answers.add(answer);

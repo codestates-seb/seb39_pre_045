@@ -69,7 +69,7 @@ public class AnswerDto {
 
         private LocalDateTime modifiedAt;
 
-        private List<AnswerComment> aComments;
+        private List<AnswerComment> answerComments;
 
         private int totalVotes;
 
