@@ -61,7 +61,7 @@ const SearchResult = () => {
           <button onClick={() => handleSort('answers')}>답변순</button>
         </AlignBtns>
       </div>
-      {data.length !== 0 ? (
+      {data.length === 0 ? (
         <ul>
           {data.map((el) => (
             <QuestItem key={el.id} el={el} />

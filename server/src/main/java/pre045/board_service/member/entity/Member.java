@@ -2,10 +2,11 @@ package pre045.board_service.member.entity;
 
 import lombok.*;
 import pre045.board_service.answer.entity.Answer;
-import pre045.board_service.comment.entity.Comment;
+import pre045.board_service.comment.AComment.AnswerComment;
+import pre045.board_service.comment.QComment.QuestionComment;
 import pre045.board_service.question.entity.Question;
-import pre045.board_service.vote.answer_vote.entity.AVote;
-import pre045.board_service.vote.question_vote.entity.QVote;
+import pre045.board_service.vote.answer_vote.entity.AnswerVote;
+import pre045.board_service.vote.question_vote.entity.QuestionVote;
 
 import javax.persistence.*;
 import java.util.ArrayList;
@@ -38,20 +39,21 @@ public class Member {
     private List<Question> questions = new ArrayList<>();
 
     @OneToMany(mappedBy = "member")
-    private List<Comment> comments = new ArrayList<>();
+    private List<QuestionComment> questionComments = new ArrayList<>();
 
     @OneToMany(mappedBy = "member")
-    private List<AVote> answerVotes = new ArrayList<>();
+    private List<AnswerComment> answerComments = new ArrayList<>();
 
     @OneToMany(mappedBy = "member")
-    private List<QVote> questionVotes = new ArrayList<>();
+    private List<AnswerVote> answerVotes = new ArrayList<>();
 
-    public Member(String email, String password, String username, String gender, int age) {
+    @OneToMany(mappedBy = "member")
+    private List<QuestionVote> questionVotes = new ArrayList<>();
+
+    public Member(String email, String password, String username) {
         this.email = email;
         this.password = password;
         this.username = username;
-        this.gender = gender;
-        this.age = age;
     }
 
     public void addAnswer(Answer answer) {
@@ -70,4 +72,35 @@ public class Member {
         }
     }
 
+    public void addQuestionComment(QuestionComment questionComment) {
+        this.questionComments.add(questionComment);
+
+        if (questionComment.getMember() != this) {
+            questionComment.setMember(this);
+        }
+    }
+
+    public void addAnswerComment(AnswerComment answerComment) {
+        this.answerComments.add(answerComment);
+
+        if (answerComment.getMember() != this) {
+            answerComment.setMember(this);
+        }
+    }
+
+    public void addAnswerVote(AnswerVote answerVote) {
+        this.answerVotes.add(answerVote);
+
+        if (answerVote.getMember() != this) {
+            answerVote.setMember(this);
+        }
+    }
+
+    public void addQuestionVote(QuestionVote questionVote) {
+        this.questionVotes.add(questionVote);
+
+        if (questionVote.getMember() != this) {
+            questionVote.setMember(this);
+        }
+    }
 }

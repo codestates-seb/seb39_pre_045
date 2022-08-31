@@ -4,12 +4,17 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 
 import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.Positive;
 
 @Getter
 @AllArgsConstructor
 public class QuestionPatchDto {
 
-    // Patch 요청으로 들어오는 값을 이렇게 받는다
+    @Positive
+    private long memberId;
+
+    @Positive
+    private long questionId;
 
     // NotBlank : null, "" , " " 모두 허용안함
     @NotBlank(message = "제목을 입력하세요")
@@ -18,6 +23,9 @@ public class QuestionPatchDto {
     @NotBlank(message = "내용을 입력하세요")
     private String questionContent;
 
+    public void setQuestionId(long questionId){
+        this.questionId = questionId;
+    }
 
 
 }

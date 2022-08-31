@@ -4,7 +4,7 @@ import com.fasterxml.jackson.annotation.JsonInclude;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import pre045.board_service.answer.entity.Answer;
-import pre045.board_service.comment.QComment.QComment;
+import pre045.board_service.comment.QComment.QuestionComment;
 
 import java.time.LocalDateTime;
 import java.util.List;
@@ -35,7 +35,7 @@ public class QuestionResponseDto {
 
     private List<Answer> answers;
 
-    private List<QComment> qComments;
+    private List<QuestionComment> questionComments;
 
 
 }
