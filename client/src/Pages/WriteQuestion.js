@@ -4,7 +4,7 @@ import { useRef, useState } from 'react';
 import { Input, Wrapper, Btn } from '../Pages/Login';
 
 export const WritePage = styled.div`
-  height: calc(100vh - 350px);
+  height: max-content;
   margin: 100px 0;
   width: 100%;
   display: flex;
@@ -28,21 +28,32 @@ const WriteQuestion = () => {
   const [title, setTitle] = useState('');
   const editor = useRef();
 
-  const handleRegisterButton = (e) => {
+  const handleSubmitQuestion = (e) => {
     e.preventDefault();
-    console.log(title);
-    console.log(editor.current.getInstance().getHTML());
-    console.log(editor.current.getInstance().getMarkdown());
+    if (editor.current.getInstance().getMarkdown() === 'please write here') {
+      alert('내용을 입력해주세요');
+    } else {
+      console.log(title);
+      console.log(editor.current.getInstance().getHTML());
+      console.log(editor.current.getInstance().getMarkdown());
+    }
   };
 
   return (
     <WritePage>
-      <Wrapper width="500px" maxWidth="800px" mobile="0" middle="200px">
+      <Wrapper
+        width="500px"
+        maxWidth="700px"
+        mobile="0"
+        middle="200px"
+        onSubmit={handleSubmitQuestion}
+      >
         <label htmlFor="title">Title</label>
         <P>
           Be specific and imagine you’re asking a question to another person
         </P>
         <TitleInput
+          required
           type="text"
           id="title"
           value={title}
@@ -52,10 +63,8 @@ const WriteQuestion = () => {
         <P>
           Include all the information someone would need to answer your question
         </P>
-        <MarkdownEditor id="body" ref={editor} />
-        <Btn width="180px" onClick={handleRegisterButton}>
-          Review your Question
-        </Btn>
+        <MarkdownEditor required id="body" ref={editor} />
+        <Btn width="180px">Review your Question</Btn>
       </Wrapper>
     </WritePage>
   );

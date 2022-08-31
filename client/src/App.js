@@ -4,6 +4,7 @@ import SideBar from './Components/SideBar';
 import { Route, Routes } from 'react-router-dom';
 import { useEffect, useState, lazy, Suspense } from 'react';
 import useStore from './Store/store';
+import NoResult from './Components/NoResult';
 
 const Login = lazy(() => import('./Pages/Login'));
 const Signup = lazy(() => import('./Pages/Signup'));
@@ -34,7 +35,7 @@ function App() {
 
   return (
     <div className="App">
-      <Suspense fallback={'error' || <Loading />}>
+      <Suspense fallback={<Loading />}>
         <Nav handleMobileMenuOpen={handleMobileMenuOpen} />
         <div className="container">
           <SideBar login={loginStyle} openMobileMenu={openMobileMenu} />
@@ -49,6 +50,7 @@ function App() {
             <Route path="/questions/edit" element={<EditQuestion />} />
             <Route path="/answer/edit" element={<EditAnswer />} />
             <Route path="/questions/:id" element={<DetailQuestion />} />
+            <Route path="*" element={<NoResult />} />
           </Routes>
         </div>
         <Footer />
