@@ -8,7 +8,6 @@ import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Positive;
 
 @Getter
-@AllArgsConstructor
 public class QuestionPostDto {
 
     // Post 요청으로 들어오는 값을 이렇게 받는다

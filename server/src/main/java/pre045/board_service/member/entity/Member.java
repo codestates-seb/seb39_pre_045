@@ -2,7 +2,8 @@ package pre045.board_service.member.entity;
 
 import lombok.*;
 import pre045.board_service.answer.entity.Answer;
-import pre045.board_service.comment.entity.Comment;
+import pre045.board_service.comment.AComment.AComment;
+import pre045.board_service.comment.QComment.QComment;
 import pre045.board_service.question.entity.Question;
 import pre045.board_service.vote.answer_vote.entity.AVote;
 import pre045.board_service.vote.question_vote.entity.QVote;
@@ -34,11 +35,14 @@ public class Member {
     @OneToMany(mappedBy = "member")
     private List<Answer> answers = new ArrayList<>();
 
-    @OneToMany(mappedBy = "member")
+    @OneToMany(mappedBy = "member", cascade = CascadeType.ALL)
     private List<Question> questions = new ArrayList<>();
 
     @OneToMany(mappedBy = "member")
-    private List<Comment> comments = new ArrayList<>();
+    private List<QComment> qComments = new ArrayList<>();
+
+    @OneToMany(mappedBy = "member")
+    private List<AComment> aComments = new ArrayList<>();
 
     @OneToMany(mappedBy = "member")
     private List<AVote> answerVotes = new ArrayList<>();

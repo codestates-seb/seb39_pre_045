@@ -47,7 +47,7 @@ public class Question {
     private int totalVotes;
 
 
-    @ManyToOne
+    @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "MEMBER_ID")
     @JsonIgnore // 리스폰스로 보내지 않아도 됨
     private Member member;
