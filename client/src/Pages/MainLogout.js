@@ -55,15 +55,26 @@ export const MainContainer = styled.div`
   }
 `;
 export const AlignBtns = styled.div`
-  button {
-    background-color: white;
-    border: none;
-    cursor: pointer;
+  border: 1px solid #babfc49b;
+  border-radius: 3px;
+`;
+export const SortBtns = styled.button`
+  font-size: 12px;
+  border: none;
+  color: #0c0d0e;
+  background-color: ${(props) => (props.sort ? '#babfc49b' : 'transparent')};
+  cursor: pointer;
+  padding: 8px;
+  border-right: 1px solid #babfc49b;
+  transition: background-color ease-in-out 0.5s;
+  :last-child {
+    border-right: none;
   }
 `;
 
 const MainLogout = () => {
   const [data, setData] = useState([]);
+  const [sortClick, setSortClick] = useState('newest');
   const navigate = useNavigate();
   useEffect(() => {
     // axios.get(`/question?page=1`).then(({data})=>setData(data)).catch(err=>alert('데이터 조회에 실패하였습니다'))
@@ -86,8 +97,11 @@ const MainLogout = () => {
     setData(test);
   }, []);
   const handleSort = (sort) => {
-    // axios.get(`/question?sort=${sort}`).then(({data})=>setData(data)).catch(err=>alert('정렬에 실패했습니다'))
-    alert(sort);
+    // axios.get(`/question?sort=${sort}`).then(({data})=>{
+    //   setData(data)
+    //   setSortClick(sort)
+    // }).catch(err=>alert('정렬에 실패했습니다'))
+    setSortClick(sort);
   };
   return (
     <MainContainer>
@@ -98,22 +112,37 @@ const MainLogout = () => {
       <div className="totalNbtns">
         <div className="totalQuestion">22,932,174 questions</div>
         <AlignBtns>
-          <button onClick={() => handleSort('newest')}>최신순</button>
-          <button onClick={() => handleSort('votes')}>추천순</button>
-          <button onClick={() => handleSort('answers')}>답변순</button>
+          <SortBtns
+            sort={sortClick === 'newest' && 'active'}
+            onClick={() => handleSort('newest')}
+          >
+            newest
+          </SortBtns>
+          <SortBtns
+            sort={sortClick === 'votes' && 'active'}
+            onClick={() => handleSort('votes')}
+          >
+            votes
+          </SortBtns>
+          <SortBtns
+            sort={sortClick === 'answers' && 'active'}
+            onClick={() => handleSort('answers')}
+          >
+            answers
+          </SortBtns>
         </AlignBtns>
       </div>
       {data.length !== 0 ? (
         <ul>
           {data.map((el) => (
             <>
-              <QuestItem el={el} />
+              <QuestItem el={el} key={el.id} />
             </>
           ))}
         </ul>
       ) : (
         <>
-          <NoResult keyword={'err'} status={'data'} />
+          <NoResult keyword={'no data'} status={'data'} />
         </>
       )}
     </MainContainer>

@@ -29,13 +29,17 @@ const NoResultDiv = styled.div`
 `;
 
 const NoResult = ({ keyword, status }) => {
+  let sentence = '';
+  if (status === 'search') {
+    sentence = `We couldn't find anything for "${keyword}"`;
+  } else if (status === 'data') {
+    sentence = `Sorry, Data doesn't exist : ${keyword}`;
+  } else {
+    sentence = 'Page not found';
+  }
   return (
     <NoResultDiv>
-      {status === 'search' ? (
-        <h2>{`We couldn't find anything for "${keyword}"`}</h2>
-      ) : (
-        <h2>{`Sorry, Data doesn't exist : ${keyword}`}</h2>
-      )}
+      <h2>{sentence}</h2>
     </NoResultDiv>
   );
 };

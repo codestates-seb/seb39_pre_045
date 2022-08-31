@@ -71,7 +71,7 @@ const Question = ({ question }) => {
     <QuestionDiv className="wrapper">
       <LikeRate className="rateLike" status={'questions'} />
       <div className="test">
-        <MarkdownViewer />
+        <MarkdownViewer margin={'20px auto'} />
         <InfoBarDiv>
           <div>
             <button onClick={() => navigate(`/questions/${id}`)}>Edit</button>
