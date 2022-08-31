@@ -1,19 +1,15 @@
-package pre045.board_service.comment.AComment;
+package pre045.board_service.comment.QComment;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import pre045.board_service.answer.entity.Answer;
-import pre045.board_service.member.entity.Member;
-
 
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Positive;
 
-
-
-public class ACommentDto {
+public class QuestionCommentDto {
 
     @Getter
     @AllArgsConstructor
@@ -27,7 +23,7 @@ public class ACommentDto {
         private Long memberId;
 
         @NotBlank
-        private String aCommentContent;
+        private String questionCommentContent;
 
     }
 
@@ -39,7 +35,7 @@ public class ACommentDto {
         @Positive
         private Long memberId;
 
-        private Long aCommentId;
+        private Long questionCommentId;
 
 
         @NotNull
@@ -47,9 +43,9 @@ public class ACommentDto {
         private Answer answer;
 
         @NotBlank
-        private  String aCommentContent;
+        private  String questionCommentContent;
 
-        public void setCommentId(Long aCommentId) {this.aCommentId = aCommentId;}
+        public void setQuestionCommentId(Long questionCommentId) {this.questionCommentId = questionCommentId;}
 
     }
 
@@ -58,11 +54,11 @@ public class ACommentDto {
 
     public static class Response {
 
-        private String aCommentId;
+        private Long questionCommentId;
 
-        private String aCommentUsername;
+        private String questionCommentUsername;
 
-        private String aCommentContent;
+        private String questionCommentContent;
 
     }
 }
