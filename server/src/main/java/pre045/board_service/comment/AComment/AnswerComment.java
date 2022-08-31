@@ -42,4 +42,23 @@ public class AnswerComment {
     private Answer answer;
 
 
+    public void setMember(Member member) {
+        if (this.member != null) {
+            this.member.getAnswerComments().remove(this);
+        }
+        this.member = member;
+        if (!member.getAnswerComments().contains(this)) {
+            member.addAnswerComment(this);
+        }
+    }
+
+    public void setAnswer(Answer answer) {
+        if (this.answer != null) {
+            this.answer.getAnswerComments().remove(this);
+        }
+        this.answer = answer;
+        if (!answer.getAnswerComments().contains(this)) {
+            answer.addAnswerComments(this);
+        }
+    }
 }

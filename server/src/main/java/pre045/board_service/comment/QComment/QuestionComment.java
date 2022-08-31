@@ -38,5 +38,23 @@ public class QuestionComment {
     @JoinColumn(name = "ANSWER_ID")
     private Answer answer;
 
+    public void setMember(Member member) {
+        if (this.member != null) {
+            this.member.getQuestionComments().remove(this);
+        }
+        this.member = member;
+        if (!member.getQuestionComments().contains(this)) {
+            member.addQuestionComment(this);
+        }
+    }
 
+    public void setQuestion(Question question) {
+        if (this.question != null) {
+            this.question.getQuestionComments().remove(this);
+        }
+        this.question = question;
+        if (!question.getQuestionComments().contains(this)) {
+            question.addQuestionComment(this);
+        }
+    }
 }

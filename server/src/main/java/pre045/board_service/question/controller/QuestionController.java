@@ -1,7 +1,7 @@
 package pre045.board_service.question.controller;
 
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
@@ -10,27 +10,23 @@ import pre045.board_service.dto.MultiResponseDto;
 import pre045.board_service.dto.SingleResponseDto;
 import pre045.board_service.question.dto.QuestionPatchDto;
 import pre045.board_service.question.dto.QuestionPostDto;
+import pre045.board_service.question.entity.Question;
 import pre045.board_service.question.mapper.QuestionMapper;
 import pre045.board_service.question.service.QuestionService;
-import pre045.board_service.question.entity.Question;
 
 import javax.validation.Valid;
 import javax.validation.constraints.Positive;
-import java.util.List;
 
 @RestController
 @RequestMapping("/questions")
 @Validated
+@RequiredArgsConstructor
 @Slf4j
 public class QuestionController {
 
     private final QuestionService questionService;
     private final QuestionMapper mapper;
 
-    public QuestionController(QuestionService questionService, QuestionMapper mapper) {
-        this.questionService = questionService;
-        this.mapper = mapper;
-    }
 
     @PostMapping
     public ResponseEntity addQuestion(@Valid @RequestBody QuestionPostDto questionPostDto) {
@@ -66,18 +62,36 @@ public class QuestionController {
 
     // Todo 게시물 검색 기능 구현 요망 (리퀘스트 파람), 정렬 기능 추가
 
+    //
+//    @GetMapping
+//    public ResponseEntity getQuestionsSort(@Positive @RequestParam int page,
+//                                           @RequestParam String sort){
+//        int size = 10;
+//        Page<Question> pageQuestions = questionService.findQuestions(page -1, size);
+//        List<Question> questions = pageQuestions.getContent();
+//
+//        return new ResponseEntity<>(
+//                new MultiResponseDto<>(mapper.questionsToQuestionResponseDtos(questions), pageQuestions),
+//                HttpStatus.OK);
+//
+//    }
+//
+    //검색
+    @GetMapping("/search")
+    public ResponseEntity findQuestions(@RequestParam String q, @RequestParam String sort, @RequestParam int page) {
+        MultiResponseDto questions = questionService.findQuestions(q, sort, page - 1);
 
+        return new ResponseEntity(questions, HttpStatus.OK);
+    }
+
+
+    //질문 리스트 반환
     @GetMapping
-    public ResponseEntity getQuestionsSort(@Positive @RequestParam int page,
-                                           @RequestParam String sort){
-        int size = 10;
-        Page<Question> pageQuestions = questionService.findQuestions(page -1, size);
-        List<Question> questions = pageQuestions.getContent();
+    public ResponseEntity getQuestions(@RequestParam int page, @RequestParam String sort, @RequestParam String filters) {
 
-        return new ResponseEntity<>(
-                new MultiResponseDto<>(mapper.questionsToQuestionResponseDtos(questions), pageQuestions),
-                HttpStatus.OK);
+        MultiResponseDto filterAndSortQuestions = questionService.getFilterAndSortQuestions(page - 1, sort, filters);
 
+        return new ResponseEntity<>(filterAndSortQuestions, HttpStatus.OK);
     }
 
 

@@ -8,6 +8,7 @@ import lombok.RequiredArgsConstructor;
 public enum ExceptionCode {
 
     QUESTION_NOT_FOUND(404,"유효한 질문이 아닙니다."),
+    CANT_DUPLICATE_VOTE(403, "추천이나 비추천은 한번만 가능합니다."),
 
     COMMENT_CANNOT_EDIT(403, "댓글 작성자만 수정할 수 있습니다."),
 
