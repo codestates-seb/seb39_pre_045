@@ -50,7 +50,12 @@ function App() {
             <Route path="/questions/edit" element={<EditQuestion />} />
             <Route path="/answer/edit" element={<EditAnswer />} />
             <Route path="/questions/:id" element={<DetailQuestion />} />
-            <Route path="*" element={<NoResult />} />
+            <Route
+              path="*"
+              element={
+                <NoResult keyword={'Page not found'} status={'notFound'} />
+              }
+            />
           </Routes>
         </div>
         <Footer />

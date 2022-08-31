@@ -1,5 +1,5 @@
 import QuestItem from '../Components/QuestItem';
-import { AlignBtns, MainContainer } from './MainLogout';
+import { AlignBtns, SortBtns, MainContainer } from './MainLogout';
 import { useEffect, useState } from 'react';
 import NoResult from '../Components/NoResult';
 import styled from 'styled-components';
@@ -12,6 +12,7 @@ const RightAlignBtns = styled(AlignBtns)`
 const MainLogin = () => {
   const [data, setData] = useState([]);
   const navigate = useNavigate();
+  const [sortClick, setSortClick] = useState('newest');
   useEffect(() => {
     // axios.get(url).then({data}=>setData(data)).catch(err=>alert('데이터 조회에 실패하였습니다'))
     const test = [];
@@ -31,9 +32,11 @@ const MainLogin = () => {
     }
     setData(test);
   }, []);
+
   const handleSort = (sort) => {
     // axios.get(`/question?sort=${sort}`).then(({data})=>setData(data)).catch(err=>alert('정렬에 실패했습니다'))
     alert(sort);
+    setSortClick(sort);
   };
   return (
     <MainContainer>
@@ -43,9 +46,24 @@ const MainLogin = () => {
       </div>
 
       <RightAlignBtns>
-        <button onClick={() => handleSort('newest')}>최신순</button>
-        <button onClick={() => handleSort('votes')}>추천순</button>
-        <button onClick={() => handleSort('answers')}>답변순</button>
+        <SortBtns
+          sort={sortClick === 'newest' && 'active'}
+          onClick={() => handleSort('newest')}
+        >
+          newest
+        </SortBtns>
+        <SortBtns
+          sort={sortClick === 'votes' && 'active'}
+          onClick={() => handleSort('votes')}
+        >
+          votes
+        </SortBtns>
+        <SortBtns
+          sort={sortClick === 'answers' && 'active'}
+          onClick={() => handleSort('answers')}
+        >
+          answers
+        </SortBtns>
       </RightAlignBtns>
 
       {data.length !== 0 ? (
