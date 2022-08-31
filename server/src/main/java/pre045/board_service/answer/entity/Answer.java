@@ -41,7 +41,7 @@ public class Answer {
     private LocalDateTime modifiedAt;
 
     @Column(columnDefinition = "TINYINT", length = 1)
-    private boolean isAdopted;
+    private boolean adopted = false;
 
     private int totalVotes;
 
