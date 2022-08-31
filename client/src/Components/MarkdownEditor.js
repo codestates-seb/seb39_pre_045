@@ -6,7 +6,7 @@ import styled from 'styled-components';
 
 const Div = styled.div`
   overflow-x: scroll;
-  margin-bottom: 10px;
+  margin: 10px 0px;
 `;
 
 const MarkdownEditor = (props, ref) => {
