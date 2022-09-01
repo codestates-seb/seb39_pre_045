@@ -6,6 +6,7 @@ import {
   PageContainer,
   ContentWrapper,
   Wrapper,
+  NoticeWrapper,
   ListTitle,
   List,
 } from './EditQuestion';
@@ -20,18 +21,6 @@ const QuestionWrapper = styled.div`
     font-size: 19px;
     color: #2578ad;
     font-weight: 500;
-  }
-`;
-
-const NoticeWrapper = styled(Wrapper)`
-  border: 1.5px solid rgb(237, 228, 189);
-  background-color: rgb(251, 247, 226);
-  border-radius: 5px;
-  height: fit-content;
-  width: ${(props) => props.width || 'auto'};
-  p {
-    padding: 0 10px;
-    font-size: 13px;
   }
 `;
 
