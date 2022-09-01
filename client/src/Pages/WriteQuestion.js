@@ -2,6 +2,7 @@ import MarkdownEditor from '../Components/MarkdownEditor';
 import styled from 'styled-components';
 import { useRef, useState } from 'react';
 import { Input, Wrapper, Btn } from '../Pages/Login';
+import axios from 'axios';
 
 export const WritePage = styled.div`
   height: max-content;
@@ -33,9 +34,17 @@ const WriteQuestion = () => {
     if (editor.current.getInstance().getMarkdown() === 'please write here') {
       alert('내용을 입력해주세요');
     } else {
-      console.log(title);
-      console.log(editor.current.getInstance().getHTML());
-      console.log(editor.current.getInstance().getMarkdown());
+      axios
+        .post('/questions', {
+          memberId: 1,
+          title: title,
+          questionContent: editor.current.getInstance().getMarkdown(),
+        })
+        .then((res) => console.log(res))
+        .catch((err) => console.log(err));
+      // console.log(title);
+      // console.log(editor.current.getInstance().getHTML());
+      // console.log(editor.current.getInstance().getMarkdown());
     }
   };
 
