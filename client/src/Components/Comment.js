@@ -1,6 +1,8 @@
 import axios from 'axios';
-import { useState } from 'react';
+import { useState, useRef } from 'react';
+
 import styled from 'styled-components';
+import link from '../image/stackoverflow.png';
 const CommentLi = styled.li`
   display: block;
   width: 100%;
@@ -14,7 +16,7 @@ const CommentLi = styled.li`
     border-bottom: 1px solid #babfc49b;
   }
   span {
-    margin-right: 20px;
+    margin-right: 10px;
     display: inline-block;
     padding: 3px;
   }
@@ -25,11 +27,21 @@ const CommentLi = styled.li`
   .editNdelete {
     display: inline-block;
     button {
+      display: inline-block;
       border: none;
       background-color: transparent;
       cursor: pointer;
-      font-weight: 300;
-      font-size: 12px;
+      &.editBtn {
+        background: url(${link}) no-repeat -21px -341px;
+        width: 12px;
+        height: 12px;
+        margin: 3px 5px;
+      }
+      &.deleteBtn {
+        background: url(${link}) no-repeat -40px -319px;
+        width: 15px;
+        height: 15px;
+      }
     }
   }
 `;
@@ -69,37 +81,95 @@ export const WriteComment = styled.form`
     margin: 3px;
   }
 `;
-const Comment = ({ status, comment }) => {
+const Comment = ({ status, data, id }) => {
   const [isOpen, setIsOpen] = useState(false);
-  const handleEdit = () => {
+  const content = useRef();
+  const handleEdit = async (e) => {
+    e.preventDefault();
     if (window.confirm('댓글을 수정하시겠습니까?')) {
-      axios.patch(
-        `/${status}/{question-id}/comments/questions/{question-id}/comments/{comment-id}`
-      );
+      if (content.current.value === '') {
+        return;
+      }
+      const patchData =
+        status === 'questions'
+          ? {
+              memberId: 1,
+              questionCommentId: data.questionCommentId,
+              question: {
+                questionId: id,
+              },
+              questionCommentContent: content.current.value,
+            }
+          : {
+              memberId: 1,
+              answerCommentId: data.answerCommentId,
+              answer: {
+                answerId: id,
+              },
+              answerCommentContent: content.current.value,
+            };
+
+      await axios
+        .patch(
+          `/${status}/${id}/comments/${
+            status === 'questions'
+              ? data.questionCommentId
+              : data.answerCommentId
+          }`,
+          patchData
+        )
+        .then(({ data }) => console.log(data.data))
+        .catch((err) => {
+          alert('댓글수정에 실패하였습니다');
+          console.log(err);
+        });
     } else {
       return;
     }
   };
   const handleDelete = () => {
-    if (window.confirm('댓글을 수정하시겠습니까?')) {
-      axios.delete(
-        `/${status}/{question-id}/comments/questions/{question-id}/comments/{comment-id}`
-      );
+    if (window.confirm('댓글을 삭제하시겠습니까?')) {
+      axios
+        .delete(
+          `/${status}/${id}/comments/${
+            status === 'questions'
+              ? data.questionCommentId
+              : data.answerCommentId
+          }`
+        )
+        .then(({ data }) => {
+          alert('댓글 삭제');
+          console.log(data.data);
+        })
+        .catch((err) => {
+          alert('댓글 삭제 실패하였습니다');
+          console.log(err);
+        });
     } else {
       return;
     }
   };
-
   return (
     <CommentLi>
       {isOpen === false ? (
         <>
-          <span>{comment.content}</span>
-          <span className="author">{comment.author}</span>
-          <span>{comment.createdAt}</span>
+          {status === 'questions' ? (
+            <span>{data.questionCommentContent}</span>
+          ) : (
+            <span>{data.answerCommentContent}</span>
+          )}
+          {status === 'questions' ? (
+            <span className="author">{data.questionCommentUsername}</span>
+          ) : (
+            <span className="author">{data.answerCommentUsername}</span>
+          )}
+
           <div className="editNdelete">
-            <button onClick={() => setIsOpen(!isOpen)}>Edit</button>
-            <button onClick={handleDelete}>Delete</button>
+            <button
+              className="editBtn"
+              onClick={() => setIsOpen(!isOpen)}
+            ></button>
+            <button className="deleteBtn" onClick={handleDelete}></button>
           </div>
         </>
       ) : (
@@ -108,7 +178,15 @@ const Comment = ({ status, comment }) => {
             <button className="close" onClick={() => setIsOpen(!isOpen)}>
               x
             </button>
-            <textarea className="editComment" defaultValue={comment.content} />
+            <textarea
+              ref={content}
+              className="editComment"
+              defaultValue={
+                status === 'questions'
+                  ? data.questionCommentContent
+                  : data.answerCommentContent
+              }
+            />
             <button onClick={handleEdit} className="submitComment">
               Edit
             </button>

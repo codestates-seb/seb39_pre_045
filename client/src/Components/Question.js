@@ -40,33 +40,47 @@ export const InfoBarDiv = styled.div`
     display: flex;
     flex-direction: column;
     font-size: 12px;
+    align-items: flex-end;
   }
 `;
 
-const Question = ({ question }) => {
+const Question = ({ data }) => {
   const { id } = useParams();
   const comment = useRef();
   const navigate = useNavigate();
   const [isOpen, setIsOpen] = useState(false);
-  const handleCommentWrite = () => {
+  const handleCommentWrite = (e) => {
+    e.preventDefault();
     if (window.confirm('댓글을 등록하시겠습니까?')) {
-      axios.post(
-        `/questions/{question-id}/comments/questions/{question-id}/comments`
-      );
-    } else {
-      return;
-    }
-  };
-  const handleDelete = () => {
-    if (window.confirm('질문을 삭제하시겠습니까?')) {
-      axios.delete(`/questions/${id}`).then(({ data }) => {
-        console.log(data);
-        navigate('/');
+      const postData = {
+        question: {
+          questionId: id,
+        },
+        memberId: 1,
+        questionCommentContent: comment.current.value,
+      };
+      // console.log(postData);
+      axios.post(`/questions/${id}/comments`, postData).then(({ data }) => {
+        console.log('등록 성공이닷!', data.data);
+        navigate(`/questions/${id}`);
       });
     } else {
       return;
     }
   };
+  const handleDelete = (e) => {
+    if (window.confirm('질문을 삭제하시겠습니까?')) {
+      e.preventDefault();
+      console.log(id);
+      // axios.delete(`/questions/${id}`).then(({ data }) => {
+      //   console.log(data);
+      //   // navigate('/');
+      // });
+    } else {
+      return;
+    }
+  };
+
   return (
     <QuestionDiv className="wrapper">
       <LikeRate className="rateLike" status={'questions'} />
@@ -78,14 +92,23 @@ const Question = ({ question }) => {
             <button onClick={handleDelete}>Delete</button>
           </div>
           <div className="userInfo">
-            <span>asked {question.createdAt}</span>
-            <span>{question.author}</span>
+            <span>
+              asked{' '}
+              {new Date(data.createdAt).toLocaleString('en-US', {
+                weekday: 'short',
+                year: 'numeric',
+                month: 'short',
+                day: 'numeric',
+              })}
+            </span>
+            <span>{data.questionUserName}</span>
           </div>
         </InfoBarDiv>
         <ul className="comment">
-          {question.comments.map((el, index) => (
-            <Comment comment={el} key={index} status={'questions'} />
-          ))}
+          {data.questionComments.length !== 0 &&
+            data.questionComments.map((el, index) => (
+              <Comment data={el} key={index} id={id} status={'questions'} />
+            ))}
         </ul>
         <div>
           {isOpen === false ? (
