@@ -3,6 +3,8 @@ import MarkdownEditor from '../Components/MarkdownEditor';
 import { TitleInput } from './WriteQuestion';
 import { Btn } from './Login';
 import { useState, useRef } from 'react';
+import axios from 'axios';
+import { useNavigate } from 'react-router-dom';
 
 export const PageContainer = styled.div`
   display: flex;
@@ -74,17 +76,26 @@ export const List = styled.li`
 `;
 
 const EditQuestion = () => {
+  //zustand에 저장된 id (params) 가져오기
   const [title, setTitle] = useState('');
   const editor = useRef();
+  const navigate = useNavigate();
+  const QUESTION_ID = 2;
 
   const handleSubmitQuestion = (e) => {
     e.preventDefault();
     if (editor.current.getInstance().getMarkdown() === 'please write here') {
       alert('내용을 입력해주세요');
     } else {
-      console.log(title);
-      console.log(editor.current.getInstance().getHTML());
-      console.log(editor.current.getInstance().getMarkdown());
+      axios
+        .patch(`/questions/${QUESTION_ID}`, {
+          memberId: 1,
+          questionId: QUESTION_ID,
+          title,
+          questionContent: editor.current.getInstance().getMarkdown(),
+        })
+        .then(() => navigate(`/questions/${QUESTION_ID}`))
+        .catch((err) => console.log(err));
     }
   };
   return (

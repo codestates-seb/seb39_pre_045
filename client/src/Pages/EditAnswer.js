@@ -11,6 +11,7 @@ import {
   List,
 } from './EditQuestion';
 import { useRef } from 'react';
+import axios from 'axios';
 
 const QuestionWrapper = styled.div`
   @media only screen and (max-width: 767px) {
@@ -26,14 +27,25 @@ const QuestionWrapper = styled.div`
 
 const EditAnswer = () => {
   const editor = useRef();
+  const QUESTION_ID = 10;
+  const ANSWER_ID = 1;
 
   const handleSubmitAnswer = (e) => {
     e.preventDefault();
     if (editor.current.getInstance().getMarkdown() === 'please write here') {
       alert('내용을 입력해주세요');
     } else {
-      console.log(editor.current.getInstance().getHTML());
-      console.log(editor.current.getInstance().getMarkdown());
+      axios
+        .patch(`/answers/${ANSWER_ID}`, {
+          memberId: 1,
+          question: {
+            questionId: QUESTION_ID,
+          },
+          answerId: ANSWER_ID,
+          answerContent: editor.current.getInstance().getMarkdown(),
+        })
+        .then((res) => console.log(res))
+        .catch((err) => Error(err));
     }
   };
 
