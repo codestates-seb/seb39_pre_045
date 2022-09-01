@@ -11,6 +11,7 @@ const RateWrapper = styled.div`
   height: 100%;
   margin: auto;
   padding: 20px 0;
+  margin-top: 20px;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -45,10 +46,20 @@ const RateWrapper = styled.div`
     border: none;
     cursor: pointer;
   }
+  .isadopted {
+    background: url(${link}) no-repeat
+      ${(props) => props.isadopted === 'true' && '-48px -273px'};
+
+    width: 30px;
+    height: 30px;
+    border: none;
+    margin-top: 15px;
+  }
 `;
 const LikeRate = ({ status }) => {
   // const { id } = useParams();
   // 아마 이거아닐듯 questionId일듯
+  const isadopted = true;
   const [like, setLike] = useState({
     like: 0,
     totalVotes: 0,
@@ -73,6 +84,7 @@ const LikeRate = ({ status }) => {
 
         setLike({ ...like, like: 1, total: like.total + 1 });
         console.log(like);
+        console.log(status);
       } else {
         // axios
         //   .post(`/${status}/${id}/down`)
@@ -86,11 +98,15 @@ const LikeRate = ({ status }) => {
     <RateWrapper
       checkLike={like.total === 1 ? 'true' : 'false'}
       checkDislike={like.total === -1 ? 'true' : 'false'}
+      isadopted={`${isadopted}`}
       className="likeNdislike"
     >
       <button className="like" name="like" onClick={handleLike}></button>
       <div className="likeCount">356</div>
       <button className="dislike" name="dislike" onClick={handleLike}></button>
+      {status === 'answers' && isadopted === true && (
+        <button className="isadopted"></button>
+      )}
     </RateWrapper>
   );
 };

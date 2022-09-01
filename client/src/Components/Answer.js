@@ -1,11 +1,11 @@
 import styled from 'styled-components';
 import MarkdownViewer from '../Components/MarkdownViewer';
 import Comment, { WriteComment } from './Comment';
-import { useState } from 'react';
+import { useRef, useState } from 'react';
 import { InfoBarDiv } from './Question';
 import LikeRate from './LikeRate';
 import { useNavigate } from 'react-router-dom';
-import { axios } from 'axios';
+import axios from 'axios';
 
 const AnswerDiv = styled.div`
   display: flex;
@@ -30,12 +30,40 @@ const AnswerDiv = styled.div`
     background-color: transparent;
     cursor: pointer;
   }
+  border-top: ${(props) => props.idx !== 0 && '1px solid #babfc49b'};
 `;
 
-const Answer = ({ answer }) => {
+const Answer = ({ data, idx }) => {
   const navigate = useNavigate();
   const [isOpen, setIsOpen] = useState(false);
-  const id = 1234;
+  const id = data.answerId;
+  const comment = useRef();
+  const handleCommentWrite = (e) => {
+    e.preventDefault();
+    console.log('err');
+    if (window.confirm('댓글을 등록하시겠습니까?')) {
+      const postData = {
+        answer: {
+          answerId: id,
+        },
+        memberId: 1,
+        answerCommentContent: comment.current.value,
+      };
+      console.log(postData);
+      axios
+        .post(`/answers/${id}/comments`, postData)
+        .then(({ data }) => {
+          alert('등록 성공이닷!', data.data);
+        })
+        .catch((err) => {
+          alert('등록에 실패했습니다');
+          console.log(err);
+        });
+    } else {
+      return;
+    }
+  };
+
   const handleDelete = () => {
     if (window.confirm('답변을 삭제하시겠습니까?')) {
       // axios.delete(`/answers/${id}`).then(({ data }) => {
@@ -46,15 +74,9 @@ const Answer = ({ answer }) => {
       return;
     }
   };
-  const handleCommentWrite = () => {
-    if (window.confirm('댓글을 등록하시겠습니까?')) {
-      axios.post(`/answers/{answer-id}/comments`);
-    } else {
-      return;
-    }
-  };
+
   return (
-    <AnswerDiv className="wrapper">
+    <AnswerDiv className="wrapper" idx={idx}>
       <LikeRate className="rateLike" status={'answers'} />
       <div className="test">
         <MarkdownViewer margin={'20px auto'} />
@@ -64,14 +86,23 @@ const Answer = ({ answer }) => {
             <button onClick={handleDelete}>Delete</button>
           </div>
           <div className="userInfo">
-            <span>asked {answer.createdAt}</span>
-            <span>{answer.author}</span>
+            <span>
+              answered{' '}
+              {new Date(data.createdAt).toLocaleString('en-US', {
+                weekday: 'short',
+                year: 'numeric',
+                month: 'short',
+                day: 'numeric',
+              })}
+            </span>
+            <span>{data.answerUsername}</span>
           </div>
         </InfoBarDiv>
         <ul className="comment">
-          {answer.comments.map((el, index) => (
-            <Comment comment={el} key={index} status={'answers'} />
-          ))}
+          {data.answerComments.length !== 0 &&
+            data.answerComments.map((el, index) => (
+              <Comment data={el} id={id} key={index} status={'answers'} />
+            ))}
         </ul>
         <div>
           {isOpen === false ? (
@@ -84,7 +115,7 @@ const Answer = ({ answer }) => {
               <button className="close" onClick={() => setIsOpen(!isOpen)}>
                 x
               </button>
-              <textarea id="editComment" />
+              <textarea ref={comment} className="TextareaComment" />
               <button onClick={handleCommentWrite} className="submitComment">
                 Edit
               </button>

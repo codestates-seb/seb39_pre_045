@@ -79,9 +79,9 @@ const MainLogout = () => {
   useEffect(() => {
     // axios.get(`/question?page=1`).then(({data})=>setData(data)).catch(err=>alert('데이터 조회에 실패하였습니다'))
     const test = [];
-    for (let i = 0; i < 20; i++) {
+    for (let i = 1; i <= 20; i++) {
       test.push({
-        id: Math.round(Math.random() * 45885326645),
+        id: i,
         vote: Math.round(Math.random() * 100),
         answer: Math.round(Math.random() * 4),
         view: Math.round(Math.random() * 4000),
