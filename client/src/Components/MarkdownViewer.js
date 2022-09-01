@@ -3,13 +3,13 @@ import { Viewer } from '@toast-ui/react-editor';
 import styled from 'styled-components';
 
 const Div = styled.div`
-  margin: 50px 0;
+  margin: ${(props) => props.margin || '50px 0'};
   /* height: 500px; */
-  border: 1px solid red;
+  /* border: 1px solid red; */
   overflow-y: scroll;
 `;
 
-const MarkdownViewer = () => {
+const MarkdownViewer = (props) => {
   const words = `
   ## 뷰어 체크중
   잘 **나**오나
@@ -25,7 +25,7 @@ const MarkdownViewer = () => {
   \`\`\`
   `;
   return (
-    <Div>
+    <Div margin={props.margin}>
       <Viewer initialValue={words} />
     </Div>
   );
