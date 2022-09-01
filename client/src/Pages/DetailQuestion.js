@@ -4,6 +4,7 @@ import { useParams, useNavigate } from 'react-router-dom';
 import Question from '../Components/Question';
 import Answer from '../Components/Answer';
 import styled from 'styled-components';
+import DetailPageAnswerEditor from '../Components/DetailPageAnswerEditor';
 const DivWrapper = styled.div`
   width: 100%;
   min-height: calc(100vh - 50px);
@@ -237,9 +238,11 @@ const DetailQuestion = () => {
         </div>
       </div>
       <Question question={data.question} />
+      <div>2 Answers</div>
       {data.answers.map((el, index) => (
         <Answer answer={el} key={index} />
       ))}
+      <DetailPageAnswerEditor />
     </DivWrapper>
   );
 };
