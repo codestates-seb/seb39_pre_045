@@ -6,10 +6,12 @@ import {
   PageContainer,
   ContentWrapper,
   Wrapper,
+  NoticeWrapper,
   ListTitle,
   List,
 } from './EditQuestion';
 import { useRef } from 'react';
+import axios from 'axios';
 
 const QuestionWrapper = styled.div`
   @media only screen and (max-width: 767px) {
@@ -23,28 +25,27 @@ const QuestionWrapper = styled.div`
   }
 `;
 
-const NoticeWrapper = styled(Wrapper)`
-  border: 1.5px solid rgb(237, 228, 189);
-  background-color: rgb(251, 247, 226);
-  border-radius: 5px;
-  height: fit-content;
-  width: ${(props) => props.width || 'auto'};
-  p {
-    padding: 0 10px;
-    font-size: 13px;
-  }
-`;
-
 const EditAnswer = () => {
   const editor = useRef();
+  const QUESTION_ID = 10;
+  const ANSWER_ID = 1;
 
   const handleSubmitAnswer = (e) => {
     e.preventDefault();
     if (editor.current.getInstance().getMarkdown() === 'please write here') {
       alert('내용을 입력해주세요');
     } else {
-      console.log(editor.current.getInstance().getHTML());
-      console.log(editor.current.getInstance().getMarkdown());
+      axios
+        .patch(`/answers/${ANSWER_ID}`, {
+          memberId: 1,
+          question: {
+            questionId: QUESTION_ID,
+          },
+          answerId: ANSWER_ID,
+          answerContent: editor.current.getInstance().getMarkdown(),
+        })
+        .then((res) => console.log(res))
+        .catch((err) => Error(err));
     }
   };
 

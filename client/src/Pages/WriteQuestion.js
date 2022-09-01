@@ -2,6 +2,8 @@ import MarkdownEditor from '../Components/MarkdownEditor';
 import styled from 'styled-components';
 import { useRef, useState } from 'react';
 import { Input, Wrapper, Btn } from '../Pages/Login';
+import axios from 'axios';
+import { useNavigate } from 'react-router-dom';
 
 export const WritePage = styled.div`
   height: max-content;
@@ -27,15 +29,21 @@ const P = styled.p`
 const WriteQuestion = () => {
   const [title, setTitle] = useState('');
   const editor = useRef();
+  const navigate = useNavigate();
 
   const handleSubmitQuestion = (e) => {
     e.preventDefault();
     if (editor.current.getInstance().getMarkdown() === 'please write here') {
       alert('내용을 입력해주세요');
     } else {
-      console.log(title);
-      console.log(editor.current.getInstance().getHTML());
-      console.log(editor.current.getInstance().getMarkdown());
+      axios
+        .post('/questions', {
+          memberId: 1,
+          title,
+          questionContent: editor.current.getInstance().getMarkdown(),
+        })
+        .then(() => navigate('/'))
+        .catch((err) => console.log(err));
     }
   };
 
