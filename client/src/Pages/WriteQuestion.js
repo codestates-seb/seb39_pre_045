@@ -3,6 +3,7 @@ import styled from 'styled-components';
 import { useRef, useState } from 'react';
 import { Input, Wrapper, Btn } from '../Pages/Login';
 import axios from 'axios';
+import { useNavigate } from 'react-router-dom';
 
 export const WritePage = styled.div`
   height: max-content;
@@ -28,6 +29,7 @@ const P = styled.p`
 const WriteQuestion = () => {
   const [title, setTitle] = useState('');
   const editor = useRef();
+  const navigate = useNavigate();
 
   const handleSubmitQuestion = (e) => {
     e.preventDefault();
@@ -37,14 +39,11 @@ const WriteQuestion = () => {
       axios
         .post('/questions', {
           memberId: 1,
-          title: title,
+          title,
           questionContent: editor.current.getInstance().getMarkdown(),
         })
-        .then((res) => console.log(res))
+        .then(() => navigate('/'))
         .catch((err) => console.log(err));
-      // console.log(title);
-      // console.log(editor.current.getInstance().getHTML());
-      // console.log(editor.current.getInstance().getMarkdown());
     }
   };
 

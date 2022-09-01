@@ -3,6 +3,8 @@ import styled from 'styled-components';
 import { Btn } from '../Pages/Login';
 import { Wrapper } from '../Pages/EditQuestion';
 import { useRef, useState } from 'react';
+import axios from 'axios';
+import { useNavigate } from 'react-router-dom';
 
 const Container = styled.div`
   margin-top: 50px;
@@ -43,9 +45,21 @@ const DetailPageAnswerEditor = () => {
   const [isWritingMode, setIsWritingMode] = useState(false);
   const [display, setDisplay] = useState('content');
   const editor = useRef();
+  const navigate = useNavigate();
+  const QUESTION_ID = 10;
+
   const handlePostAnswer = (e) => {
     e.preventDefault();
-    console.log(editor.current.getInstance().getHTML());
+    axios
+      .post(`/answers`, {
+        memberId: 1,
+        question: {
+          questionId: QUESTION_ID,
+        },
+        answerContent: editor.current.getInstance().getHTML(),
+      })
+      .then(() => navigate(`/questions/${QUESTION_ID}`))
+      .catch((err) => Error(err));
   };
   const handleNoticeWrapper = () => {
     setIsWritingMode(true);

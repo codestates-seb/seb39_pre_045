@@ -5,7 +5,7 @@ const Section = styled.div`
   display: flex;
   .greeting {
     padding: 20px 20px;
-    font-size: 40px;
+    font-size: 35px;
     font-weight: 600;
   }
   .status {
@@ -52,7 +52,7 @@ const MyPageProfile = () => {
       />
       <div>
         <div className="greeting">Hello, 닉네임!</div>
-        <span className="status">Member for 6 days</span>
+        <span className="status">123@stackoverflow.com</span>
       </div>
     </Section>
   );
