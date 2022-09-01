@@ -12,6 +12,7 @@ const AnswerDiv = styled.div`
   max-width: 1000px;
   width: 100%;
   height: 100%;
+  margin-bottom: 50px;
 
   .rateLike {
     height: 100%;
@@ -56,7 +57,7 @@ const Answer = ({ answer }) => {
     <AnswerDiv className="wrapper">
       <LikeRate className="rateLike" status={'answers'} />
       <div className="test">
-        <MarkdownViewer />
+        <MarkdownViewer margin={'20px auto'} />
         <InfoBarDiv>
           <div>
             <button onClick={() => navigate(`/answers/${id}`)}>Edit</button>

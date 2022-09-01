@@ -65,6 +65,10 @@ export const Li = styled.li`
 
 const SideBar = ({ openMobileMenu, login }) => {
   // const [isLogin, setIsLogin] = useState(false);
+  const handleMainLoginBtn = () => {
+    //if(isLogin) navigate('/g')
+    //else{navigate('/login')}
+  };
 
   return (
     <Container
@@ -72,7 +76,9 @@ const SideBar = ({ openMobileMenu, login }) => {
       login={login ? 'none' : 'content'}
     >
       <ul>
-        <Li margin="10px">Home</Li>
+        <Li margin="10px" onClick={handleMainLoginBtn}>
+          Home
+        </Li>
         <Li
           cursor="default"
           size="11px"

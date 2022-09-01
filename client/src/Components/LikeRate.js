@@ -46,7 +46,8 @@ const RateWrapper = styled.div`
     cursor: pointer;
   }
 `;
-const LikeRate = ({ status }) => {
+const LikeRate = () => {
+  // const LikeRate = ({ status }) => {
   // const { id } = useParams();
   // 아마 이거아닐듯 questionId일듯
   const [like, setLike] = useState({
