@@ -1,4 +1,4 @@
-package pre045.board_service.member.token.entity;
+package pre045.board_service.member.entity;
 
 import lombok.*;
 import pre045.board_service.answer.entity.Answer;

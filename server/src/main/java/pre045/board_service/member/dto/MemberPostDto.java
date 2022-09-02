@@ -8,13 +8,13 @@ import lombok.NoArgsConstructor;
 import org.springframework.lang.Nullable;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.crypto.password.PasswordEncoder;
-import pre045.board_service.member.token.entity.Member;
+import pre045.board_service.member.entity.Member;
 
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 
-import static pre045.board_service.member.token.entity.Member.Authority.ROLE_USER;
+import static pre045.board_service.member.entity.Member.Authority.ROLE_USER;
 
 @Getter
 @AllArgsConstructor

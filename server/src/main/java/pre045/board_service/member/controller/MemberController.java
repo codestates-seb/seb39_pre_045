@@ -1,15 +1,16 @@
 package pre045.board_service.member.controller;
 
 
-import lombok.extern.slf4j.Slf4j;
+import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
+import pre045.board_service.dto.SingleResponseDto;
+import pre045.board_service.member.dto.MemberLoginDto;
 import pre045.board_service.member.dto.MemberPatchDto;
 import pre045.board_service.member.dto.MemberPostDto;
-import pre045.board_service.member.token.entity.Member;
-import pre045.board_service.member.mapper.MemberMapper;
+import pre045.board_service.member.token.dto.TokenRequestDto;
 import pre045.board_service.member.service.MemberService;
 
 import javax.validation.Valid;
@@ -18,49 +19,43 @@ import javax.validation.constraints.Positive;
 @RestController
 @RequestMapping("/members")
 @Validated
-@Slf4j
+@RequiredArgsConstructor
 public class MemberController {
 
     private final MemberService memberService;
 
-    private final MemberMapper mapper;
+    public ResponseEntity signup(@RequestBody MemberPostDto postDto){
 
-    public MemberController(MemberService memberService, MemberMapper mapper) {
-        this.memberService = memberService;
-        this.mapper = mapper;
+        return new ResponseEntity<>(new SingleResponseDto<>(memberService.signup(postDto)), HttpStatus.CREATED);
     }
 
-    @PostMapping("/signup")
-    public ResponseEntity signUpMember(@Valid @RequestBody MemberPostDto memberDtoPost){
-
-
-        return new ResponseEntity<>(HttpStatus.CREATED);
-    }
 
     @PostMapping("/login")
-    public ResponseEntity loginMember(){
+    public ResponseEntity login(@RequestBody MemberLoginDto loginDto){
 
-        // Todo
-
-        return new ResponseEntity<>(HttpStatus.CREATED);
+        return new ResponseEntity<>(new SingleResponseDto<>(memberService.login(loginDto)), HttpStatus.OK);
     }
+
 
     @PostMapping("/logout")
-    public ResponseEntity logoutMember(){
+    public ResponseEntity logout(@RequestBody TokenRequestDto tokenRequestDto){
 
-        // Todo
+        memberService.logout(tokenRequestDto);
 
-        return new ResponseEntity<>(HttpStatus.CREATED);
+        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
+
+    @PostMapping("/reissue")
+    public ResponseEntity reissue(@RequestBody TokenRequestDto tokenRequestDto) {
+
+        return new ResponseEntity<>(new SingleResponseDto<>(memberService.reissue(tokenRequestDto)), HttpStatus.OK);
+    }
+
+
 
     @PatchMapping("/{member-id}")
     public ResponseEntity updateMember(@PathVariable("member-id") @Positive long memberId,
                                        @Valid @RequestBody MemberPatchDto memberDtoPatch){
-        Member member = mapper.memberPatchToMember(memberDtoPatch);
-//        member.setMemberId(memberId);
-//
-//        Member updateMember =
-
 
         return new ResponseEntity<>(HttpStatus.OK);
     }
