@@ -6,7 +6,7 @@ import org.mapstruct.ReportingPolicy;
 import pre045.board_service.member.dto.MemberPatchDto;
 import pre045.board_service.member.dto.MemberPostDto;
 import pre045.board_service.member.dto.MemberResponseDto;
-import pre045.board_service.member.token.entity.Member;
+import pre045.board_service.member.entity.Member;
 
 import java.util.List;
 

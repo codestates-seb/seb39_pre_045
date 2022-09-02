@@ -4,7 +4,7 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import pre045.board_service.member.token.entity.Member;
+import pre045.board_service.member.entity.Member;
 
 @Getter
 @AllArgsConstructor
