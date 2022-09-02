@@ -22,9 +22,6 @@ public class AnswerCommentDto {
         @NotNull
         private Answer answer;
 
-        @NotNull
-        private Long memberId;
-
         @NotBlank
         private String answerCommentContent;
 
@@ -34,10 +31,6 @@ public class AnswerCommentDto {
     @AllArgsConstructor
     @NoArgsConstructor
     public static class Patch {
-
-        @Positive
-        private Long memberId;
-
         private Long answerCommentId;
 
 

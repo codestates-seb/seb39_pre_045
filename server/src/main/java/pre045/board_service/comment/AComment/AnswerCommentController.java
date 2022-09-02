@@ -7,6 +7,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import pre045.board_service.dto.SingleResponseDto;
+import pre045.board_service.member.token.config.SecurityUtil;
 
 
 @RestController
@@ -25,7 +26,7 @@ public class AnswerCommentController {
     public ResponseEntity addAnswerComment(@RequestBody AnswerCommentDto.Post answerCommentPostDto) {
 
         AnswerComment answerComment = mapper.answerCommentPostToComment(answerCommentPostDto);
-        AnswerComment createdAnswerComment = answerCommentService.createAnswerComment(answerCommentPostDto.getMemberId(), answerComment);
+        AnswerComment createdAnswerComment = answerCommentService.createAnswerComment(SecurityUtil.getCurrentMemberId(), answerComment);
 
         AnswerCommentDto.Response response = mapper.answerCommentToCommentResponse(createdAnswerComment);
 
@@ -39,7 +40,7 @@ public class AnswerCommentController {
 
 
         AnswerComment answerComment = mapper.answerCommentPatchToComment(answerCommentPatchDto);
-        AnswerComment editedAnswerComment = answerCommentService.updateAnswerComment(answerCommentPatchDto.getMemberId(), answerComment);
+        AnswerComment editedAnswerComment = answerCommentService.updateAnswerComment(SecurityUtil.getCurrentMemberId(), answerComment);
         AnswerCommentDto.Response response = mapper.answerCommentToCommentResponse(editedAnswerComment);
 
 

@@ -4,10 +4,8 @@ package pre045.board_service.comment.AComment;
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.*;
-
 import pre045.board_service.answer.entity.Answer;
-
-import pre045.board_service.member.token.entity.Member;
+import pre045.board_service.member.entity.Member;
 
 import javax.persistence.Entity;
 import javax.persistence.*;
