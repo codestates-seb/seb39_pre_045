@@ -7,6 +7,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import pre045.board_service.dto.SingleResponseDto;
+import pre045.board_service.member.token.config.SecurityUtil;
 
 @RestController
 @RequestMapping("/questions/{question-id}/comments")
@@ -25,7 +26,7 @@ public class QuestionCommentController {
 
         QuestionComment questionComment = mapper.questionCommentPostToComment(questionCommentPostDto);
 
-        QuestionComment createdQuestionComment = questionCommentService.createQuestionComment(questionCommentPostDto.getMemberId(), questionComment);
+        QuestionComment createdQuestionComment = questionCommentService.createQuestionComment(SecurityUtil.getCurrentMemberId(), questionComment);
 
         QuestionCommentDto.Response response = mapper.questionCommentToCommentResponse(createdQuestionComment);
 
@@ -37,7 +38,7 @@ public class QuestionCommentController {
         questionCommentPatchDto.setQuestionCommentId(questionCommentId); // dto 통해서 answer 코멘트 아이디
 
         QuestionComment questionComment = mapper.questionCommentPatchToComment(questionCommentPatchDto);
-        QuestionComment editedQuestionComment = questionCommentService.updateQuestionComment(questionCommentPatchDto.getMemberId(), questionComment);
+        QuestionComment editedQuestionComment = questionCommentService.updateQuestionComment(SecurityUtil.getCurrentMemberId(), questionComment);
         QuestionCommentDto.Response response = mapper.questionCommentToCommentResponse(editedQuestionComment);
 
 
