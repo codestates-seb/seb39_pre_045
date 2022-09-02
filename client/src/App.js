@@ -1,10 +1,11 @@
 import './App.css';
 import Nav from './Components/Nav';
-import SideBar from './Components/SideBar';
+import LeftSideBar from './Components/LeftSideBar';
 import { Route, Routes } from 'react-router-dom';
 import { useEffect, useState, lazy, Suspense } from 'react';
-import useStore from './Store/store';
+import useSideBarStore from './Store/store-sidebar';
 import NoResult from './Components/NoResult';
+import MobileLeftSideBar from './Components/MobileLeftSideBar';
 
 const Login = lazy(() => import('./Pages/Login'));
 const Signup = lazy(() => import('./Pages/Signup'));
@@ -22,7 +23,7 @@ const Loading = lazy(() => import('./Components/Loading'));
 function App() {
   const [openMobileMenu, setOpenMobileMenu] = useState(false);
   const [loginStyle, setLoginStyle] = useState(false);
-  const { isLoginMode } = useStore((state) => state);
+  const { leftSideBarHidden } = useSideBarStore((state) => state);
   // const [path, setPath] = useState('');
 
   const handleMobileMenuOpen = () => {
@@ -30,7 +31,7 @@ function App() {
   };
 
   useEffect(() => {
-    setLoginStyle(isLoginMode);
+    setLoginStyle(leftSideBarHidden);
   });
 
   return (
@@ -38,7 +39,8 @@ function App() {
       <Suspense fallback={<Loading />}>
         <Nav handleMobileMenuOpen={handleMobileMenuOpen} />
         <div className="container">
-          <SideBar login={loginStyle} openMobileMenu={openMobileMenu} />
+          <LeftSideBar login={loginStyle} />
+          <MobileLeftSideBar openMobileMenu={openMobileMenu} />
           <Routes>
             <Route path={'/'} element={<MainLogout />} />
             <Route path={'/g'} element={<MainLogin />} />
