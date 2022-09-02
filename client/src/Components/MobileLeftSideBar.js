@@ -20,6 +20,10 @@ const Container = styled.nav`
       color: inherit;
     }
   }
+  .material-icons {
+    vertical-align: -20%;
+    font-size: 17px;
+  }
   @keyframes openMenu {
     0% {
       transform: translate3d(0, -100%, 0);
@@ -68,7 +72,11 @@ const MobileLeftSideBar = ({ openMobileMenu }) => {
             Questions
           </Li>
         </Link>
-        {loginSuccess ? <li>Users</li> : null}
+        {loginSuccess ? (
+          <Link to="/mypage">
+            <Li>My page</Li>
+          </Link>
+        ) : null}
       </ul>
     </Container>
   );

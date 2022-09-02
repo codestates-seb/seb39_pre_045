@@ -3,6 +3,7 @@ import styled from 'styled-components';
 import axios from 'axios';
 import useSideBarStore from '../Store/store-sidebar';
 import useLoginSuccessStore from '../Store/store-loginSuccess';
+import { useNavigate } from 'react-router-dom';
 
 const Container = styled.div`
   background-color: #f1f2f3;
@@ -82,14 +83,19 @@ export const Btn = styled.button`
 const Login = () => {
   const { setLeftSideBarHidden } = useSideBarStore((state) => state);
   const { setLoginSuccess } = useLoginSuccessStore((state) => state);
+  const { loginSuccess } = useLoginSuccessStore();
   const [errorMessage, setErrorMessage] = useState('');
   const [loginInfo, setLoginInfo] = useState({
     email: '',
     password: '',
   });
+  const navigate = useNavigate();
 
   useEffect(() => {
     setLeftSideBarHidden(true);
+    if (loginSuccess) {
+      navigate('/g');
+    }
     return () => {
       setLeftSideBarHidden(false);
     };
@@ -101,26 +107,27 @@ const Login = () => {
 
   const handleLoginRequest = (e) => {
     e.preventDefault();
-    console.log(loginInfo);
     axios
-      .post('/members/login', { loginInfo })
+      .post('/members/login', loginInfo)
       .then((res) => {
-        console.log(res.data);
-        setLoginInfo(res.data);
+        if (res.data.data.accessToken) {
+          localStorage.setItem('ACCESS_TOKEN', res.data.data.accessToken);
+        }
+        if (res.data.data.refreshToken) {
+          localStorage.setItem('REFRESH_TOKEN', res.data.data.refreshToken);
+        }
+      })
+      .then(() => {
         setLoginSuccess(true);
         setErrorMessage('');
+        navigate('/mypage');
       })
       .catch((err) => {
-        console.log(err.response.data);
+        console.log(err);
         setErrorMessage('로그인에 실패했습니다.');
       });
   };
-  // useEffect(() => {
-  //   axios
-  //     .post('/test', { name: 'hihihi' })
-  //     .then((res) => console.log(res))
-  //     .catch((err) => console.log(err));
-  // }, []);
+
   return (
     <Container>
       <Wrapper onSubmit={handleLoginRequest}>

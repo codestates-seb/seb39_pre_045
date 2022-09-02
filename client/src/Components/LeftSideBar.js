@@ -3,6 +3,48 @@ import styled from 'styled-components';
 import { Link } from 'react-router-dom';
 import useLoginSuccessStore from '../Store/store-loginSuccess';
 
+const LeftSideBar = ({ login }) => {
+  // const [tab, setTab] = useState('');
+  const { loginSuccess } = useLoginSuccessStore();
+  const handleMainBtn = () => {
+    //if(isLogin) navigate('/g')
+    //else{navigate('/login')}
+  };
+  const handleClickListTab = () => {
+    // console.log(e.target.innerText);
+  };
+  return (
+    <Container login={login ? 'none' : 'content'}>
+      <ul>
+        <Li margin="10px" onClick={handleMainBtn}>
+          Home
+        </Li>
+        <Li
+          cursor="default"
+          size="11px"
+          color="#656765"
+          bg="#f1f2f3"
+          border="none"
+        >
+          PUBLIC
+        </Li>
+        <Link to="/">
+          <Li onClick={handleClickListTab}>
+            <span className="material-icons">language</span>
+            Questions
+          </Li>
+        </Link>
+        {loginSuccess ? (
+          <Link to="/mypage">
+            <Li padding="8px 0px 8px 31px" onClick={handleClickListTab}>
+              My page
+            </Li>
+          </Link>
+        ) : null}
+      </ul>
+    </Container>
+  );
+};
 const Container = styled.nav`
   background-color: #f1f2f3;
   width: 230px;
@@ -23,13 +65,24 @@ const Container = styled.nav`
       color: inherit;
     }
   }
+  .selected {
+    background-color: ${(props) => props.bg || '#ebebeb'};
+    border-right: ${(props) => props.border || '3px solid orange'};
+  }
+  .material-icons {
+    vertical-align: -20%;
+    font-size: 17px;
+  }
+  @media only screen and (max-width: 767px) {
+    display: none;
+  }
   @media only screen and (min-width: 768px) and (max-width: 1200px) {
     width: 210px;
   }
 `;
 
 export const Li = styled.li`
-  padding: 8px 0px 8px 10px;
+  padding: ${(props) => props.padding || '8px 0px 8px 10px'};
   list-style: none;
   color: ${(props) => props.color || '#383938'};
   margin-bottom: ${(props) => props.margin || '0'};
@@ -46,39 +99,5 @@ export const Li = styled.li`
     border-right: ${(props) => props.border || '3px solid orange'};
   }
 `;
-
-const LeftSideBar = ({ login }) => {
-  const { loginSuccess } = useLoginSuccessStore();
-  const handleMainLoginBtn = () => {
-    //if(isLogin) navigate('/g')
-    //else{navigate('/login')}
-  };
-
-  return (
-    <Container login={login ? 'none' : 'content'}>
-      <ul>
-        <Li margin="10px" onClick={handleMainLoginBtn}>
-          Home
-        </Li>
-        <Li
-          cursor="default"
-          size="11px"
-          color="#656765"
-          bg="#f1f2f3"
-          border="none"
-        >
-          PUBLIC
-        </Li>
-        <Link to="/">
-          <Li>
-            <span className="material-icons">language</span>
-            Questions
-          </Li>
-        </Link>
-        {loginSuccess ? <li>Users</li> : null}
-      </ul>
-    </Container>
-  );
-};
 
 export default LeftSideBar;
