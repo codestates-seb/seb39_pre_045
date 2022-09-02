@@ -1,7 +1,7 @@
 package pre045.board_service.vote.question_vote.entity;
 
 import lombok.*;
-import pre045.board_service.member.entity.Member;
+import pre045.board_service.member.token.entity.Member;
 import pre045.board_service.question.entity.Question;
 
 import javax.persistence.*;

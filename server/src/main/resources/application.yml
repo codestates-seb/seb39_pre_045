@@ -3,3 +3,5 @@ logging:
     org:
       hibernate:
         SQL: debug
+jwt:
+  secret:Y29kZXN0YXRlcy1wcmUtcHJvamVjdC10ZWFtLTQ1LWJvYXJkLXNlcnZpY2UtcmVhY3Qtd2l0aC1zcHJpbmctYm9vdC1zZWNyZXQta2V5Cg==
