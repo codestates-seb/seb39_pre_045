@@ -3,7 +3,7 @@ package pre045.board_service.vote.question_vote.service;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import pre045.board_service.exception.BusinessLogicException;
-import pre045.board_service.member.token.entity.Member;
+import pre045.board_service.member.entity.Member;
 import pre045.board_service.member.repository.MemberRepository;
 import pre045.board_service.member.service.MemberService;
 import pre045.board_service.question.entity.Question;

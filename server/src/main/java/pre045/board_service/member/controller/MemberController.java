@@ -12,7 +12,6 @@ import pre045.board_service.member.dto.MemberPatchDto;
 import pre045.board_service.member.dto.MemberPostDto;
 import pre045.board_service.member.token.dto.TokenRequestDto;
 import pre045.board_service.member.service.MemberService;
-
 import javax.validation.Valid;
 import javax.validation.constraints.Positive;
 
@@ -24,6 +23,8 @@ public class MemberController {
 
     private final MemberService memberService;
 
+
+    @PostMapping("/signup")
     public ResponseEntity signup(@RequestBody MemberPostDto postDto){
 
         return new ResponseEntity<>(new SingleResponseDto<>(memberService.signup(postDto)), HttpStatus.CREATED);

@@ -5,7 +5,7 @@ import com.fasterxml.jackson.annotation.JsonManagedReference;
 import lombok.*;
 import pre045.board_service.answer.entity.Answer;
 import pre045.board_service.comment.QComment.QuestionComment;
-import pre045.board_service.member.token.entity.Member;
+import pre045.board_service.member.entity.Member;
 import pre045.board_service.vote.question_vote.entity.QuestionVote;
 
 import javax.persistence.*;

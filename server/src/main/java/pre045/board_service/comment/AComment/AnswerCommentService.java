@@ -8,7 +8,7 @@ import pre045.board_service.answer.repository.AnswerRepository;
 import pre045.board_service.exception.BusinessLogicException;
 import pre045.board_service.exception.ExceptionCode;
 
-import pre045.board_service.member.token.entity.Member;
+import pre045.board_service.member.entity.Member;
 import pre045.board_service.member.repository.MemberRepository;
 
 
