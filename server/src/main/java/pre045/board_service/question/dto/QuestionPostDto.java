@@ -12,9 +12,6 @@ public class QuestionPostDto {
 
     // Post 요청으로 들어오는 값을 이렇게 받는다
 
-    @Positive
-    private long memberId;
-
     @NotBlank
     private String title;
 

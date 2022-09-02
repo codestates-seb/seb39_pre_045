@@ -8,6 +8,7 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import pre045.board_service.dto.MultiResponseDto;
 import pre045.board_service.dto.SingleResponseDto;
+import pre045.board_service.member.token.config.SecurityUtil;
 import pre045.board_service.question.dto.QuestionPatchDto;
 import pre045.board_service.question.dto.QuestionPostDto;
 import pre045.board_service.question.entity.Question;
@@ -32,7 +33,7 @@ public class QuestionController {
     public ResponseEntity addQuestion(@Valid @RequestBody QuestionPostDto questionPostDto) {
 
         Question question = mapper.questionPostDtoToQuestion(questionPostDto);
-        Question createQuestion = questionService.createQuestion(question, questionPostDto.getMemberId());
+        Question createQuestion = questionService.createQuestion(question, SecurityUtil.getCurrentMemberId());
 
         return new ResponseEntity<>(
                 new SingleResponseDto<>(mapper.questionToQuestionResponseDto(createQuestion)), HttpStatus.CREATED);
@@ -45,7 +46,7 @@ public class QuestionController {
         Question question = mapper.questionPatchDtoToQuestion(questionPatchDto);
         question.setQuestionId(questionId);
 
-        Question updateQuestion = questionService.updateQuestion(question, questionPatchDto.getMemberId());
+        Question updateQuestion = questionService.updateQuestion(question, SecurityUtil.getCurrentMemberId());
 
         return new ResponseEntity<>(
                 new SingleResponseDto<>(mapper.questionToQuestionResponseDto(updateQuestion)), HttpStatus.OK);

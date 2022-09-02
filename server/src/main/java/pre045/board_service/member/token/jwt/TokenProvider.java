@@ -109,8 +109,6 @@ public class TokenProvider {
                 .map(SimpleGrantedAuthority::new)
                 .collect(Collectors.toList());
 
-        log.info("토큰으로 조회 시 authorities={}", authorities);
-
         //user 객체로 Authentication 반환
         UserDetails principal = new User(claims.getSubject(), "", authorities); //토큰 이름, pw, 권한
 

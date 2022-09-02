@@ -7,7 +7,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import pre045.board_service.comment.AComment.AnswerComment;
-import pre045.board_service.member.token.entity.Member;
+import pre045.board_service.member.entity.Member;
 import pre045.board_service.question.entity.Question;
 import pre045.board_service.vote.answer_vote.entity.AnswerVote;
 

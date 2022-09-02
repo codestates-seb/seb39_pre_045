@@ -10,7 +10,12 @@ import pre045.board_service.dto.SingleResponseDto;
 import pre045.board_service.member.dto.MemberLoginDto;
 import pre045.board_service.member.dto.MemberPatchDto;
 import pre045.board_service.member.dto.MemberPostDto;
+<<<<<<< Updated upstream
 import pre045.board_service.member.token.dto.TokenRequestDto;
+=======
+import pre045.board_service.member.entity.Member;
+import pre045.board_service.member.mapper.MemberMapper;
+>>>>>>> Stashed changes
 import pre045.board_service.member.service.MemberService;
 
 import javax.validation.Valid;

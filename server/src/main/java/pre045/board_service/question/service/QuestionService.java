@@ -6,7 +6,7 @@ import org.springframework.transaction.annotation.Transactional;
 import pre045.board_service.dto.MultiResponseDto;
 import pre045.board_service.exception.BusinessLogicException;
 import pre045.board_service.exception.ExceptionCode;
-import pre045.board_service.member.token.entity.Member;
+import pre045.board_service.member.entity.Member;
 import pre045.board_service.member.service.MemberService;
 import pre045.board_service.question.entity.Question;
 import pre045.board_service.question.repository.QuestionRepository;
@@ -203,13 +203,6 @@ public class QuestionService {
 //        return questionRepository.findAll(PageRequest.of(page, size, sorting));
 //    }
 
-
-
-
-
-
-
-
     private Member memberVerifyQuestion(Long memberId) {
         // 질문을 작성하는 유저가 회원인지 아닌지 여부
         return memberService.findVerifiedMember(memberId);
@@ -221,9 +214,5 @@ public class QuestionService {
         return questionRepository.findById(questionId).orElseThrow(() ->
                 new BusinessLogicException(ExceptionCode.QUESTION_NOT_FOUND));
     }
-
-
-
-
 
 }
