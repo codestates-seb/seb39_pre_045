@@ -3,7 +3,7 @@ import axios from 'axios';
 import { useRef, useState, useEffect } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
-import useStore from '../Store/store';
+import useSideBarStore from '../Store/store-sidebar';
 
 const SignupContainer = styled.div`
   width: 100%;
@@ -173,10 +173,11 @@ const SignupForm = styled.form`
   }
 `;
 const Signup = () => {
-  const { setLoginMode } = useStore((state) => state);
+  const { setLeftSideBarHidden } = useSideBarStore((state) => state);
   const checkName = useRef();
   const checkEmail = useRef();
   const checkPw = useRef();
+  const age = useRef();
   const navigate = useNavigate();
   // const [user, setuser] = useState({});
   const [formData, SetFormData] = useState({
@@ -188,12 +189,15 @@ const Signup = () => {
   });
 
   useEffect(() => {
-    setLoginMode(true);
+    setLeftSideBarHidden(true);
     return () => {
-      setLoginMode(false);
+      setLeftSideBarHidden(false);
     };
   }, []);
 
+  const handleRadio = (e) => {
+    SetFormData({ ...formData, gender: e.target.value });
+  };
   const handleSubmit = (e) => {
     e.preventDefault();
     if (
@@ -204,15 +208,23 @@ const Signup = () => {
       alert('입력하지 않은 정보가 있습니다');
       return;
     } else {
+      if (age !== '') {
+        formData.age = age.current.value;
+      }
       axios
-        .post('members/signup', formData)
+        .post('/members/signup', formData)
         .then(({ data }) => {
           console.log(data.data);
-          // alert(`${data.data.username}님! 회원가입이 완료되었습니다!`);
-          // navigate('/login');
+          alert('회원가입이 완료되었습니다!');
+          navigate('/login');
         })
         .catch((err) => {
-          alert('회원가입에 실패하였습니다');
+          if (err.response.status === 400) {
+            alert(`${err.response.data.message}`);
+          } else {
+            alert('회원가입에 실패하였습니다');
+          }
+
           console.log(err);
         });
     }
@@ -300,13 +312,23 @@ const Signup = () => {
           <span className="alert" ref={checkPw}></span>
           <fieldset className="genderFieldset">
             <legend>Gender</legend>
-            <input type="radio" value="female" name="gender" />
+            <input
+              onClick={handleRadio}
+              type="radio"
+              value="female"
+              name="gender"
+            />
             female
-            <input type="radio" value="male" name="gender" />
+            <input
+              onClick={handleRadio}
+              type="radio"
+              value="male"
+              name="gender"
+            />
             male
           </fieldset>
           <label htmlFor="age">Age</label>
-          <input type="number" id="age" min="8" max="100" />
+          <input type="number" ref={age} id="age" min="8" max="100" />
 
           {/* <div className="agreeCheck">
             <input type="checkbox" name="" id="" />

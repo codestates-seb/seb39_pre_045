@@ -4,6 +4,8 @@ import { useEffect, useState } from 'react';
 import NoResult from '../Components/NoResult';
 import styled from 'styled-components';
 import { useNavigate } from 'react-router-dom';
+import axios from 'axios';
+import Loading from '../Components/Loading';
 
 const RightAlignBtns = styled(AlignBtns)`
   align-self: flex-end;
@@ -13,8 +15,25 @@ const MainLogin = () => {
   const [data, setData] = useState([]);
   const navigate = useNavigate();
   const [sortClick, setSortClick] = useState('newest');
+  const [ispending, setIsPending] = useState(true);
+  const [noResult, setNoResult] = useState({
+    status: 'data',
+    keyword: 'no data',
+  });
   useEffect(() => {
-    // axios.get(url).then({data}=>setData(data)).catch(err=>alert('데이터 조회에 실패하였습니다'))
+    axios
+      .get(`questions?page=1&sort=newest&filters=`)
+      .then(({ data }) => {
+        setData(data.data !== undefined ? data.data : []);
+      })
+      .catch((err) => {
+        setData([]);
+        setTimeout(() => {
+          setNoResult({ status: 'httpErr', keyword: err.response.status });
+          setIsPending(false);
+        }, 200);
+        console.log(err);
+      });
     const test = [];
     for (let i = 0; i < 20; i++) {
       test.push({
@@ -65,18 +84,26 @@ const MainLogin = () => {
           answers
         </SortBtns>
       </RightAlignBtns>
-
-      {data.length !== 0 ? (
-        <ul>
-          {data.map((el) => (
-            <>
-              <QuestItem el={el} />
-            </>
-          ))}
-        </ul>
+      {ispending === true ? (
+        <>
+          <Loading />
+        </>
       ) : (
         <>
-          <NoResult keyword={'err'} status={'data'} />
+          {' '}
+          {data.length !== 0 ? (
+            <ul>
+              {data.map((el) => (
+                <>
+                  <QuestItem el={el} />
+                </>
+              ))}
+            </ul>
+          ) : (
+            <>
+              <NoResult keyword={noResult.keyword} status={noResult.status} />
+            </>
+          )}
         </>
       )}
     </MainContainer>

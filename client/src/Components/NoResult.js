@@ -34,6 +34,8 @@ const NoResult = ({ keyword, status }) => {
     sentence = `We couldn't find anything for "${keyword}"`;
   } else if (status === 'data') {
     sentence = `Sorry, Data doesn't exist : ${keyword}`;
+  } else if (status === 'httpErr') {
+    sentence = `An Unexpected Network Error Occurred : ${keyword}`;
   } else {
     sentence = 'Page not found';
   }
