@@ -2,7 +2,8 @@ import { useEffect, useState } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 import QuestItem from '../Components/QuestItem';
-// import axios from 'axios'
+import axios from 'axios';
+import useSortStore from '../Store/store-sort';
 import { AlignBtns, SortBtns, MainContainer } from './MainLogout';
 import NoResult from '../Components/NoResult';
 import Pagination from '../Components/Pagination';
@@ -16,30 +17,27 @@ const SearchContainer = styled(MainContainer)`
 `;
 const SearchResult = () => {
   const [data, setData] = useState([]);
-
+  const [pageInfo, setPageInfo] = useState({});
+  const { setQuery } = useSortStore((state) => state);
+  const { setSort } = useSortStore((state) => state);
   const [sortClick, setSortClick] = useState('newest');
   const navigate = useNavigate();
   const location = useLocation();
   const query = decodeURI(location.search.slice(3));
   useEffect(() => {
-    //axios.get(`/search?q=${query}&sort=votes`).then(({data})=>setData(data)).catch(err=>alert('검색에 실패했습니다.'))
-    const test = [];
-    for (let i = 0; i < 20; i++) {
-      test.push({
-        id: Math.round(Math.random() * 456138313941535),
-        vote: Math.round(Math.random() * 100),
-        answer: Math.round(Math.random() * 4),
-        view: Math.round(Math.random() * 4000),
-        title:
-          'Selecting Multiple Values from a Dropdown List Across Multiple Columns',
-        content:
-          'I am trying to select multiple options from a dropdown list across multiple columns. I have taken the widely used script for one coloumn and converted it but it is having some negative effects across ...',
-        author: 'Clare Vallely',
-        time: 2022,
-        chosen: Math.round(Math.random() * 5) > 3 ? true : false,
+    setQuery(query);
+    setSort('votes');
+    axios
+      .get(`questions/search?q=${query}&sort=votes&page=1`)
+      .then(({ data }) => {
+        setData(data.data !== undefined ? data.data : []);
+        setPageInfo(data.pageInfo);
+      })
+      .catch((err) => {
+        alert(`검색에 실패했습니다. err code:${err.response.status}`);
+        setData([]);
+        console.log(err);
       });
-    }
-    setData(test);
   }, []);
   const handleSort = (sort) => {
     // axios.get(`/search?q=${query}&sort=${sort}`).then(({data})=>setData(data)).catch(err=>alert('정렬에 실패했습니다'))
@@ -58,7 +56,7 @@ const SearchResult = () => {
         <br /> query Search options not deleted
       </div>
       <div className="totalNbtns">
-        <div className="totalQuestion">500 results</div>
+        <div className="totalQuestion">{pageInfo.totalElments}results</div>
         <AlignBtns>
           <SortBtns
             sort={sortClick === 'newest' && 'active'}

@@ -72,20 +72,23 @@ const Question = styled.li`
 `;
 const QuestItem = ({ el }) => {
   return (
-    <Question answered={el.answer > 0 ? 'yes' : 'no'} chosen={`${el.chosen}`}>
+    <Question
+      answered={el.answers.length > 0 ? 'yes' : 'no'}
+      chosen={`${el.checkadopted}`}
+    >
       <div className="info">
-        <span>{el.vote} votes</span>
-        <span className="answer">{el.answer} answers</span>
+        <span>{el.totalVote} votes</span>
+        <span className="answer">{el.answers.length} answers</span>
         <span>{el.view} views</span>
       </div>
       <div className="question">
         <h3 className="title">
-          <Link to={`/questions/${el.id}`}>{el.title}</Link>
+          <Link to={`/questions/${el.questionId}`}>{el.title}</Link>
         </h3>
-        <p className="content">{el.content}</p>
+        <p className="content">{el.questionContent}</p>
         <div className="userNdate">
-          <span>{el.author}</span>
-          <span>{el.time}</span>
+          <span>{el.QuestionUserName}</span>
+          <span>{el.createdAt}</span>
         </div>
       </div>
     </Question>
