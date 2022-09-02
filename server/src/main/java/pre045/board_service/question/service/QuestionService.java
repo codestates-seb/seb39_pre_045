@@ -34,8 +34,6 @@ public class QuestionService {
 
     public Question createQuestion(Question question, long memberId) {
 
-//        Member member = new Member("abc@naver.com","jp","aaqqwweer","Male",20);
-
         // 유효성 검사 (질문 게시물 작성하는 유저가 회원인지)
         Member member = memberVerifyQuestion(memberId);
 
@@ -205,13 +203,6 @@ public class QuestionService {
 //        return questionRepository.findAll(PageRequest.of(page, size, sorting));
 //    }
 
-
-
-
-
-
-
-
     private Member memberVerifyQuestion(Long memberId) {
         // 질문을 작성하는 유저가 회원인지 아닌지 여부
         return memberService.findVerifiedMember(memberId);
@@ -223,9 +214,5 @@ public class QuestionService {
         return questionRepository.findById(questionId).orElseThrow(() ->
                 new BusinessLogicException(ExceptionCode.QUESTION_NOT_FOUND));
     }
-
-
-
-
 
 }

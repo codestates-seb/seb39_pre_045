@@ -24,9 +24,6 @@ public class AnswerDto {
     @AllArgsConstructor
     @NoArgsConstructor
     public static class Post {
-        @Positive
-        private Long memberId;
-
         private Question question;
 
         @NotBlank
@@ -37,8 +34,6 @@ public class AnswerDto {
     @AllArgsConstructor
     @NoArgsConstructor
     public static class Patch {
-        @Positive
-        private Long memberId;
 
         private Question question;
 

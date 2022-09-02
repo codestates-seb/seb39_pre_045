@@ -5,7 +5,6 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import pre045.board_service.answer.entity.Answer;
 import pre045.board_service.member.entity.Member;
 import pre045.board_service.question.entity.Question;
 

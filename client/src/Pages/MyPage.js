@@ -1,11 +1,12 @@
 import styled from 'styled-components';
-import { Li } from '../Components/SideBar';
+import { Li } from '../Components/LeftSideBar';
 import MyPageProfile from '../Components/MyPageProfile';
 import MyPageQItem from '../Components/MyPageQItem';
 import MyPageAItem from '../Components/MyPageAItem';
 import MyPageEdit from '../Components/MyPageEdit';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import useLoginSuccessStore from '../Store/store-loginSuccess';
 
 const PageWrapper = styled.div`
   margin: 80px 0 0 30%;
@@ -78,6 +79,7 @@ export const Content = styled.div`
 `;
 
 const MyPage = () => {
+  const { loginSuccess } = useLoginSuccessStore();
   const [selectQ, setSelectQ] = useState(true);
   const [selectA, setSelectA] = useState(false);
   const [selectE, setSelectE] = useState(false);
@@ -100,6 +102,13 @@ const MyPage = () => {
     setSelectA(false);
     setSelectE(true);
   };
+
+  useEffect(() => {
+    if (!loginSuccess) {
+      navigate('/login');
+    }
+  }, []);
+
   return (
     <PageWrapper>
       <MyPageProfile />

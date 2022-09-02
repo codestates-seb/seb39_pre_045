@@ -7,14 +7,12 @@ import pre045.board_service.comment.QComment.QuestionComment;
 import pre045.board_service.question.entity.Question;
 import pre045.board_service.vote.answer_vote.entity.AnswerVote;
 import pre045.board_service.vote.question_vote.entity.QuestionVote;
-
 import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
 
 @Entity
 @Getter
-@Setter
 @NoArgsConstructor
 public class Member {
 
@@ -22,15 +20,40 @@ public class Member {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long memberId;
 
+    @Column(nullable = false)
     private String email;
 
+    @Column(nullable = false)
     private String password;
 
+    @Column(nullable = false)
     private String username;
 
     private String gender;
 
-    private int age;
+    private String age;
+
+    @Enumerated(EnumType.STRING)
+    private Authority authority;
+
+    public void setPassword(String password) {
+        this.password = password;
+    }
+
+    public void setUsername(String username) {
+        this.username = username;
+    }
+
+    @Builder
+    public Member(String email, String password, String username, String gender, String age, Authority authority) {
+        this.email = email;
+        this.password = password;
+        this.username = username;
+        this.gender = gender;
+        this.age = age;
+        this.authority = authority;
+    }
+
 
     @OneToMany(mappedBy = "member")
     private List<Answer> answers = new ArrayList<>();
@@ -50,11 +73,6 @@ public class Member {
     @OneToMany(mappedBy = "member")
     private List<QuestionVote> questionVotes = new ArrayList<>();
 
-    public Member(String email, String password, String username) {
-        this.email = email;
-        this.password = password;
-        this.username = username;
-    }
 
     public void addAnswer(Answer answer) {
         this.answers.add(answer);
@@ -102,5 +120,9 @@ public class Member {
         if (questionVote.getMember() != this) {
             questionVote.setMember(this);
         }
+    }
+
+    public enum Authority {
+        ROLE_USER, ROLE_ADMIN
     }
 }

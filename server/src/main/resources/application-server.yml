@@ -2,13 +2,13 @@ spring:
   jpa:
     database: mysql
     hibernate:
-      ddl-auto: create-drop
+      ddl-auto: update
     show-sql: true
     properties:
       hibernate:
         format_sql: true
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
-    url: jdbc:mysql://localhost:3306/stackoverflow?createDatabaseIfNotExist=true
-    username: root
-    password: stayalive
+    url: jdbc:mysql://121.189.189.136:3306/board_service?createDatabaseIfNotExist=true
+    username: team45
+    password: 1q2w3e4r
