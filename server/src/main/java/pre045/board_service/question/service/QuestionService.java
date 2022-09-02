@@ -6,7 +6,7 @@ import org.springframework.transaction.annotation.Transactional;
 import pre045.board_service.dto.MultiResponseDto;
 import pre045.board_service.exception.BusinessLogicException;
 import pre045.board_service.exception.ExceptionCode;
-import pre045.board_service.member.entity.Member;
+import pre045.board_service.member.token.entity.Member;
 import pre045.board_service.member.service.MemberService;
 import pre045.board_service.question.entity.Question;
 import pre045.board_service.question.repository.QuestionRepository;
@@ -33,8 +33,6 @@ public class QuestionService {
 // <------------------------------------------------------------------------------->
 
     public Question createQuestion(Question question, long memberId) {
-
-//        Member member = new Member("abc@naver.com","jp","aaqqwweer","Male",20);
 
         // 유효성 검사 (질문 게시물 작성하는 유저가 회원인지)
         Member member = memberVerifyQuestion(memberId);
