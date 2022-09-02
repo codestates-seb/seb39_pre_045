@@ -1,6 +1,7 @@
 // import { useState } from 'react';
+import axios from 'axios';
 import { useRef, useState, useEffect } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 import useStore from '../Store/store';
 
@@ -176,6 +177,7 @@ const Signup = () => {
   const checkName = useRef();
   const checkEmail = useRef();
   const checkPw = useRef();
+  const navigate = useNavigate();
   // const [user, setuser] = useState({});
   const [formData, SetFormData] = useState({
     username: '',
@@ -202,14 +204,21 @@ const Signup = () => {
       alert('입력하지 않은 정보가 있습니다');
       return;
     } else {
-      //통신 자리
-      // axios.post(url,formData).then(({data})=>{함수를 만들어야하나? useNavigate써서 리다이렉트 }).catch(err=>alert('회원가입에 실패하였습니다')
+      axios
+        .post('members/signup', formData)
+        .then(({ data }) => {
+          console.log(data.data);
+          // alert(`${data.data.username}님! 회원가입이 완료되었습니다!`);
+          // navigate('/login');
+        })
+        .catch((err) => {
+          alert('회원가입에 실패하였습니다');
+          console.log(err);
+        });
     }
     return;
   };
   const handleFormState = (e) => {
-    console.log(e.target.value);
-    console.log(e.target.name, 'name');
     SetFormData({ ...formData, [e.target.name]: e.target.value });
   };
   const checkisInvalid = (ref, value, min, max) => {

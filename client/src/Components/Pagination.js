@@ -1,6 +1,7 @@
-import { useState } from 'react';
+import axios from 'axios';
+import { useEffect } from 'react';
 import styled from 'styled-components';
-
+import useSortStore from '../Store/store-sort';
 const PaginationDiv = styled.div`
   width: 100%;
   display: flex;
@@ -24,21 +25,32 @@ const PaginationBtn = styled.button`
 const Pagination = () => {
   const initialNum = 5;
   // prop로 총길이
-  const [num, setNum] = useState(1);
+  const { pagination } = useSortStore((state) => state);
+  const { setPagination } = useSortStore((state) => state);
+  const { sort } = useSortStore((state) => state);
+  const { query } = useSortStore((state) => state);
+  // const [num, setNum] = useState(1);
   const page = [];
   const handlePagination = (e) => {
-    setNum(Number(e.target.textContent));
+    axios
+      .get(`/search?q=${query}&page=${e.target.textContent}&sort=${sort}`)
+      .then(({ data }) => console.log(data.data))
+      .catch((err) => console.log(err));
+    setPagination(Number(e.target.textContent));
   };
   for (let i = 1; i <= initialNum; i++) {
     page.push(i);
   }
-
+  useEffect(() => {
+    // console.log(pagination);
+    // setPagination('votes');
+  }, [pagination]);
   return (
     <PaginationDiv>
       {page.map((el, index) => (
         <PaginationBtn
           onClick={handlePagination}
-          active={el === num ? 'true' : 'false'}
+          active={el === pagination ? 'true' : 'false'}
           key={index}
         >
           {el}
