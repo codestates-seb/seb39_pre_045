@@ -1,9 +1,11 @@
-/*eslint-disable*/
+import axios from 'axios';
 import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 import NoResult from '../Components/NoResult';
 import QuestItem from '../Components/QuestItem';
+import Loading from '../Components/Loading';
+import Pagination from '../Components/Pagination';
 export const MainContainer = styled.div`
   width: 100%;
   min-height: calc(100vh - 50px);
@@ -74,27 +76,29 @@ export const SortBtns = styled.button`
 
 const MainLogout = () => {
   const [data, setData] = useState([]);
+  const [pageInfo, setPageInfo] = useState({});
   const [sortClick, setSortClick] = useState('newest');
+  const [ispending, setIsPending] = useState(true);
   const navigate = useNavigate();
+  const [noResult, setNoResult] = useState({
+    status: 'data',
+    keyword: 'no data',
+  });
   useEffect(() => {
-    // axios.get(`/question?page=1`).then(({data})=>setData(data)).catch(err=>alert('데이터 조회에 실패하였습니다'))
-    const test = [];
-    for (let i = 1; i <= 20; i++) {
-      test.push({
-        id: i,
-        vote: Math.round(Math.random() * 100),
-        answer: Math.round(Math.random() * 4),
-        view: Math.round(Math.random() * 4000),
-        title:
-          'Selecting Multiple Values from a Dropdown List Across Multiple Columns',
-        content:
-          'I am trying to select multiple options from a dropdown list across multiple columns. I have taken the widely used script for one coloumn and converted it but it is having some negative effects across ...',
-        author: 'Clare Vallely',
-        time: 2022,
-        chosen: Math.round(Math.random() * 5) > 3 ? true : false,
+    axios
+      .get(`questions?page=1&sort=newest&filters=`)
+      .then(({ data }) => {
+        setData(data.data !== undefined ? data.data : []);
+        setPageInfo(data.pageInfo);
+      })
+      .catch((err) => {
+        setData([]);
+        setTimeout(() => {
+          setNoResult({ status: 'httpErr', keyword: err.response.status });
+          setIsPending(false);
+        }, 200);
+        console.log(err);
       });
-    }
-    setData(test);
   }, []);
   const handleSort = (sort) => {
     // axios.get(`/question?sort=${sort}`).then(({data})=>{
@@ -110,7 +114,7 @@ const MainLogout = () => {
         <button onClick={() => navigate('/write')}>Ask Question</button>
       </div>
       <div className="totalNbtns">
-        <div className="totalQuestion">22,932,174 questions</div>
+        <div className="totalQuestion">{pageInfo.totalElements} questions</div>
         <AlignBtns>
           <SortBtns
             sort={sortClick === 'newest' && 'active'}
@@ -132,17 +136,28 @@ const MainLogout = () => {
           </SortBtns>
         </AlignBtns>
       </div>
-      {data.length !== 0 ? (
-        <ul>
-          {data.map((el) => (
-            <>
-              <QuestItem el={el} key={el.id} />
-            </>
-          ))}
-        </ul>
+      {ispending === true ? (
+        <>
+          <Loading />
+        </>
       ) : (
         <>
-          <NoResult keyword={'no data'} status={'data'} />
+          {data.length !== 0 ? (
+            <>
+              <ul>
+                {data.map((el) => (
+                  <>
+                    <QuestItem el={el} key={el.questionId} />
+                  </>
+                ))}
+              </ul>
+              <Pagination />
+            </>
+          ) : (
+            <>
+              <NoResult keyword={noResult.keyword} status={noResult.status} />
+            </>
+          )}
         </>
       )}
     </MainContainer>

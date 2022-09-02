@@ -7,6 +7,7 @@ import useSortStore from '../Store/store-sort';
 import { AlignBtns, SortBtns, MainContainer } from './MainLogout';
 import NoResult from '../Components/NoResult';
 import Pagination from '../Components/Pagination';
+import Loading from '../Components/Loading';
 const SearchContainer = styled(MainContainer)`
   .resultQueryDiv {
     padding: 0px 20px 20px;
@@ -16,6 +17,7 @@ const SearchContainer = styled(MainContainer)`
   }
 `;
 const SearchResult = () => {
+  const [ispending, setIsPending] = useState(true);
   const [data, setData] = useState([]);
   const [pageInfo, setPageInfo] = useState({});
   const { setQuery } = useSortStore((state) => state);
@@ -24,18 +26,26 @@ const SearchResult = () => {
   const navigate = useNavigate();
   const location = useLocation();
   const query = decodeURI(location.search.slice(3));
+  const [noResult, setNoResult] = useState({
+    status: 'search',
+    keyword: query,
+  });
   useEffect(() => {
     setQuery(query);
     setSort('votes');
     axios
-      .get(`questions/search?q=${query}&sort=votes&page=1`)
+      .get(`/questions/search?q=${query}&sort=votes&page=1`)
       .then(({ data }) => {
         setData(data.data !== undefined ? data.data : []);
         setPageInfo(data.pageInfo);
       })
       .catch((err) => {
-        alert(`검색에 실패했습니다. err code:${err.response.status}`);
         setData([]);
+
+        setTimeout(() => {
+          setNoResult({ status: 'httpErr', keyword: err.response.status });
+          setIsPending(false);
+        }, 200);
         console.log(err);
       });
   }, []);
@@ -78,17 +88,25 @@ const SearchResult = () => {
           </SortBtns>
         </AlignBtns>
       </div>
-      {data.length !== 0 ? (
+      {ispending === true ? (
         <>
-          <ul>
-            {data.map((el) => (
-              <QuestItem key={el.id} el={el} />
-            ))}
-          </ul>
-          <Pagination />
+          <Loading />
         </>
       ) : (
-        <NoResult keyword={query} status={'search'} />
+        <>
+          {data.length !== 0 ? (
+            <>
+              <ul>
+                {data.map((el) => (
+                  <QuestItem key={el.questionId} el={el} />
+                ))}
+              </ul>
+              <Pagination />
+            </>
+          ) : (
+            <NoResult keyword={noResult.keyword} status={noResult.status} />
+          )}
+        </>
       )}
     </SearchContainer>
   );
