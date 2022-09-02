@@ -7,7 +7,7 @@ import org.springframework.transaction.annotation.Transactional;
 import pre045.board_service.answer.entity.Answer;
 import pre045.board_service.answer.repository.AnswerRepository;
 import pre045.board_service.exception.BusinessLogicException;
-import pre045.board_service.member.token.entity.Member;
+import pre045.board_service.member.entity.Member;
 import pre045.board_service.member.repository.MemberRepository;
 import pre045.board_service.question.entity.Question;
 import pre045.board_service.question.repository.QuestionRepository;

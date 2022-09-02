@@ -11,7 +11,7 @@ import pre045.board_service.answer.entity.Answer;
 import pre045.board_service.answer.mapper.AnswerMapper;
 import pre045.board_service.answer.service.AnswerService;
 import pre045.board_service.dto.SingleResponseDto;
-
+import pre045.board_service.member.token.config.SecurityUtil;
 
 
 @RestController
@@ -32,7 +32,7 @@ public class AnswerController {
     @PostMapping
     public ResponseEntity addAnswer(@RequestBody AnswerDto.Post postDto) {
         Answer answer = mapper.answerPostToAnswer(postDto);
-        Answer createdAnswer = answerService.createAnswer(postDto.getMemberId(), answer);
+        Answer createdAnswer = answerService.createAnswer(SecurityUtil.getCurrentMemberId(), answer);
         AnswerDto.Response response = mapper.answerToAnswerResponse(createdAnswer);
 
         return new ResponseEntity<>(new SingleResponseDto<>(response), HttpStatus.CREATED);
@@ -52,7 +52,7 @@ public class AnswerController {
         patchDto.setAnswerId(answerId);
 
         Answer answer = mapper.answerPatchToAnswer(patchDto);
-        Answer editedAnswer = answerService.updateAnswer(patchDto.getMemberId(), answer);
+        Answer editedAnswer = answerService.updateAnswer(SecurityUtil.getCurrentMemberId(), answer);
         AnswerDto.Response response = mapper.answerToAnswerResponse(editedAnswer);
 
         return new ResponseEntity<>(new SingleResponseDto<>(response), HttpStatus.OK);
