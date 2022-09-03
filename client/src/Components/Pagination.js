@@ -22,13 +22,16 @@ const PaginationBtn = styled.button`
   transition: background-color ease-in-out 0.3s, color ease-in-out 0.3s;
 `;
 
-const Pagination = () => {
-  const initialNum = 5;
-  // prop로 총길이
-  const { pagination } = useSortStore((state) => state);
-  const { setPagination } = useSortStore((state) => state);
-  const { sort } = useSortStore((state) => state);
-  const { query } = useSortStore((state) => state);
+const Pagination = ({ totalPages }) => {
+  const { pagination, setPagination, sort, query } = useSortStore(
+    (state) => state
+  );
+  for (let i = 1; i <= totalPages; i++) {
+    page.push(i);
+  }
+  // const { setPagination } = useSortStore((state) => state);
+  // const { sort } = useSortStore((state) => state);
+  // const { query } = useSortStore((state) => state);
   // const [num, setNum] = useState(1);
   const page = [];
   const handlePagination = (e) => {
@@ -38,9 +41,7 @@ const Pagination = () => {
       .catch((err) => console.log(err));
     setPagination(Number(e.target.textContent));
   };
-  for (let i = 1; i <= initialNum; i++) {
-    page.push(i);
-  }
+
   useEffect(() => {
     // console.log(pagination);
     // setPagination('votes');

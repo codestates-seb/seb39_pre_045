@@ -159,16 +159,15 @@ const DivWrapper = styled.div`
 const DetailQuestion = () => {
   const { id } = useParams();
   const [ispending, setIsPending] = useState(true);
-  const ids = 2;
   const navigate = useNavigate();
   console.log(id);
   const [data, setData] = useState({});
 
   useEffect(() => {
     axios
-      .get(`/questions/${ids}`)
+      .get(`/questions/${id}`)
       .then(({ data }) => {
-        console.log(`/questions/${ids}`);
+        console.log(`/questions/${id}`);
         console.log(data.data);
         setData(data.data);
         setIsPending(false);
@@ -211,7 +210,7 @@ const DetailQuestion = () => {
               questionComments: data.questionComments,
             }}
           />
-          <div>2 Answers</div>
+          <div>{data.answers.length} Answers</div>
           {data.answers.length !== 0 &&
             data.answers.map((el, index) => (
               <Answer data={el} key={el.answerId} idx={index} />
