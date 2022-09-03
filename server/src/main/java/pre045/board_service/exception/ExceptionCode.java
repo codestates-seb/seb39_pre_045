@@ -51,7 +51,8 @@ public enum ExceptionCode {
     USERNAME_EXISTS(400, "이미 존재하는 닉네임입니다. 다른 닉네임을 사용해주세요."),
     ONLY_FOR_MEMBER(403, "회원만 사용할 수 있는 기능입니다. 회원 가입해주세요!"),
     ONLY_FOR_ADMIN(401, "관리자만 접근 가능합니다"),
-    REFRESH_TOKEN_NOT_FOUND(404, "refresh 토큰 정보를 찾을 수 없습니다");
+    REFRESH_TOKEN_NOT_FOUND(404, "refresh 토큰 정보를 찾을 수 없습니다"),
+    EMAIL_SEND_ERROR(500, "이메일 전송 중 오류가 발생했습니다.");
 
 
     private final Integer status;

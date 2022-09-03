@@ -4,15 +4,11 @@ import io.jsonwebtoken.ExpiredJwtException;
 import io.jsonwebtoken.MalformedJwtException;
 import io.jsonwebtoken.UnsupportedJwtException;
 import lombok.RequiredArgsConstructor;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.util.StringUtils;
 import org.springframework.web.filter.OncePerRequestFilter;
 import pre045.board_service.exception.BusinessLogicException;
-import pre045.board_service.exception.ErrorResponse;
-import pre045.board_service.exception.GlobalExceptionAdvice;
 import pre045.board_service.member.token.jwt.TokenProvider;
 
 import javax.servlet.FilterChain;
@@ -22,7 +18,6 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
 import static pre045.board_service.exception.ExceptionCode.*;
-import static pre045.board_service.exception.ExceptionCode.WRONG_JWT_ARGUMENT;
 
 @RequiredArgsConstructor
 public class JwtFilter extends OncePerRequestFilter {
