@@ -6,6 +6,8 @@ import NoResult from '../Components/NoResult';
 import QuestItem from '../Components/QuestItem';
 import Loading from '../Components/Loading';
 import Pagination from '../Components/Pagination';
+import useSortStore from '../Store/store-sort';
+import SortBtnBar from '../Components/SortBtnBar';
 export const MainContainer = styled.div`
   width: 100%;
   min-height: calc(100vh - 50px);
@@ -77,19 +79,21 @@ export const SortBtns = styled.button`
 const MainLogout = () => {
   const [data, setData] = useState([]);
   const [pageInfo, setPageInfo] = useState({});
-  const [sortClick, setSortClick] = useState('newest');
   const [ispending, setIsPending] = useState(true);
   const navigate = useNavigate();
   const [noResult, setNoResult] = useState({
     status: 'data',
     keyword: 'no data',
   });
+  const { setPagination, setSort } = useSortStore((state) => state);
   useEffect(() => {
     axios
-      .get(`questions?page=1&sort=newest&filters=`)
+      .get(`/questions?page=1&sort=newest&filters=`)
       .then(({ data }) => {
         setData(data.data !== undefined ? data.data : []);
         setPageInfo(data.pageInfo);
+        console.log(typeof data.pageInfo.totalPages);
+        setIsPending(false);
       })
       .catch((err) => {
         setData([]);
@@ -99,14 +103,12 @@ const MainLogout = () => {
         }, 200);
         console.log(err);
       });
+    return () => {
+      setPagination(1);
+      setSort('newest');
+    };
   }, []);
-  const handleSort = (sort) => {
-    // axios.get(`/question?sort=${sort}`).then(({data})=>{
-    //   setData(data)
-    //   setSortClick(sort)
-    // }).catch(err=>alert('정렬에 실패했습니다'))
-    setSortClick(sort);
-  };
+
   return (
     <MainContainer>
       <div className="pageDesc">
@@ -115,26 +117,7 @@ const MainLogout = () => {
       </div>
       <div className="totalNbtns">
         <div className="totalQuestion">{pageInfo.totalElements} questions</div>
-        <AlignBtns>
-          <SortBtns
-            sort={sortClick === 'newest' && 'active'}
-            onClick={() => handleSort('newest')}
-          >
-            newest
-          </SortBtns>
-          <SortBtns
-            sort={sortClick === 'votes' && 'active'}
-            onClick={() => handleSort('votes')}
-          >
-            votes
-          </SortBtns>
-          <SortBtns
-            sort={sortClick === 'answers' && 'active'}
-            onClick={() => handleSort('answers')}
-          >
-            answers
-          </SortBtns>
-        </AlignBtns>
+        <SortBtnBar setData={setData} />
       </div>
       {ispending === true ? (
         <>
@@ -151,7 +134,8 @@ const MainLogout = () => {
                   </>
                 ))}
               </ul>
-              <Pagination />
+              <Pagination totalPages={pageInfo.totalPages} />
+              {'?'}
             </>
           ) : (
             <>

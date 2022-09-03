@@ -4,10 +4,12 @@ import styled from 'styled-components';
 import QuestItem from '../Components/QuestItem';
 import axios from 'axios';
 import useSortStore from '../Store/store-sort';
-import { AlignBtns, SortBtns, MainContainer } from './MainLogout';
+import { MainContainer } from './MainLogout';
 import NoResult from '../Components/NoResult';
 import Pagination from '../Components/Pagination';
 import Loading from '../Components/Loading';
+import SortBtnBar from '../Components/SortBtnBar';
+
 const SearchContainer = styled(MainContainer)`
   .resultQueryDiv {
     padding: 0px 20px 20px;
@@ -20,9 +22,8 @@ const SearchResult = () => {
   const [ispending, setIsPending] = useState(true);
   const [data, setData] = useState([]);
   const [pageInfo, setPageInfo] = useState({});
-  const { setQuery } = useSortStore((state) => state);
-  const { setSort } = useSortStore((state) => state);
-  const [sortClick, setSortClick] = useState('newest');
+  const { setQuery, setSort, setPagination } = useSortStore((state) => state);
+  // const { setSort } = useSortStore((state) => state);
   const navigate = useNavigate();
   const location = useLocation();
   const query = decodeURI(location.search.slice(3));
@@ -38,6 +39,7 @@ const SearchResult = () => {
       .then(({ data }) => {
         setData(data.data !== undefined ? data.data : []);
         setPageInfo(data.pageInfo);
+        setIsPending(false);
       })
       .catch((err) => {
         setData([]);
@@ -48,12 +50,11 @@ const SearchResult = () => {
         }, 200);
         console.log(err);
       });
+    return () => {
+      setPagination(1);
+      setSort('newest');
+    };
   }, []);
-  const handleSort = (sort) => {
-    // axios.get(`/search?q=${query}&sort=${sort}`).then(({data})=>setData(data)).catch(err=>alert('정렬에 실패했습니다'))
-    alert(sort);
-    setSortClick(sort);
-  };
 
   return (
     <SearchContainer>
@@ -67,26 +68,7 @@ const SearchResult = () => {
       </div>
       <div className="totalNbtns">
         <div className="totalQuestion">{pageInfo.totalElments}results</div>
-        <AlignBtns>
-          <SortBtns
-            sort={sortClick === 'newest' && 'active'}
-            onClick={() => handleSort('newest')}
-          >
-            newest
-          </SortBtns>
-          <SortBtns
-            sort={sortClick === 'votes' && 'active'}
-            onClick={() => handleSort('votes')}
-          >
-            votes
-          </SortBtns>
-          <SortBtns
-            sort={sortClick === 'answers' && 'active'}
-            onClick={() => handleSort('answers')}
-          >
-            answers
-          </SortBtns>
-        </AlignBtns>
+        <SortBtnBar setData={setData} />
       </div>
       {ispending === true ? (
         <>
@@ -101,7 +83,7 @@ const SearchResult = () => {
                   <QuestItem key={el.questionId} el={el} />
                 ))}
               </ul>
-              <Pagination />
+              <Pagination totalPages={pageInfo.totalPages} />
             </>
           ) : (
             <NoResult keyword={noResult.keyword} status={noResult.status} />

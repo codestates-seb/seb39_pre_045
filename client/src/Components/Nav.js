@@ -2,6 +2,7 @@ import styled from 'styled-components';
 import { Link, useNavigate } from 'react-router-dom';
 import link from '../image/stackoverflow.png';
 import { useRef, useState } from 'react';
+import useLoginSuccessStore from '../Store/store-loginSuccess';
 // import axios from 'axios'
 const NavHeader = styled.header`
   width: 100%;
@@ -159,6 +160,9 @@ const Nav = ({ handleMobileMenuOpen }) => {
   const [isblock, setIsblock] = useState(false);
   const searchVal = useRef();
   const navigate = useNavigate();
+  const { loginSuccess, setLoginSuccess } = useLoginSuccessStore(
+    (state) => state
+  );
 
   // const [searchVal, setSearchVal] = useState('');
   const showBlock = () => {
@@ -181,9 +185,9 @@ const Nav = ({ handleMobileMenuOpen }) => {
     // axios.post(url,data).then(({data})=>{
     //   //로그온 정보 싹다 날리기. 해당 헤더 바꾸기위해서 useState설정
     //   useNavigate('/')}).catch(err=>alert('로그아웃에 실패하였습니다'))
+    setLoginSuccess(false);
     alert('test');
   };
-  const data = { login: false };
   return (
     <NavHeader className="header" display={`${isblock}`}>
       <div className="headerContainer">
@@ -208,7 +212,7 @@ const Nav = ({ handleMobileMenuOpen }) => {
           <button className="material-icons" onClick={showBlock}>
             search
           </button>
-          {data.login === false ? (
+          {loginSuccess === false ? (
             <>
               <Link to={'/login'}>
                 <span className="loginBtn">Log in</span>
