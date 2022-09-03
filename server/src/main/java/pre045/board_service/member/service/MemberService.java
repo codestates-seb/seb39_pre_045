@@ -14,6 +14,7 @@ import pre045.board_service.member.dto.MemberLoginDto;
 import pre045.board_service.member.dto.MemberPostDto;
 import pre045.board_service.member.dto.MemberResponseDto;
 import pre045.board_service.member.entity.Member;
+import pre045.board_service.member.token.config.SecurityUtil;
 import pre045.board_service.member.token.dto.TokenDto;
 import pre045.board_service.member.token.dto.TokenRequestDto;
 import pre045.board_service.member.repository.MemberRepository;
@@ -46,6 +47,10 @@ public class MemberService {
     public MemberResponseDto signup(MemberPostDto postDto) {
         if (memberRepository.existsByEmail(postDto.getEmail())) {
             throw new BusinessLogicException(EMAIL_EXISTS);
+        }
+
+        if (memberRepository.existsByUsername(postDto.getUsername())) {
+            throw new BusinessLogicException(USERNAME_EXISTS);
         }
 
         Member member = postDto.toMember(passwordEncoder);
@@ -106,15 +111,25 @@ public class MemberService {
         return token;
     }
 
-    public void logout(TokenRequestDto tokenRequestDto) {
 
-        Authentication authentication = tokenProvider.getAuthentication(tokenRequestDto.getAccessToken());
-
-        RefreshToken refreshToken = refreshTokenRepository.findByTokenKey(authentication.getName())
-                .orElseThrow(() -> new BusinessLogicException(MEMBER_NOT_VALID));
-
+    public void logout() {
+        Long memberId = SecurityUtil.getCurrentMemberId();
+        RefreshToken refreshToken = verifyRefreshToken(memberId.toString());
         refreshTokenRepository.delete(refreshToken);
     }
+
+    public void deleteMember() {
+        Long memberId = SecurityUtil.getCurrentMemberId();
+
+        //회원 정보 삭제
+        Member foundMember = findVerifiedMember(memberId);
+        memberRepository.delete(foundMember);
+
+        //refresh token 삭제
+        RefreshToken refreshToken = verifyRefreshToken(memberId.toString());
+        refreshTokenRepository.delete(refreshToken);
+    }
+
 
 
     public Member findVerifiedMember(long memberId){
@@ -123,6 +138,11 @@ public class MemberService {
 
         return optionalMember.orElseThrow(() ->
                 new BusinessLogicException(ExceptionCode.MEMBER_NOT_FOUND));
+    }
+
+    private RefreshToken verifyRefreshToken(String refreshTokenKey) {
+        return refreshTokenRepository.findByTokenKey(refreshTokenKey)
+                .orElseThrow(() -> new BusinessLogicException(REFRESH_TOKEN_NOT_FOUND));
     }
 
 

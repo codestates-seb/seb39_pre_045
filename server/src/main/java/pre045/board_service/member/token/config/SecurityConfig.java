@@ -3,6 +3,7 @@ package pre045.board_service.member.token.config;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -45,8 +46,8 @@ public class SecurityConfig {
 
                 .and()
                 .authorizeRequests()
-//                .antMatchers("/members/**", "/questions/**").permitAll()
                 .antMatchers("/members/**").permitAll()
+                .antMatchers(HttpMethod.GET, "/questions/**").permitAll()
                 .anyRequest().authenticated()
 
                 .and()
