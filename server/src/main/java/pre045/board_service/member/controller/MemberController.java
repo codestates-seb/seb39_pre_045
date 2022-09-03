@@ -30,7 +30,7 @@ public class MemberController {
      * @return - email, username, password
      */
     @PostMapping("/signup")
-    public ResponseEntity signup(@RequestBody MemberPostDto postDto){
+    public ResponseEntity signup(@RequestBody @Valid MemberPostDto postDto){
 
         return new ResponseEntity<>(new SingleResponseDto<>(memberService.signup(postDto)), HttpStatus.CREATED);
     }
