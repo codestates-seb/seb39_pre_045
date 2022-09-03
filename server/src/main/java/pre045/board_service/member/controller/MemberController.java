@@ -12,6 +12,7 @@ import pre045.board_service.member.dto.MemberPatchDto;
 import pre045.board_service.member.dto.MemberPostDto;
 import pre045.board_service.member.token.dto.TokenRequestDto;
 import pre045.board_service.member.service.MemberService;
+
 import javax.validation.Valid;
 import javax.validation.constraints.Positive;
 
@@ -46,6 +47,7 @@ public class MemberController {
         return new ResponseEntity<>(new SingleResponseDto<>(memberService.login(loginDto)), HttpStatus.OK);
     }
 
+
     /**
      * 로그아웃
      * @return - 204
@@ -60,6 +62,7 @@ public class MemberController {
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
 
+
     /**
      * 액세스 토큰 재발급
      * @param tokenRequestDto - accessToken, refreshToken
@@ -71,7 +74,6 @@ public class MemberController {
         return new ResponseEntity<>(new SingleResponseDto<>(memberService.reissue(tokenRequestDto)), HttpStatus.OK);
     }
 
-
     /**
      * 회원 탈퇴
      * @return - 204
@@ -79,28 +81,27 @@ public class MemberController {
      * client에서 accessToken 삭제해주세요
      */
     @DeleteMapping("/{member-id}")
-    public ResponseEntity deleteMember(){
+    public ResponseEntity deleteMember(@PathVariable("member-id") Long memberId){
 
-        memberService.deleteMember();
+        memberService.deleteMember(memberId);
 
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
 
 
-
     @PatchMapping("/{member-id}")
-    public ResponseEntity updateMember(@PathVariable("member-id") @Positive long memberId,
-                                       @Valid @RequestBody MemberPatchDto memberDtoPatch){
+    public ResponseEntity updateMember(@PathVariable("member-id") @Positive Long memberId,
+                                       @Valid @RequestBody MemberPatchDto patchDto){
 
-        return new ResponseEntity<>(HttpStatus.OK);
+        return new ResponseEntity<>(memberService.editInfo(patchDto), HttpStatus.OK);
     }
 
     @GetMapping("/recovery")
     public ResponseEntity recoveryMember(){
 
+        // Todo
 
         return new ResponseEntity<>(HttpStatus.OK);
     }
-
 
 }
