@@ -18,7 +18,7 @@ public class MemberResponseDto {
 
     private String gender;
 
-    private String age;
+    private Integer age;
 
     public static MemberResponseDto of(Member member) {
         return MemberResponseDto.builder()
