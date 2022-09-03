@@ -9,6 +9,8 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import pre045.board_service.member.token.filter.JwtExceptionHandlerFilter;
+import pre045.board_service.member.token.jwt.JwtAccessDeniedHandler;
+import pre045.board_service.member.token.jwt.JwtAuthenticationEntryPoint;
 import pre045.board_service.member.token.jwt.TokenProvider;
 
 import static org.springframework.security.config.http.SessionCreationPolicy.STATELESS;
@@ -19,6 +21,8 @@ import static org.springframework.security.config.http.SessionCreationPolicy.STA
 public class SecurityConfig {
 
     private final TokenProvider tokenProvider;
+    private final JwtAccessDeniedHandler accessDeniedHandler;
+    private final JwtAuthenticationEntryPoint authenticationEntryPoint;
     private final JwtExceptionHandlerFilter jwtExceptionHandlerFilter;
 
 
@@ -35,7 +39,13 @@ public class SecurityConfig {
                 .sessionManagement().sessionCreationPolicy(STATELESS) //세션 X
 
                 .and()
+                .exceptionHandling()
+                .accessDeniedHandler(accessDeniedHandler)
+                .authenticationEntryPoint(authenticationEntryPoint)
+
+                .and()
                 .authorizeRequests()
+//                .antMatchers("/members/**", "/questions/**").permitAll()
                 .antMatchers("/members/**").permitAll()
                 .anyRequest().authenticated()
 
