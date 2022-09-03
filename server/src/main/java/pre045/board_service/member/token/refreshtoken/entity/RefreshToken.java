@@ -12,11 +12,6 @@ import javax.persistence.Id;
 @Entity
 public class RefreshToken extends BaseTimeEntity {
 
-/*
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private String tokenId;
-*/
     @Id
     private String tokenKey;
 

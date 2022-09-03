@@ -23,7 +23,11 @@ public class MemberController {
 
     private final MemberService memberService;
 
-
+    /**
+     * 회원 가입
+     * @param postDto - email, username, password, (gender, age)
+     * @return - email, username, password
+     */
     @PostMapping("/signup")
     public ResponseEntity signup(@RequestBody MemberPostDto postDto){
 
@@ -31,25 +35,55 @@ public class MemberController {
     }
 
 
+    /**
+     * 로그인
+     * @param loginDto - email, password
+     * @return - grantType(bearer), accessToken, refreshToken, accessTokenExpiresIn
+     */
     @PostMapping("/login")
     public ResponseEntity login(@RequestBody MemberLoginDto loginDto){
 
         return new ResponseEntity<>(new SingleResponseDto<>(memberService.login(loginDto)), HttpStatus.OK);
     }
 
-
+    /**
+     * 로그아웃
+     * @return - 204
+     *
+     * client에서 accessToken 삭제해주세요
+     */
     @PostMapping("/logout")
-    public ResponseEntity logout(@RequestBody TokenRequestDto tokenRequestDto){
+    public ResponseEntity logout(){
 
-        memberService.logout(tokenRequestDto);
+        memberService.logout();
 
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
 
+    /**
+     * 액세스 토큰 재발급
+     * @param tokenRequestDto - accessToken, refreshToken
+     * @return - grantType(bearer), accessToken, refreshToken, accessTokenExpiresIn
+     */
     @PostMapping("/reissue")
     public ResponseEntity reissue(@RequestBody TokenRequestDto tokenRequestDto) {
 
         return new ResponseEntity<>(new SingleResponseDto<>(memberService.reissue(tokenRequestDto)), HttpStatus.OK);
+    }
+
+
+    /**
+     * 회원 탈퇴
+     * @return - 204
+     *
+     * client에서 accessToken 삭제해주세요
+     */
+    @DeleteMapping("/{member-id}")
+    public ResponseEntity deleteMember(){
+
+        memberService.deleteMember();
+
+        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
 
 
@@ -64,28 +98,9 @@ public class MemberController {
     @GetMapping("/recovery")
     public ResponseEntity recoveryMember(){
 
-        // Todo
 
         return new ResponseEntity<>(HttpStatus.OK);
     }
-
-    @DeleteMapping("/{member-id}")
-    public ResponseEntity deleteMember(){
-
-        // Todo
-
-        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
-    }
-
-    @GetMapping("/{username}")
-    public ResponseEntity getMyPage(){
-
-        // Todo
-
-        return new ResponseEntity<>(HttpStatus.OK);
-    }
-
-
 
 
 }

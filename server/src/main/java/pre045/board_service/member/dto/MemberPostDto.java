@@ -50,7 +50,4 @@ public class MemberPostDto {
                 .build();
     }
 
-    public UsernamePasswordAuthenticationToken toAuthentication() {
-        return new UsernamePasswordAuthenticationToken(email, password);
-    }
 }
