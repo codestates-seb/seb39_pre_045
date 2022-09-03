@@ -22,9 +22,10 @@ const MainLogin = () => {
   });
   useEffect(() => {
     axios
-      .get(`questions?page=1&sort=newest&filters=`)
+      .get(`/questions?page=1&sort=newest&filters=`)
       .then(({ data }) => {
         setData(data.data !== undefined ? data.data : []);
+        setIsPending(false);
       })
       .catch((err) => {
         setData([]);

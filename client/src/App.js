@@ -25,7 +25,9 @@ function App() {
   const [openMobileMenu, setOpenMobileMenu] = useState(false);
   const [loginStyle, setLoginStyle] = useState(false);
   const { leftSideBarHidden } = useSideBarStore((state) => state);
-  const { setLoginSuccess } = useLoginSuccessStore((state) => state);
+  const { setLoginSuccess, loginSuccess } = useLoginSuccessStore(
+    (state) => state
+  );
   // const [path, setLoginSuccess] = useState('');
 
   const handleMobileMenuOpen = () => {
@@ -50,7 +52,10 @@ function App() {
           <LeftSideBar login={loginStyle} />
           <MobileLeftSideBar openMobileMenu={openMobileMenu} />
           <Routes>
-            <Route path={'/'} element={<MainLogout />} />
+            <Route
+              path={'/'}
+              element={loginSuccess === false ? <MainLogout /> : <MainLogin />}
+            />
             <Route path={'/g'} element={<MainLogin />} />
             <Route path="/login" element={<Login />} />
             <Route path="/signup" element={<Signup />} />
