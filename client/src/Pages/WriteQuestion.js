@@ -5,27 +5,6 @@ import { Input, Wrapper, Btn } from '../Pages/Login';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 
-export const WritePage = styled.div`
-  height: max-content;
-  margin: 100px 0;
-  width: 100%;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  label {
-    font-weight: 600;
-  }
-`;
-
-export const TitleInput = styled(Input)`
-  width: 100%;
-  padding: 0.5em 0;
-`;
-
-const P = styled.p`
-  font-size: 0.8em;
-`;
-
 const WriteQuestion = () => {
   const [title, setTitle] = useState('');
   const editor = useRef();
@@ -77,5 +56,25 @@ const WriteQuestion = () => {
     </WritePage>
   );
 };
+export const WritePage = styled.div`
+  height: max-content;
+  margin: 100px 0;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  label {
+    font-weight: 600;
+  }
+`;
+
+export const TitleInput = styled(Input)`
+  width: 100%;
+  padding: 0.5em 0;
+`;
+
+const P = styled.p`
+  font-size: 0.8em;
+`;
 
 export default WriteQuestion;

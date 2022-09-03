@@ -6,6 +6,7 @@ import { useEffect, useState, lazy, Suspense } from 'react';
 import useSideBarStore from './Store/store-sidebar';
 import NoResult from './Components/NoResult';
 import MobileLeftSideBar from './Components/MobileLeftSideBar';
+import useLoginSuccessStore from './Store/store-loginSuccess';
 
 const Login = lazy(() => import('./Pages/Login'));
 const Signup = lazy(() => import('./Pages/Signup'));
@@ -24,7 +25,8 @@ function App() {
   const [openMobileMenu, setOpenMobileMenu] = useState(false);
   const [loginStyle, setLoginStyle] = useState(false);
   const { leftSideBarHidden } = useSideBarStore((state) => state);
-  // const [path, setPath] = useState('');
+  const { setLoginSuccess } = useLoginSuccessStore((state) => state);
+  // const [path, setLoginSuccess] = useState('');
 
   const handleMobileMenuOpen = () => {
     setOpenMobileMenu(!openMobileMenu);
@@ -33,6 +35,12 @@ function App() {
   useEffect(() => {
     setLoginStyle(leftSideBarHidden);
   });
+
+  useEffect(() => {
+    if (localStorage.getItem('ACCESS_TOKEN')) {
+      setLoginSuccess(true);
+    }
+  }, []);
 
   return (
     <div className="App">
