@@ -1,5 +1,6 @@
 package pre045.board_service.member.dto;
 
+import com.fasterxml.jackson.annotation.JsonInclude;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -10,7 +11,10 @@ import pre045.board_service.member.entity.Member;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
+@JsonInclude(JsonInclude.Include.NON_NULL)
 public class MemberResponseDto {
+
+    private Long memberId;
 
     private String email;
 
@@ -18,10 +22,11 @@ public class MemberResponseDto {
 
     private String gender;
 
-    private String age;
+    private Integer age;
 
     public static MemberResponseDto of(Member member) {
         return MemberResponseDto.builder()
+                .memberId(member.getMemberId())
                 .email(member.getEmail())
                 .username(member.getUsername())
                 .gender(member.getGender())
