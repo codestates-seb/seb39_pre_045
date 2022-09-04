@@ -2,7 +2,6 @@ package pre045.board_service.member.service;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -74,7 +73,7 @@ public class MemberService {
     }
 
     //로그인
-    public TokenDto login(MemberLoginDto loginDto) {
+    public MemberLoginResponseDto login(MemberLoginDto loginDto) {
         //email, pw -> Authentication Token
         UsernamePasswordAuthenticationToken authenticationToken = toAuthentication(loginDto.getEmail(), loginDto.getPassword());
 
@@ -87,6 +86,9 @@ public class MemberService {
             throw new BusinessLogicException(MEMBER_NOT_EXIST);
         }
 
+        //member
+        Member foundMember = findVerifiedMember(Long.parseLong(authentication.getName()));
+
         //토큰 생성
         TokenDto token = tokenProvider.createToken(authentication);
 
@@ -97,7 +99,7 @@ public class MemberService {
 
         refreshTokenRepository.save(refreshToken);
 
-        return token;
+        return MemberLoginResponseDto.of(foundMember, token);
     }
 
     //액세스 토큰 재발급
