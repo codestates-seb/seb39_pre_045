@@ -5,6 +5,7 @@ import { useRef, useState } from 'react';
 import LikeRate from './LikeRate';
 import axios from 'axios';
 import { useNavigate, useParams } from 'react-router-dom';
+import useDetaulQuestion from '../Store/store-detailquestion';
 
 const QuestionDiv = styled.div`
   display: flex;
@@ -49,6 +50,11 @@ const Question = ({ data }) => {
   const comment = useRef();
   const navigate = useNavigate();
   const [isOpen, setIsOpen] = useState(false);
+  const { detailData, setDatailData } = useDetaulQuestion((state) => state);
+  const headers = {
+    'Content-Type': 'application/json',
+    Authorization: `Bearer ${localStorage.getItem('ACCESS_TOKEN')}`,
+  };
   const handleCommentWrite = (e) => {
     e.preventDefault();
     if (window.confirm('댓글을 등록하시겠습니까?')) {
@@ -60,10 +66,16 @@ const Question = ({ data }) => {
         questionCommentContent: comment.current.value,
       };
       // console.log(postData);
-      axios.post(`/questions/${id}/comments`, postData).then(({ data }) => {
-        console.log('등록 성공이닷!', data.data);
-        navigate(`/questions/${id}`);
-      });
+      axios
+        .post(`/questions/${id}/comments`, postData, { headers })
+        .then(({ data }) => {
+          console.log('등록 성공이닷!', data.data);
+          setDatailData({
+            ...detailData,
+            questionComments: [...setDatailData.questionComments, data.data],
+          });
+          navigate(`/questions/${id}`);
+        });
     } else {
       return;
     }
