@@ -12,6 +12,8 @@ import {
 } from './EditQuestion';
 import { useRef } from 'react';
 import axios from 'axios';
+import useDetailQuestions from '../Store/store-detailquestion';
+import { useParams } from 'react-router-dom';
 
 const QuestionWrapper = styled.div`
   @media only screen and (max-width: 767px) {
@@ -26,9 +28,12 @@ const QuestionWrapper = styled.div`
 `;
 
 const EditAnswer = () => {
+  const { detailData } = useDetailQuestions();
   const editor = useRef();
+  const { id } = useParams();
   const QUESTION_ID = 10;
-  const ANSWER_ID = 1;
+  const ANSWER_ID = id;
+  console.log(detailData);
 
   const handleSubmitAnswer = (e) => {
     e.preventDefault();
