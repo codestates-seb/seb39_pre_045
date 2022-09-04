@@ -16,11 +16,18 @@ const WriteQuestion = () => {
       alert('내용을 입력해주세요');
     } else {
       axios
-        .post('/questions', {
-          memberId: 1,
-          title,
-          questionContent: editor.current.getInstance().getMarkdown(),
-        })
+        .post(
+          '/questions',
+          {
+            Headers: {
+              Authorization: `Bearer ${localStorage.getItem('ACCESS_TOKEN')}`,
+            },
+          },
+          {
+            title,
+            questionContent: editor.current.getInstance().getMarkdown(),
+          }
+        )
         .then(() => navigate('/'))
         .catch((err) => console.log(err));
     }
