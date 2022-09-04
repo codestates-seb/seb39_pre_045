@@ -22,23 +22,68 @@ const PaginationBtn = styled.button`
   transition: background-color ease-in-out 0.3s, color ease-in-out 0.3s;
 `;
 
-const Pagination = ({ totalPages }) => {
-  const { pagination, setPagination, sort, query } = useSortStore(
-    (state) => state
-  );
-  for (let i = 1; i <= totalPages; i++) {
+const Pagination = ({ status, setIsPending, setNoResult }) => {
+  const {
+    pagination,
+    setPagination,
+    sort,
+    query,
+    setData,
+    pageInfo,
+    setPageInfo,
+  } = useSortStore((state) => state);
+  const page = [];
+  for (let i = 1; i <= pageInfo.totalPages; i++) {
     page.push(i);
   }
   // const { setPagination } = useSortStore((state) => state);
   // const { sort } = useSortStore((state) => state);
   // const { query } = useSortStore((state) => state);
   // const [num, setNum] = useState(1);
-  const page = [];
-  const handlePagination = (e) => {
-    axios
-      .get(`/search?q=${query}&page=${e.target.textContent}&sort=${sort}`)
-      .then(({ data }) => console.log(data.data))
-      .catch((err) => console.log(err));
+
+  const handlePagination = async (e) => {
+    if (status === 'search') {
+      axios
+        .get(
+          `/questions?page=${Number(
+            e.target.textContent
+          )}&sort=${sort}&filters=`
+        )
+        .then(({ data }) => {
+          setPageInfo(data.pageInfo);
+          setData(data.data);
+          setPageInfo(data.pageInfo);
+          setIsPending(false);
+        })
+        .catch((err) => {
+          setData([]);
+          setTimeout(() => {
+            setNoResult({ status: 'httpErr', keyword: err.response.status });
+            setIsPending(false);
+          }, 200);
+          console.log(err);
+        });
+    } else {
+      axios
+        .get(
+          `/search?q=${query}&page=${Number(e.target.textContent)}&sort=${sort}`
+        )
+        .then(({ data }) => {
+          setPageInfo(data.pageInfo);
+          setData(data.data);
+          setPageInfo(data.pageInfo);
+          setIsPending(false);
+        })
+        .catch((err) => {
+          setData([]);
+          setTimeout(() => {
+            setNoResult({ status: 'httpErr', keyword: err.response.status });
+            setIsPending(false);
+          }, 200);
+          console.log(err);
+        });
+    }
+
     setPagination(Number(e.target.textContent));
   };
 

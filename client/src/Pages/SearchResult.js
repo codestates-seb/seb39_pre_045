@@ -20,9 +20,15 @@ const SearchContainer = styled(MainContainer)`
 `;
 const SearchResult = () => {
   const [ispending, setIsPending] = useState(true);
-  const [data, setData] = useState([]);
-  const [pageInfo, setPageInfo] = useState({});
-  const { setQuery, setSort, setPagination } = useSortStore((state) => state);
+  const {
+    setQuery,
+    setSort,
+    setPagination,
+    setPageInfo,
+    setData,
+    pageInfo,
+    data,
+  } = useSortStore((state) => state);
   // const { setSort } = useSortStore((state) => state);
   const navigate = useNavigate();
   const location = useLocation();
@@ -39,11 +45,11 @@ const SearchResult = () => {
       .then(({ data }) => {
         setData(data.data !== undefined ? data.data : []);
         setPageInfo(data.pageInfo);
+        console.log(data);
         setIsPending(false);
       })
       .catch((err) => {
         setData([]);
-
         setTimeout(() => {
           setNoResult({ status: 'httpErr', keyword: err.response.status });
           setIsPending(false);
@@ -53,6 +59,8 @@ const SearchResult = () => {
     return () => {
       setPagination(1);
       setSort('newest');
+      setData([]);
+      setPageInfo({});
     };
   }, []);
 
@@ -67,7 +75,7 @@ const SearchResult = () => {
         <br /> query Search options not deleted
       </div>
       <div className="totalNbtns">
-        <div className="totalQuestion">{pageInfo.totalElments}results</div>
+        <div className="totalQuestion">{pageInfo.totalElements} results</div>
         <SortBtnBar setData={setData} />
       </div>
       {ispending === true ? (
@@ -83,7 +91,11 @@ const SearchResult = () => {
                   <QuestItem key={el.questionId} el={el} />
                 ))}
               </ul>
-              <Pagination totalPages={pageInfo.totalPages} />
+              <Pagination
+                setIsPending={setIsPending}
+                setNoResult={setNoResult}
+                status={'search'}
+              />
             </>
           ) : (
             <NoResult keyword={noResult.keyword} status={noResult.status} />

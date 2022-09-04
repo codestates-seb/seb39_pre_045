@@ -4,6 +4,8 @@ const useSortStore = create((set) => ({
   sort: 'newest',
   pagination: 1,
   query: '',
+  data: [],
+  pageInfo: {},
   setSort: (val) => {
     set(() => ({
       sort: val,
@@ -17,6 +19,16 @@ const useSortStore = create((set) => ({
   setQuery: (val) => {
     set(() => ({
       query: val,
+    }));
+  },
+  setData: (val) => {
+    set(() => ({
+      data: val,
+    }));
+  },
+  setPageInfo: (val) => {
+    set(() => ({
+      pageInfo: val,
     }));
   },
 }));
