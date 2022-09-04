@@ -181,8 +181,9 @@ public class MemberService {
 
     //비밀번호 찾기
     public void recoveryPassword(MemberRecoveryDto recoveryDto) {
-        Long memberId = SecurityUtil.getCurrentMemberId();
-        Member foundMember = findVerifiedMember(memberId);
+
+        Member foundMember = memberRepository.findByEmail(recoveryDto.getEmail())
+                .orElseThrow(() -> new BusinessLogicException(MEMBER_NOT_EXIST));
 
         if (!recoveryDto.getUsername().equals(foundMember.getUsername())) {
             throw new BusinessLogicException(MEMBER_NOT_EXIST);
