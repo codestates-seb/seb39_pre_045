@@ -53,6 +53,7 @@ export const MainContainer = styled.div`
   }
   ul {
     padding: 0;
+    margin-bottom: 50px;
   }
   @media screen and (max-width: 768px) {
     margin: 50px auto;
@@ -77,22 +78,22 @@ export const SortBtns = styled.button`
 `;
 
 const MainLogout = () => {
-  const [data, setData] = useState([]);
-  const [pageInfo, setPageInfo] = useState({});
+  // const [data, setData] = useState([]);
+  // const [pageInfo, setPageInfo] = useState({});
   const [ispending, setIsPending] = useState(true);
   const navigate = useNavigate();
   const [noResult, setNoResult] = useState({
     status: 'data',
     keyword: 'no data',
   });
-  const { setPagination, setSort } = useSortStore((state) => state);
+  const { setPagination, data, setData, setSort, setPageInfo, pageInfo } =
+    useSortStore((state) => state);
   useEffect(() => {
     axios
       .get(`/questions?page=1&sort=newest&filters=`)
       .then(({ data }) => {
         setData(data.data !== undefined ? data.data : []);
         setPageInfo(data.pageInfo);
-        console.log(typeof data.pageInfo.totalPages);
         setIsPending(false);
       })
       .catch((err) => {
@@ -106,6 +107,8 @@ const MainLogout = () => {
     return () => {
       setPagination(1);
       setSort('newest');
+      setData([]);
+      setPageInfo({});
     };
   }, []);
 
@@ -117,7 +120,11 @@ const MainLogout = () => {
       </div>
       <div className="totalNbtns">
         <div className="totalQuestion">{pageInfo.totalElements} questions</div>
-        <SortBtnBar setData={setData} />
+        <SortBtnBar
+          setData={setData}
+          setIsPending={setIsPending}
+          setNoResult={setNoResult}
+        />
       </div>
       {ispending === true ? (
         <>
@@ -134,7 +141,11 @@ const MainLogout = () => {
                   </>
                 ))}
               </ul>
-              <Pagination totalPages={pageInfo.totalPages} />
+              <Pagination
+                setIsPending={setIsPending}
+                setNoResult={setNoResult}
+                status={'question'}
+              />
               {'?'}
             </>
           ) : (

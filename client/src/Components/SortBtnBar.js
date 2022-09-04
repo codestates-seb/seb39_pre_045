@@ -20,17 +20,31 @@ const SortBtns = styled.button`
   }
 `;
 
-const SortBtnBar = ({ setData }) => {
-  const { setSort, sort } = useSortStore((state) => state);
-  const handleSort = (sorting) => {
-    axios
-      .get(`/questions?page=1&sort=${sort}&filters=`)
+const SortBtnBar = ({ setIsPending, setNoResult }) => {
+  const { setSort, sort, setPagination, setData, setPageInfo } = useSortStore(
+    (state) => state
+  );
+  const handleSort = async (sorting) => {
+    setSort(sorting);
+    setPagination(1);
+    setIsPending(true);
+    await axios
+      .get(`/questions?page=1&sort=${sorting}&filters=`)
       .then(({ data }) => {
-        setSort(sorting);
+        setPageInfo(data.pageInfo);
         setData(data.data);
+        console.log(`/questions?page=1&sort=${sorting}&filters=`);
         console.log(data.data);
+        setIsPending(false);
       })
-      .catch((err) => alert(err, '정렬에 실패했습니다'));
+      .catch((err) => {
+        console.log(err);
+        setTimeout(() => {
+          setNoResult({ status: 'httpErr', keyword: err.response.status });
+          setIsPending(false);
+        }, 200);
+        alert('정렬에 실패했습니다');
+      });
 
     // .catch((err) => {
     //   setData([]);
