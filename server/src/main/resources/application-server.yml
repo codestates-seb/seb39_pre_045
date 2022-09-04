@@ -9,6 +9,6 @@ spring:
         format_sql: true
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
-    url: jdbc:mysql://121.189.189.136:3306/board_service?createDatabaseIfNotExist=true
+    url: jdbc:mysql://121.189.189.136:3306/board_service?createDatabaseIfNotExist=true&validationQuery="select 1"
     username: team45
     password: 1q2w3e4r
