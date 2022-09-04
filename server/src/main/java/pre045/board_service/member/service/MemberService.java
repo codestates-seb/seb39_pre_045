@@ -2,27 +2,35 @@ package pre045.board_service.member.service;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.mail.SimpleMailMessage;
+import org.springframework.mail.javamail.JavaMailSender;
+import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.thymeleaf.context.Context;
+import org.thymeleaf.spring5.SpringTemplateEngine;
 import pre045.board_service.exception.BusinessLogicException;
-import pre045.board_service.exception.ExceptionCode;
-import pre045.board_service.member.dto.MemberLoginDto;
-import pre045.board_service.member.dto.MemberPostDto;
-import pre045.board_service.member.dto.MemberResponseDto;
+import pre045.board_service.member.dto.*;
 import pre045.board_service.member.entity.Member;
+import pre045.board_service.member.repository.MemberRepository;
 import pre045.board_service.member.token.config.SecurityUtil;
 import pre045.board_service.member.token.dto.TokenDto;
 import pre045.board_service.member.token.dto.TokenRequestDto;
-import pre045.board_service.member.repository.MemberRepository;
 import pre045.board_service.member.token.jwt.TokenProvider;
 import pre045.board_service.member.token.refreshtoken.entity.RefreshToken;
 import pre045.board_service.member.token.refreshtoken.repository.RefreshTokenRepository;
 
+import javax.mail.MessagingException;
+import javax.mail.internet.InternetAddress;
+import javax.mail.internet.MimeMessage;
+import java.io.UnsupportedEncodingException;
 import java.util.Optional;
+import java.util.UUID;
 
 import static pre045.board_service.exception.ExceptionCode.*;
 
@@ -41,6 +49,13 @@ public class MemberService {
     private final TokenProvider tokenProvider;
 
     private final RefreshTokenRepository refreshTokenRepository;
+    private final SpringTemplateEngine templateEngine;
+
+    private static final String MAIL_FROM = "romchanxx@gmail.com";
+
+    private final JavaMailSender mailSender;
+
+
 
 
     //가입
@@ -58,30 +73,34 @@ public class MemberService {
         return MemberResponseDto.of(memberRepository.save(member));
     }
 
+    //로그인
     public TokenDto login(MemberLoginDto loginDto) {
         //email, pw -> Authentication Token
-        UsernamePasswordAuthenticationToken authenticationToken = loginDto.toAuthentication();
+        UsernamePasswordAuthenticationToken authenticationToken = toAuthentication(loginDto.getEmail(), loginDto.getPassword());
 
+        Authentication authentication;
 
         //email, pw 검증
-        Authentication authentication = authBuilder.getObject().authenticate(authenticationToken);
-
+        try {
+            authentication = authBuilder.getObject().authenticate(authenticationToken);
+        } catch (AuthenticationException e) {
+            throw new BusinessLogicException(MEMBER_NOT_EXIST);
+        }
 
         //토큰 생성
         TokenDto token = tokenProvider.createToken(authentication);
-
 
         RefreshToken refreshToken = RefreshToken.builder()
                 .tokenKey(authentication.getName()) // tokenKey == memberId 로 설정
                 .tokenValue(token.getRefreshToken())
                 .build();
 
-
         refreshTokenRepository.save(refreshToken);
 
         return token;
     }
 
+    //액세스 토큰 재발급
     public TokenDto reissue(TokenRequestDto tokenRequestDto) {
         //Refresh Token 검증
         if (!tokenProvider.validateToken(tokenRequestDto.getRefreshToken())) {
@@ -112,22 +131,101 @@ public class MemberService {
     }
 
 
+    //로그아웃
     public void logout() {
         Long memberId = SecurityUtil.getCurrentMemberId();
         RefreshToken refreshToken = verifyRefreshToken(memberId.toString());
         refreshTokenRepository.delete(refreshToken);
     }
 
-    public void deleteMember() {
-        Long memberId = SecurityUtil.getCurrentMemberId();
+    //회원 탈퇴
+    public void deleteMember(Long memberId) {
+        Long authMemberId = SecurityUtil.getCurrentMemberId();
+
+        if (!memberId.equals(authMemberId)) {
+            throw new BusinessLogicException(NOT_MATCH_TOKEN_WITH_MEMBER);
+        }
+
 
         //회원 정보 삭제
-        Member foundMember = findVerifiedMember(memberId);
+        Member foundMember = findVerifiedMember(authMemberId);
         memberRepository.delete(foundMember);
 
         //refresh token 삭제
-        RefreshToken refreshToken = verifyRefreshToken(memberId.toString());
+        RefreshToken refreshToken = verifyRefreshToken(authMemberId.toString());
         refreshTokenRepository.delete(refreshToken);
+    }
+
+    //회원 정보 수정
+    public MemberResponseDto editInfo(MemberPatchDto patchDto) {
+        Long memberId = SecurityUtil.getCurrentMemberId();
+        Member foundMember = findVerifiedMember(memberId);
+
+        UsernamePasswordAuthenticationToken authenticationToken = toAuthentication(foundMember.getEmail(), patchDto.getPrePassword());
+
+        try {
+            authBuilder.getObject().authenticate(authenticationToken);
+        } catch (AuthenticationException e) {
+            throw new BusinessLogicException(MEMBER_NOT_EXIST);
+        }
+
+
+        Optional.ofNullable(patchDto.getUsername())
+                .ifPresent(foundMember::setUsername);
+        Optional.ofNullable(patchDto.getNewPassword())
+                .ifPresent(foundMember::setPassword);
+
+
+        return MemberResponseDto.of(memberRepository.save(foundMember));
+    }
+
+    //비밀번호 찾기
+    public void recoveryPassword(MemberRecoveryDto recoveryDto) {
+
+        Member foundMember = memberRepository.findByEmail(recoveryDto.getEmail())
+                .orElseThrow(() -> new BusinessLogicException(MEMBER_NOT_EXIST));
+
+        if (!recoveryDto.getUsername().equals(foundMember.getUsername())) {
+            throw new BusinessLogicException(MEMBER_NOT_EXIST);
+        }
+
+        String email = foundMember.getEmail();
+        String tempPassword = getTempPassword();
+
+        String content = setContext(foundMember.getUsername(), tempPassword);
+
+        MimeMessage message = mailSender.createMimeMessage();
+
+
+        try {
+            MimeMessageHelper helper = new MimeMessageHelper(message, false, "utf-8");
+            helper.setTo(email);
+            helper.setSubject("team45의 stackoverflow clone service 비밀번호를 찾고 계신가요?");
+            helper.setText(content, true);
+            helper.setFrom(new InternetAddress(MAIL_FROM, "team45"));
+            mailSender.send(message);
+
+            log.info("이메일 전송이 성공적으로 완료되었습니다.");
+
+            foundMember.setPassword(passwordEncoder.encode(tempPassword));
+            memberRepository.save(foundMember);
+        } catch (MessagingException | UnsupportedEncodingException e) {
+            log.info("이메일 전송에 실패했습니다. {}", e.getMessage());
+            throw new BusinessLogicException(EMAIL_SEND_ERROR);
+        }
+
+    }
+
+    private String setContext(String username, String tempPassword) {
+        Context context = new Context();
+        context.setVariable("username", username);
+        context.setVariable("tempPassword", tempPassword);
+        return templateEngine.process("mail", context);
+    }
+
+    private String getTempPassword() {
+        String tempPassword = UUID.randomUUID().toString().replaceAll("-", "");
+        return tempPassword.substring(0, 10);
     }
 
 
@@ -137,13 +235,18 @@ public class MemberService {
                 memberRepository.findById(memberId);
 
         return optionalMember.orElseThrow(() ->
-                new BusinessLogicException(ExceptionCode.MEMBER_NOT_FOUND));
+                new BusinessLogicException(MEMBER_NOT_FOUND));
     }
+
 
     private RefreshToken verifyRefreshToken(String refreshTokenKey) {
         return refreshTokenRepository.findByTokenKey(refreshTokenKey)
                 .orElseThrow(() -> new BusinessLogicException(REFRESH_TOKEN_NOT_FOUND));
     }
 
+
+    public UsernamePasswordAuthenticationToken toAuthentication(String email, String password) {
+        return new UsernamePasswordAuthenticationToken(email, password);
+    }
 
 }

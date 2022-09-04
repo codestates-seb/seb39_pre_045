@@ -20,18 +20,18 @@ public class Member {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long memberId;
 
-    @Column(nullable = false, unique = true)
+    @Column(nullable = false)
     private String email;
 
     @Column(nullable = false)
     private String password;
 
-    @Column(nullable = false, unique = true)
+    @Column(nullable = false)
     private String username;
 
     private String gender;
 
-    private String age;
+    private Integer age;
 
     @Enumerated(EnumType.STRING)
     private Authority authority;
@@ -45,7 +45,7 @@ public class Member {
     }
 
     @Builder
-    public Member(String email, String password, String username, String gender, String age, Authority authority) {
+    public Member(String email, String password, String username, String gender, Integer age, Authority authority) {
         this.email = email;
         this.password = password;
         this.username = username;

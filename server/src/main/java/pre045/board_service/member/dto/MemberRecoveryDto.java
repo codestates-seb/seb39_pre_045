@@ -1,7 +1,6 @@
 package pre045.board_service.member.dto;
 
 import lombok.AllArgsConstructor;
-import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
@@ -12,14 +11,13 @@ import javax.validation.constraints.Size;
 @Getter
 @AllArgsConstructor
 @NoArgsConstructor
-@Builder
-public class MemberLoginDto {
+public class MemberRecoveryDto {
 
     @Email
     @NotBlank(message = "이메일은 공백일 수 없습니다.")
     private String email;
 
-    @Size(min = 8, max = 20, message = "비밀번호 길이는 8 이상 20 이하여야 합니다.")
-    private String password;
+    @Size(min = 2, max = 15, message = "닉네임 길이는 2 이상 15 이하여야 합니다.")
+    private String username;
 
 }
