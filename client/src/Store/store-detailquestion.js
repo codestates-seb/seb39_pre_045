@@ -5,6 +5,10 @@ const useDetaulQuestion = create((set) => ({
   setDetailData: (value) => {
     set(() => ({ detailData: value }));
   },
+  prevAnswerData: [],
+  setPrevAnswerData: (value) => {
+    set(() => ({ prevAnswerData: value }));
+  },
 }));
 
 export default useDetaulQuestion;
