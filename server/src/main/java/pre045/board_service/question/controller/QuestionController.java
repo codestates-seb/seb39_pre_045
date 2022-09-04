@@ -72,7 +72,10 @@ public class QuestionController {
 
     //질문 리스트 반환
     @GetMapping
-    public ResponseEntity getQuestions(@RequestParam int page, @RequestParam String sort, @RequestParam(value = "filters", required = false) String filters) {
+    public ResponseEntity getQuestions(@RequestParam int page,
+                                       @RequestParam String sort,
+                                       @RequestParam(value = "filters", required = false) String filters) {
+        // filters 리퀘스트 파람 null 허용
 
         MultiResponseDto filterAndSortQuestions = questionService.getFilterAndSortQuestions(page - 1, sort, filters);
 

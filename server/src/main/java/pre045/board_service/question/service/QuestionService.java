@@ -119,6 +119,7 @@ public class QuestionService {
         List<Question> all = questionRepository.findAll();
         List<Question> filterAndSorted = new ArrayList<>();
 
+        // filters 가 없을 때 -> 기존의 !filters 는 공백만 잡아주는데 반해, StringUtils는 null도 잡는다
         if (!StringUtils.isEmpty(filters)) {
             switch (filters) {
                 case "noAdopt":
