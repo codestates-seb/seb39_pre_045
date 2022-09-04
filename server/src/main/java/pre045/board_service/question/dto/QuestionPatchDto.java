@@ -11,6 +11,7 @@ import javax.validation.constraints.Positive;
 @AllArgsConstructor
 @NoArgsConstructor
 public class QuestionPatchDto {
+
     @Positive
     private long questionId;
 

@@ -3,6 +3,9 @@ package pre045.board_service.question.service;
 import org.springframework.data.domain.*;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
+
+import org.thymeleaf.util.StringUtils;
 import pre045.board_service.dto.MultiResponseDto;
 import pre045.board_service.exception.BusinessLogicException;
 import pre045.board_service.exception.ExceptionCode;
@@ -116,7 +119,8 @@ public class QuestionService {
         List<Question> all = questionRepository.findAll();
         List<Question> filterAndSorted = new ArrayList<>();
 
-        if (!filters.isEmpty()) {
+        // filters 가 없을 때 -> 기존의 !filters 는 공백만 잡아주는데 반해, StringUtils는 null도 잡는다
+        if (!StringUtils.isEmpty(filters)) {
             switch (filters) {
                 case "noAdopt":
                     filterAndSorted = all.stream()
@@ -178,30 +182,6 @@ public class QuestionService {
         return findQuestionGet;
     }
 
-
-//    public Page<Question> findQuestions(int page, int size) {
-//        return questionRepository.findAll(PageRequest.of(page, size,
-//                Sort.by("questionId").descending()));
-//    }
-//
-//    public Page<Question> findQuestions(int page, int size, String sort){
-//        Sort sorting;
-//        switch(sort){
-//            case "newest":
-//                sorting = Sort.by("createdAt").descending();
-//                break;
-//            case "oldest":
-//                sorting = Sort.by("createdAt").ascending();
-//                break;
-//            case "votes":
-//                sorting = Sort.by("totalVotes").descending();
-//                break;
-//            default:
-//                sorting = Sort.by("questionId").descending();
-//        }
-//
-//        return questionRepository.findAll(PageRequest.of(page, size, sorting));
-//    }
 
     private Member memberVerifyQuestion(Long memberId) {
         // 질문을 작성하는 유저가 회원인지 아닌지 여부
