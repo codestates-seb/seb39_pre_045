@@ -179,30 +179,6 @@ public class QuestionService {
     }
 
 
-//    public Page<Question> findQuestions(int page, int size) {
-//        return questionRepository.findAll(PageRequest.of(page, size,
-//                Sort.by("questionId").descending()));
-//    }
-//
-//    public Page<Question> findQuestions(int page, int size, String sort){
-//        Sort sorting;
-//        switch(sort){
-//            case "newest":
-//                sorting = Sort.by("createdAt").descending();
-//                break;
-//            case "oldest":
-//                sorting = Sort.by("createdAt").ascending();
-//                break;
-//            case "votes":
-//                sorting = Sort.by("totalVotes").descending();
-//                break;
-//            default:
-//                sorting = Sort.by("questionId").descending();
-//        }
-//
-//        return questionRepository.findAll(PageRequest.of(page, size, sorting));
-//    }
-
     private Member memberVerifyQuestion(Long memberId) {
         // 질문을 작성하는 유저가 회원인지 아닌지 여부
         return memberService.findVerifiedMember(memberId);

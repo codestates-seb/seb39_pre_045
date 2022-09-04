@@ -61,22 +61,6 @@ public class QuestionController {
                 HttpStatus.OK);
     }
 
-    // Todo 게시물 검색 기능 구현 요망 (리퀘스트 파람), 정렬 기능 추가
-
-    //
-//    @GetMapping
-//    public ResponseEntity getQuestionsSort(@Positive @RequestParam int page,
-//                                           @RequestParam String sort){
-//        int size = 10;
-//        Page<Question> pageQuestions = questionService.findQuestions(page -1, size);
-//        List<Question> questions = pageQuestions.getContent();
-//
-//        return new ResponseEntity<>(
-//                new MultiResponseDto<>(mapper.questionsToQuestionResponseDtos(questions), pageQuestions),
-//                HttpStatus.OK);
-//
-//    }
-//
     //검색
     @GetMapping("/search")
     public ResponseEntity findQuestions(@RequestParam String q, @RequestParam String sort, @RequestParam int page) {
