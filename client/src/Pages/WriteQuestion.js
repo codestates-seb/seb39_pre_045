@@ -6,29 +6,25 @@ import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 
 const WriteQuestion = () => {
+  const header = `Bearer ${localStorage.getItem('ACCESS_TOKEN')}`;
+  axios.defaults.headers = {
+    'Content-Type': 'application/json',
+    Authorization: header,
+  };
   const [title, setTitle] = useState('');
   const editor = useRef();
   const navigate = useNavigate();
-
   const handleSubmitQuestion = (e) => {
     e.preventDefault();
     if (editor.current.getInstance().getMarkdown() === 'please write here') {
       alert('내용을 입력해주세요');
     } else {
       axios
-        .post(
-          '/questions',
-          {
-            Headers: {
-              Authorization: `Bearer ${localStorage.getItem('ACCESS_TOKEN')}`,
-            },
-          },
-          {
-            title,
-            questionContent: editor.current.getInstance().getMarkdown(),
-          }
-        )
-        .then(() => navigate('/'))
+        .post('/questions', {
+          title,
+          questionContent: editor.current.getInstance().getMarkdown(),
+        })
+        .then((res) => navigate(`/questions/${res.data.data.questionId}`))
         .catch((err) => console.log(err));
     }
   };

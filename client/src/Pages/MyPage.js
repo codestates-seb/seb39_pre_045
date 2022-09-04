@@ -13,7 +13,7 @@ const PageWrapper = styled.div`
   display: flex;
   flex-direction: column;
   width: 100%;
-  height: calc(100vh - 350px);
+  min-height: calc(100vh - 350px);
   @media only screen and (max-width: 767px) {
     margin: 50px 0 0 20px;
     .menuContainer {

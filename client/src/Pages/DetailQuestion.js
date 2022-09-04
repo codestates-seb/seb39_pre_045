@@ -7,6 +7,7 @@ import styled from 'styled-components';
 import DetailPageAnswerEditor from '../Components/DetailPageAnswerEditor';
 import { useEffect, useState } from 'react';
 import Loading from '../Components/Loading';
+import useDetaulQuestion from '../Store/store-detailquestion';
 const DivWrapper = styled.div`
   width: 100%;
   min-height: calc(100vh - 50px);
@@ -157,6 +158,7 @@ const DivWrapper = styled.div`
 // };
 
 const DetailQuestion = () => {
+  const { setDetailData } = useDetaulQuestion((state) => state);
   const { id } = useParams();
   const [ispending, setIsPending] = useState(true);
   const navigate = useNavigate();
@@ -169,6 +171,7 @@ const DetailQuestion = () => {
       .then(({ data }) => {
         console.log(`/questions/${id}`);
         console.log(data.data);
+        setDetailData(data.data);
         setData(data.data);
         setIsPending(false);
         window.scrollTo(0, 0);
