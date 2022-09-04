@@ -88,7 +88,9 @@ const Question = ({ data }) => {
         <MarkdownViewer margin={'20px auto'} />
         <InfoBarDiv>
           <div>
-            <button onClick={() => navigate(`/questions/${id}`)}>Edit</button>
+            <button onClick={() => navigate(`/questions/edit/${id}`)}>
+              Edit
+            </button>
             <button onClick={handleDelete}>Delete</button>
           </div>
           <div className="userInfo">

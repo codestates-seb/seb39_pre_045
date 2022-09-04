@@ -62,8 +62,8 @@ function App() {
             <Route path="/mypage" element={<MyPage />} />
             <Route path="/search" element={<SearchResult />} />
             <Route path="/write" element={<WriteQuestion />} />
-            <Route path="/questions/edit" element={<EditQuestion />} />
-            <Route path="/answer/edit" element={<EditAnswer />} />
+            <Route path="/questions/edit/:id" element={<EditQuestion />} />
+            <Route path="/answers/edit/:id" element={<EditAnswer />} />
             <Route path="/questions/:id" element={<DetailQuestion />} />
             <Route
               path="*"
