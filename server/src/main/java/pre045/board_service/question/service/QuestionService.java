@@ -3,6 +3,9 @@ package pre045.board_service.question.service;
 import org.springframework.data.domain.*;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
+
+import org.thymeleaf.util.StringUtils;
 import pre045.board_service.dto.MultiResponseDto;
 import pre045.board_service.exception.BusinessLogicException;
 import pre045.board_service.exception.ExceptionCode;
@@ -116,7 +119,7 @@ public class QuestionService {
         List<Question> all = questionRepository.findAll();
         List<Question> filterAndSorted = new ArrayList<>();
 
-        if (!filters.isEmpty()) {
+        if (!StringUtils.isEmpty(filters)) {
             switch (filters) {
                 case "noAdopt":
                     filterAndSorted = all.stream()
