@@ -3,6 +3,7 @@ import { Link, useNavigate } from 'react-router-dom';
 import link from '../image/stackoverflow.png';
 import { useRef, useState } from 'react';
 import useLoginSuccessStore from '../Store/store-loginSuccess';
+import axios from 'axios';
 // import axios from 'axios'
 const NavHeader = styled.header`
   width: 100%;
@@ -182,11 +183,25 @@ const Nav = ({ handleMobileMenuOpen }) => {
     }
   };
   const handleLogout = () => {
-    // axios.post(url,data).then(({data})=>{
-    //   //로그온 정보 싹다 날리기. 해당 헤더 바꾸기위해서 useState설정
-    //   useNavigate('/')}).catch(err=>alert('로그아웃에 실패하였습니다'))
+    // axios
+    //   .post('/logout', {
+    //     Headers: {
+    //       Authorization: `Bearer ${localStorage.getItem('ACCESS_TOKEN')}`,
+    //     },
+    //   })
+    //   .then(({ data }) => {
+    //     console.log(data);
+
+    //     alert('test');
+    //     useNavigate('/');
+    //   })
+    //   .catch((err) => {
+    //     console.log(err);
+    //     alert('로그아웃에 실패하였습니다');
+    //   });
+    window.localStorage.removeItem('REFRESH_TOKEN');
+    window.localStorage.removeItem('ACCESS_TOKEN');
     setLoginSuccess(false);
-    alert('test');
   };
   return (
     <NavHeader className="header" display={`${isblock}`}>

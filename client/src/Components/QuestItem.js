@@ -71,13 +71,19 @@ const Question = styled.li`
   }
 `;
 const QuestItem = ({ el }) => {
+  const options = {
+    weekday: 'short',
+    year: 'numeric',
+    month: 'short',
+    day: 'numeric',
+  };
   return (
     <Question
       answered={el.answers.length > 0 ? 'yes' : 'no'}
       chosen={`${el.checkadopted}`}
     >
       <div className="info">
-        <span>{el.totalVote} votes</span>
+        <span>{el.totalVotes} votes</span>
         <span className="answer">{el.answers.length} answers</span>
         <span>{el.view} views</span>
       </div>
@@ -87,8 +93,10 @@ const QuestItem = ({ el }) => {
         </h3>
         <p className="content">{el.questionContent}</p>
         <div className="userNdate">
-          <span>{el.QuestionUserName}</span>
-          <span>{el.createdAt}</span>
+          <span>{el.questionUsername}</span>
+          <span>
+            asked {new Date(el.createdAt).toLocaleString('en-US', options)}
+          </span>
         </div>
       </div>
     </Question>
