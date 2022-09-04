@@ -38,6 +38,10 @@ const Answer = ({ data, idx }) => {
   const [isOpen, setIsOpen] = useState(false);
   const id = data.answerId;
   const comment = useRef();
+  const headers = {
+    'Content-Type': 'application/json',
+    Authorization: `Bearer ${localStorage.getItem('ACCESS_TOKEN')}`,
+  };
   const handleCommentWrite = (e) => {
     e.preventDefault();
     console.log('err');
@@ -51,7 +55,7 @@ const Answer = ({ data, idx }) => {
       };
       console.log(postData);
       axios
-        .post(`/answers/${id}/comments`, postData)
+        .post(`/answers/${id}/comments`, postData, { headers })
         .then(({ data }) => {
           alert('등록 성공이닷!', data.data);
         })
