@@ -83,7 +83,7 @@ const Answer = ({ data, idx }) => {
     <AnswerDiv className="wrapper" idx={idx}>
       <LikeRate className="rateLike" status={'answers'} />
       <div className="test">
-        <MarkdownViewer margin={'20px auto'} />
+        <MarkdownViewer margin={'20px auto'} value={data.answerContent} />
         <InfoBarDiv>
           <div>
             <button onClick={() => navigate(`/answers/edit/${id}`)}>

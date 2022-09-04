@@ -6,7 +6,7 @@ import codeSyntaxHighlight from '@toast-ui/editor-plugin-code-syntax-highlight/d
 import { Editor } from '@toast-ui/react-editor';
 import { forwardRef } from 'react';
 import styled from 'styled-components';
-// import '@toast-ui/editor/dist/i18n/ko-kr';
+// import useDetailQuestion from '../Store/store-detailquestion';
 
 const Div = styled.div`
   overflow-x: scroll;
@@ -14,12 +14,13 @@ const Div = styled.div`
 `;
 
 const MarkdownEditor = (props, ref) => {
+  console.log(props);
   return (
     <Div>
       <Editor
         ref={ref}
-        initialValue={null || 'please write here'}
         height="500px"
+        initialValue={props.value}
         toolbarItems={[
           ['heading', 'bold', 'italic', 'strike'],
           ['hr', 'quote'],
