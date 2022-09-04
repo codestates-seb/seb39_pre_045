@@ -45,6 +45,7 @@ const SearchResult = () => {
       .then(({ data }) => {
         setData(data.data !== undefined ? data.data : []);
         setPageInfo(data.pageInfo);
+        console.log(data);
         setIsPending(false);
       })
       .catch((err) => {
