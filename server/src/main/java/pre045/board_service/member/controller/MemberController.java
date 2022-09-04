@@ -10,6 +10,7 @@ import pre045.board_service.dto.SingleResponseDto;
 import pre045.board_service.member.dto.MemberLoginDto;
 import pre045.board_service.member.dto.MemberPatchDto;
 import pre045.board_service.member.dto.MemberPostDto;
+import pre045.board_service.member.dto.MemberRecoveryDto;
 import pre045.board_service.member.token.dto.TokenRequestDto;
 import pre045.board_service.member.service.MemberService;
 
@@ -42,7 +43,7 @@ public class MemberController {
      * @return - grantType(bearer), accessToken, refreshToken, accessTokenExpiresIn
      */
     @PostMapping("/login")
-    public ResponseEntity login(@RequestBody MemberLoginDto loginDto){
+    public ResponseEntity login(@RequestBody @Valid MemberLoginDto loginDto){
 
         return new ResponseEntity<>(new SingleResponseDto<>(memberService.login(loginDto)), HttpStatus.OK);
     }
@@ -88,7 +89,12 @@ public class MemberController {
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
 
-
+    /**
+     * 회원 정보 수정
+     * @param memberId -
+     * @param patchDto - username(nullable), newPassword(nullable), prePassword
+     * @return - email, username, (gender, age)
+     */
     @PatchMapping("/{member-id}")
     public ResponseEntity updateMember(@PathVariable("member-id") @Positive Long memberId,
                                        @Valid @RequestBody MemberPatchDto patchDto){
@@ -96,10 +102,15 @@ public class MemberController {
         return new ResponseEntity<>(memberService.editInfo(patchDto), HttpStatus.OK);
     }
 
+    /**
+     * 비밀번호 찾기
+     * @param recoveryDto - email, username
+     * @return - 200
+     */
     @GetMapping("/recovery")
-    public ResponseEntity recoveryMember(){
+    public ResponseEntity recoveryMember(@RequestBody MemberRecoveryDto recoveryDto){
 
-        // Todo
+        memberService.recoveryPassword(recoveryDto);
 
         return new ResponseEntity<>(HttpStatus.OK);
     }

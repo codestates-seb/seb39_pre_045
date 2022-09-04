@@ -7,12 +7,11 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import org.hibernate.validator.constraints.Range;
 import org.springframework.lang.Nullable;
-import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import pre045.board_service.member.entity.Member;
 
 import javax.validation.constraints.Email;
-import javax.validation.constraints.NotNull;
+import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Size;
 
 import static pre045.board_service.member.entity.Member.Authority.ROLE_USER;
@@ -23,8 +22,8 @@ import static pre045.board_service.member.entity.Member.Authority.ROLE_USER;
 @Builder
 public class MemberPostDto {
 
-    @NotNull
     @Email
+    @NotBlank(message = "이메일은 공백일 수 없습니다.")
     private String email;
 
     @Size(min = 2, max = 15, message = "닉네임 길이는 2 이상 15 이하여야 합니다.")
