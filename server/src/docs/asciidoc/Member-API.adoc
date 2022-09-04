@@ -1,0 +1,77 @@
+= team45's stackoverflow clone service
+:sectnums:
+:toc: left
+:toclevels: 4
+:toc-title: Table of Contents
+:source-highlighter: prettify
+
+Yang Arom <baros2san@gmail.com>
+
+
+[[Member-API]]
+***
+== MemberController
+=== 회원 가입
+.http-request
+include::{snippets}/member-controller-test/signup/http-request.adoc[]
+.request-fields
+include::{snippets}/member-controller-test/signup/request-fields.adoc[]
+.http-response
+include::{snippets}/member-controller-test/signup/http-response.adoc[]
+.response-fields
+include::{snippets}/member-controller-test/signup/response-fields.adoc[]
+
+=== 로그인
+.http-request
+include::{snippets}/member-controller-test/login/http-request.adoc[]
+.request-fields
+include::{snippets}/member-controller-test/login/request-fields.adoc[]
+.http-response
+include::{snippets}/member-controller-test/login/http-response.adoc[]
+.response-fields
+include::{snippets}/member-controller-test/login/response-fields.adoc[]
+
+=== 회원 정보 수정
+.http-request
+include::{snippets}/member-controller-test/edit/http-request.adoc[]
+.path-parameters
+include::{snippets}/member-controller-test/edit/path-parameters.adoc[]
+.request-fields
+include::{snippets}/member-controller-test/edit/request-fields.adoc[]
+.http-response
+include::{snippets}/member-controller-test/edit/http-response.adoc[]
+.response-fields
+include::{snippets}/member-controller-test/edit/response-fields.adoc[]
+
+=== 로그아웃
+.http-request
+include::{snippets}/member-controller-test/logout/http-request.adoc[]
+.http-response
+include::{snippets}/member-controller-test/logout/http-response.adoc[]
+
+=== 비밀번호 찾기
+.http-request
+include::{snippets}/member-controller-test/recovery/http-request.adoc[]
+.request-fields
+include::{snippets}/member-controller-test/recovery/request-fields.adoc[]
+.http-response
+include::{snippets}/member-controller-test/recovery/http-response.adoc[]
+
+=== 회원 탈퇴
+.http-request
+include::{snippets}/member-controller-test/delete-member/http-request.adoc[]
+.path-parameters
+include::{snippets}/member-controller-test/delete-member/path-parameters.adoc[]
+.http-response
+include::{snippets}/member-controller-test/delete-member/http-response.adoc[]
+
+=== 액세스 토큰 재발급
+.http-request
+include::{snippets}/member-controller-test/reissue/http-request.adoc[]
+.request-fields
+include::{snippets}/member-controller-test/reissue/request-fields.adoc[]
+.http-response
+include::{snippets}/member-controller-test/reissue/http-response.adoc[]
+.response-fields
+include::{snippets}/member-controller-test/reissue/response-fields.adoc[]
+
