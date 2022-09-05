@@ -2,7 +2,7 @@ import styled from 'styled-components';
 import { Link, useNavigate } from 'react-router-dom';
 import link from '../image/stackoverflow.png';
 import { useRef, useState } from 'react';
-// import useLoginSuccessStore from '../Store/store-loginSuccess';
+import useLoginSuccessStore from '../Store/store-loginSuccess';
 // import axios from 'axios';
 // import axios from 'axios'
 const NavHeader = styled.header`
@@ -161,9 +161,9 @@ const Nav = ({ handleMobileMenuOpen }) => {
   const [isblock, setIsblock] = useState(false);
   const searchVal = useRef();
   const navigate = useNavigate();
-  // const { loginSuccess, setLoginSuccess } = useLoginSuccessStore(
-  //   (state) => state
-  // );
+  const { loginSuccess, setLoginSuccess } = useLoginSuccessStore(
+    (state) => state
+  );
 
   // const [searchVal, setSearchVal] = useState('');
   const showBlock = () => {
@@ -200,6 +200,7 @@ const Nav = ({ handleMobileMenuOpen }) => {
     //   });
     // window.localStorage.removeItem('ACCESS_TOKEN');
     // setLoginSuccess(false);
+    setLoginSuccess();
   };
   return (
     <NavHeader className="header" display={`${isblock}`}>

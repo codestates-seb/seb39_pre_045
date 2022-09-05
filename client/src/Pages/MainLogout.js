@@ -8,6 +8,7 @@ import Loading from '../Components/Loading';
 import Pagination from '../Components/Pagination';
 import useSortStore from '../Store/store-sort';
 import SortBtnBar from '../Components/SortBtnBar';
+import RightSideBar from '../Components/RightSideBar';
 export const MainContainer = styled.div`
   width: 100%;
   min-height: calc(100vh - 50px);
@@ -76,7 +77,9 @@ export const SortBtns = styled.button`
     border-right: none;
   }
 `;
-
+const Div = styled.div`
+  display: flex;
+`;
 const MainLogout = () => {
   // const [data, setData] = useState([]);
   // const [pageInfo, setPageInfo] = useState({});
@@ -113,49 +116,52 @@ const MainLogout = () => {
   }, []);
 
   return (
-    <MainContainer>
-      <div className="pageDesc">
-        <h2>All Questions</h2>
-        <button onClick={() => navigate('/write')}>Ask Question</button>
-      </div>
-      <div className="totalNbtns">
-        <div className="totalQuestion">{pageInfo.totalElements} questions</div>
-        <SortBtnBar
-          setData={setData}
-          setIsPending={setIsPending}
-          setNoResult={setNoResult}
-        />
-      </div>
-      {ispending === true ? (
-        <>
-          <Loading />
-        </>
-      ) : (
-        <>
-          {data.length !== 0 ? (
-            <>
-              <ul>
-                {data.map((el) => (
-                  <>
+    <Div>
+      <MainContainer>
+        <div className="pageDesc">
+          <h2>All Questions</h2>
+          <button onClick={() => navigate('/write')}>Ask Question</button>
+        </div>
+        <div className="totalNbtns">
+          <div className="totalQuestion">
+            {pageInfo.totalElements} questions
+          </div>
+          <SortBtnBar
+            setData={setData}
+            setIsPending={setIsPending}
+            setNoResult={setNoResult}
+          />
+        </div>
+        {ispending === true ? (
+          <>
+            <Loading />
+          </>
+        ) : (
+          <>
+            {data.length !== 0 ? (
+              <>
+                <ul>
+                  {data.map((el) => (
                     <QuestItem el={el} key={el.questionId} />
-                  </>
-                ))}
-              </ul>
-              <Pagination
-                setIsPending={setIsPending}
-                setNoResult={setNoResult}
-                status={'question'}
-              />
-              {'?'}
-            </>
-          ) : (
-            <>
-              <NoResult keyword={noResult.keyword} status={noResult.status} />
-            </>
-          )}
-        </>
-      )}
-    </MainContainer>
+                  ))}
+                </ul>
+                <Pagination
+                  setIsPending={setIsPending}
+                  setNoResult={setNoResult}
+                  status={'question'}
+                />
+                {'?'}
+              </>
+            ) : (
+              <>
+                <NoResult keyword={noResult.keyword} status={noResult.status} />
+              </>
+            )}
+          </>
+        )}
+      </MainContainer>
+      <RightSideBar />
+    </Div>
   );
 };
 export default MainLogout;

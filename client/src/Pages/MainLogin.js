@@ -8,12 +8,16 @@ import Loading from '../Components/Loading';
 import useSortStore from '../Store/store-sort';
 import SortBtnBar from '../Components/SortBtnBar';
 import styled from 'styled-components';
+import RightSideBar from '../Components/RightSideBar';
 
 const MainLoginDiv = styled(MainContainer)`
   .btns {
     display: flex;
     justify-content: flex-end;
   }
+`;
+const Div = styled.div`
+  display: flex;
 `;
 
 const MainLogin = () => {
@@ -50,40 +54,41 @@ const MainLogin = () => {
   }, []);
 
   return (
-    <MainLoginDiv>
-      <div className="pageDesc">
-        <h2>Top Questions</h2>
-        <button onClick={() => navigate('/write')}>Ask Question</button>
-      </div>
-      <div className="btns">
-        <SortBtnBar
-          setData={setData}
-          setIsPending={setIsPending}
-          setNoResult={setNoResult}
-        />
-      </div>
-      {ispending === true ? (
-        <>
-          <Loading />
-        </>
-      ) : (
-        <>
-          {data.length !== 0 ? (
-            <ul>
-              {data.map((el) => (
-                <>
+    <Div>
+      <MainLoginDiv>
+        <div className="pageDesc">
+          <h2>Top Questions</h2>
+          <button onClick={() => navigate('/write')}>Ask Question</button>
+        </div>
+        <div className="btns">
+          <SortBtnBar
+            setData={setData}
+            setIsPending={setIsPending}
+            setNoResult={setNoResult}
+          />
+        </div>
+        {ispending === true ? (
+          <>
+            <Loading />
+          </>
+        ) : (
+          <>
+            {data.length !== 0 ? (
+              <ul>
+                {data.map((el) => (
                   <QuestItem el={el} key={el.questionId} />
-                </>
-              ))}
-            </ul>
-          ) : (
-            <>
-              <NoResult keyword={noResult.keyword} status={noResult.status} />
-            </>
-          )}
-        </>
-      )}
-    </MainLoginDiv>
+                ))}
+              </ul>
+            ) : (
+              <>
+                <NoResult keyword={noResult.keyword} status={noResult.status} />
+              </>
+            )}
+          </>
+        )}
+      </MainLoginDiv>
+      <RightSideBar />
+    </Div>
   );
 };
 export default MainLogin;

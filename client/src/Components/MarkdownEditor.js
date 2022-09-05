@@ -6,15 +6,8 @@ import codeSyntaxHighlight from '@toast-ui/editor-plugin-code-syntax-highlight/d
 import { Editor } from '@toast-ui/react-editor';
 import { forwardRef } from 'react';
 import styled from 'styled-components';
-// import useDetailQuestion from '../Store/store-detailquestion';
-
-const Div = styled.div`
-  overflow-x: scroll;
-  margin: 10px 0px;
-`;
 
 const MarkdownEditor = (props, ref) => {
-  console.log(props);
   return (
     <Div>
       <Editor
@@ -33,5 +26,10 @@ const MarkdownEditor = (props, ref) => {
     </Div>
   );
 };
+
+const Div = styled.div`
+  overflow-x: scroll;
+  margin: 10px 0px;
+`;
 
 export default forwardRef(MarkdownEditor);
