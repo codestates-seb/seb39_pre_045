@@ -2,50 +2,6 @@ import { NoticeWrapper, ListTitle } from '../Pages/EditQuestion';
 import styled from 'styled-components';
 import { ReactComponent as Logo } from '../image/rightsidebar.svg';
 
-const RightSideContainer = styled.div`
-  margin-left: 10px;
-`;
-
-const SideNoticeWrapper = styled(NoticeWrapper)`
-  font-size: 12px;
-  margin-bottom: 20px;
-  .material-icons,
-  .number {
-    font-size: 13px;
-    padding: 1px 5px 0 7px;
-  }
-`;
-
-const ItemWrapper = styled.div`
-  display: flex;
-  padding: 10px 10px;
-  .logo {
-    padding: 1px 5px 0 6px;
-    min-width: 15px;
-  }
-`;
-
-const Words = styled.div`
-  margin-left: 10px;
-`;
-
-const MailBox = styled(NoticeWrapper)`
-  border: 1px solid hsl(210, 8%, 90%);
-  background-color: white;
-  font-size: 14px;
-  .svg-icon {
-    padding-right: 5px;
-    vertical-align: bottom;
-  }
-  b {
-    padding: 4px;
-  }
-  li {
-    margin: 10px 30px;
-    font-size: 12px;
-  }
-`;
-
 const RigthtSideBar = () => {
   return (
     <RightSideContainer>
@@ -125,5 +81,49 @@ const RigthtSideBar = () => {
     </RightSideContainer>
   );
 };
+
+const RightSideContainer = styled.div`
+  margin: 70px 0 0 30px;
+`;
+
+const SideNoticeWrapper = styled(NoticeWrapper)`
+  font-size: 12px;
+  margin-bottom: 20px;
+  .material-icons,
+  .number {
+    font-size: 13px;
+    padding: 1px 5px 0 7px;
+  }
+`;
+
+const ItemWrapper = styled.div`
+  display: flex;
+  padding: 10px 10px;
+  .logo {
+    padding: 1px 5px 0 6px;
+    min-width: 15px;
+  }
+`;
+
+const Words = styled.div`
+  margin-left: 10px;
+`;
+
+const MailBox = styled(NoticeWrapper)`
+  border: 1px solid hsl(210, 8%, 90%);
+  background-color: white;
+  font-size: 14px;
+  .svg-icon {
+    padding-right: 5px;
+    vertical-align: bottom;
+  }
+  b {
+    padding: 4px;
+  }
+  li {
+    margin: 10px 5px;
+    font-size: 12px;
+  }
+`;
 
 export default RigthtSideBar;

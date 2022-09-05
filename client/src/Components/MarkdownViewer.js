@@ -13,8 +13,7 @@ const MarkdownViewer = (props) => {
 
 const Div = styled.div`
   margin: ${(props) => props.margin || '50px 0'};
-  /* height: 500px; */
-  /* border: 1px solid red; */
+  min-height: 300px;
   overflow-y: scroll;
 `;
 export default MarkdownViewer;

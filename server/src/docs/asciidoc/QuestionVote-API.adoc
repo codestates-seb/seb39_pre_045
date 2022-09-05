@@ -1,0 +1,18 @@
+[[QuestionVote-API]]
+'''
+== QuestionVoteController
+=== 질문 추천
+.http-request
+include::{snippets}/question-vote-controller-test/up-vote/http-request.adoc[]
+.path-parameters
+include::{snippets}/question-vote-controller-test/up-vote/path-parameters.adoc[]
+.http-response
+include::{snippets}/question-vote-controller-test/up-vote/http-response.adoc[]
+
+=== 질문 비추천
+.http-request
+include::{snippets}/question-vote-controller-test/down-vote/http-request.adoc[]
+.path-parameters
+include::{snippets}/question-vote-controller-test/down-vote/path-parameters.adoc[]
+.http-response
+include::{snippets}/question-vote-controller-test/down-vote/http-response.adoc[]

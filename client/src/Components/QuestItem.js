@@ -80,7 +80,7 @@ const QuestItem = ({ el }) => {
   return (
     <Question
       answered={el.answers.length > 0 ? 'yes' : 'no'}
-      chosen={`${el.checkadopted}`}
+      chosen={`${el.checkAdopted}`}
     >
       <div className="info">
         <span>{el.totalVotes} votes</span>

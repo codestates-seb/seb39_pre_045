@@ -28,7 +28,6 @@ function App() {
   const { setLoginSuccess, loginSuccess } = useLoginSuccessStore(
     (state) => state
   );
-  // const [path, setLoginSuccess] = useState('');
 
   const handleMobileMenuOpen = () => {
     setOpenMobileMenu(!openMobileMenu);
@@ -50,13 +49,16 @@ function App() {
         <Nav handleMobileMenuOpen={handleMobileMenuOpen} />
         <div className="container">
           <LeftSideBar login={loginStyle} />
-          <MobileLeftSideBar openMobileMenu={openMobileMenu} />
+          <MobileLeftSideBar
+            openMobileMenu={openMobileMenu}
+            setOpenMobileMenu={setOpenMobileMenu}
+          />
           <Routes>
             <Route
-              path={'/'}
-              element={loginSuccess === false ? <MainLogout /> : <MainLogin />}
+              path="/"
+              element={loginSuccess ? <MainLogout /> : <Login />}
             />
-            <Route path={'/g'} element={<MainLogin />} />
+            <Route path="/g" element={<MainLogin />} />
             <Route path="/login" element={<Login />} />
             <Route path="/signup" element={<Signup />} />
             <Route path="/mypage" element={<MyPage />} />

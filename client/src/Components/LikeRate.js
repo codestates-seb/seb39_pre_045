@@ -2,7 +2,7 @@
 import axios from 'axios';
 import link from '../image/stackoverflow.png';
 import styled from 'styled-components';
-// import { useParams } from 'react-router-dom';
+import { useParams } from 'react-router-dom';
 import { useState } from 'react';
 const RateWrapper = styled.div`
   min-width: 55px;
@@ -61,7 +61,7 @@ const RateWrapper = styled.div`
   }
 `;
 const LikeRate = ({ status, originData, id }) => {
-  // const { id } = useParams();
+  const { id: ids } = useParams();
   // 아마 이거아닐듯 questionId일듯
   const headers = {
     'Content-Type': 'application/json',
@@ -111,7 +111,7 @@ const LikeRate = ({ status, originData, id }) => {
       return;
     }
     axios
-      .post(`/answers/${id}/adopt`, '', { headers })
+      .post(`/answers/${id}/adopt/${ids}`, '', { headers })
       .then((data) => {
         setAdopted(true);
         console.log(data);
