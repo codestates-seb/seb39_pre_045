@@ -1,8 +1,49 @@
 import styled from 'styled-components';
-// import { useState } from 'react';
-import { Link } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import useLoginSuccessStore from '../Store/store-loginSuccess';
 import { Li } from './LeftSideBar';
+
+const MobileLeftSideBar = ({ openMobileMenu, setOpenMobileMenu }) => {
+  const { loginSuccess } = useLoginSuccessStore((state) => state);
+  const navigate = useNavigate();
+
+  const handleClickHome = () => {
+    navigate('/g');
+    setOpenMobileMenu(!openMobileMenu);
+  };
+  const handleClickQuestion = () => {
+    navigate('/');
+    setOpenMobileMenu(!openMobileMenu);
+  };
+  const handleClickMyPage = () => {
+    navigate('/mypage');
+    setOpenMobileMenu(!openMobileMenu);
+  };
+
+  return (
+    <Container display={openMobileMenu ? 'content' : 'none'}>
+      <ul>
+        <Li margin="10px" onClick={handleClickHome}>
+          Home
+        </Li>
+        <Li
+          cursor="default"
+          size="11px"
+          color="#656765"
+          bg="#f1f2f3"
+          border="none"
+        >
+          PUBLIC
+        </Li>
+        <Li onClick={handleClickQuestion}>
+          <span className="material-icons">language</span>
+          Questions
+        </Li>
+        {loginSuccess ? <Li onClick={handleClickMyPage}>My page</Li> : null}
+      </ul>
+    </Container>
+  );
+};
 
 const Container = styled.nav`
   background-color: #f1f2f3;
@@ -43,43 +84,5 @@ const Container = styled.nav`
     display: none;
   }
 `;
-
-const MobileLeftSideBar = ({ openMobileMenu }) => {
-  const { loginSuccess } = useLoginSuccessStore();
-  const handleMainLoginBtn = () => {
-    //if(isLogin) navigate('/g')
-    //else{navigate('/login')}
-  };
-
-  return (
-    <Container display={openMobileMenu ? 'content' : 'none'}>
-      <ul>
-        <Li margin="10px" onClick={handleMainLoginBtn}>
-          Home
-        </Li>
-        <Li
-          cursor="default"
-          size="11px"
-          color="#656765"
-          bg="#f1f2f3"
-          border="none"
-        >
-          PUBLIC
-        </Li>
-        <Link to="/">
-          <Li>
-            <span className="material-icons">language</span>
-            Questions
-          </Li>
-        </Link>
-        {loginSuccess ? (
-          <Link to="/mypage">
-            <Li>My page</Li>
-          </Link>
-        ) : null}
-      </ul>
-    </Container>
-  );
-};
 
 export default MobileLeftSideBar;

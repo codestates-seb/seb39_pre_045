@@ -84,6 +84,9 @@ const RigthtSideBar = () => {
 
 const RightSideContainer = styled.div`
   margin: 70px 0 0 30px;
+  @media only screen and (max-width: 1200px) {
+    display: none;
+  }
 `;
 
 const SideNoticeWrapper = styled(NoticeWrapper)`
