@@ -55,10 +55,10 @@ function App() {
           />
           <Routes>
             <Route
-              path="/"
-              element={loginSuccess ? <MainLogout /> : <Login />}
+              path="/g"
+              element={loginSuccess ? <MainLogin /> : <Login />}
             />
-            <Route path="/g" element={<MainLogin />} />
+            <Route path="/" element={<MainLogout />} />
             <Route path="/login" element={<Login />} />
             <Route path="/signup" element={<Signup />} />
             <Route path="/mypage" element={<MyPage />} />
