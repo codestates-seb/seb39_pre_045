@@ -30,6 +30,10 @@ public class HomeController {
         List<Question> all = questionRepository.findAll();
         all.sort(sortQuestions(sort));
 
+        if (all.size() <= 20) {
+            return new ResponseEntity(new SingleResponseDto<>(all), HttpStatus.OK);
+        }
+
         List<Question> questions = all.subList(0, 20);
 
         return new ResponseEntity(new SingleResponseDto<>(questions), HttpStatus.OK);

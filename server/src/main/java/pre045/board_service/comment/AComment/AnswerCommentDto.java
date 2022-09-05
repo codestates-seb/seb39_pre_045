@@ -52,7 +52,6 @@ public class AnswerCommentDto {
 
     @Getter
     @AllArgsConstructor
-
     public static class Response {
 
         private Long answerCommentId;
