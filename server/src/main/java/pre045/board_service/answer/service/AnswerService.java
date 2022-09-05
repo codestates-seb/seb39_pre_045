@@ -9,6 +9,7 @@ import pre045.board_service.answer.repository.AnswerRepository;
 import pre045.board_service.exception.BusinessLogicException;
 import pre045.board_service.member.entity.Member;
 import pre045.board_service.member.repository.MemberRepository;
+import pre045.board_service.member.token.config.SecurityUtil;
 import pre045.board_service.question.entity.Question;
 import pre045.board_service.question.repository.QuestionRepository;
 
@@ -107,6 +108,11 @@ public class AnswerService {
     public void adoptAnswer(Long answerId, Long questionId) {
         Answer foundAnswer = verifyExistAnswer(answerId);
         Question foundQuestion = verifyIfAdopted(questionId);
+
+        Long oriMemberId = foundQuestion.getMember().getMemberId();
+        Long tryMemberId = SecurityUtil.getCurrentMemberId();
+
+        verifySameWriter(oriMemberId, tryMemberId);
 
         foundAnswer.setAdopted(true);
         foundQuestion.setCheckAdopted(true);
