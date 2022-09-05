@@ -1,22 +1,36 @@
 import styled from 'styled-components';
-// import { useState } from 'react';
-import { Link } from 'react-router-dom';
+import { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import useLoginSuccessStore from '../Store/store-loginSuccess';
 
 const LeftSideBar = ({ login }) => {
-  // const [tab, setTab] = useState('');
-  const { loginSuccess } = useLoginSuccessStore();
-  const handleMainBtn = () => {
-    //if(isLogin) navigate('/g')
-    //else{navigate('/login')}
+  const { loginSuccess } = useLoginSuccessStore((state) => state);
+  const [home, setHome] = useState(true);
+  const [allQ, setAllQ] = useState(false);
+  const [mypage, setMypage] = useState(false);
+  const navigate = useNavigate();
+  const handleClickHome = () => {
+    navigate('/g');
+    setHome(true);
+    setAllQ(false);
+    setMypage(false);
   };
-  const handleClickListTab = () => {
-    // console.log(e.target.innerText);
+  const handleClickQuestion = () => {
+    navigate('/');
+    setHome(false);
+    setAllQ(true);
+    setMypage(false);
+  };
+  const handleClickMyPage = () => {
+    navigate('/mypage');
+    setHome(false);
+    setAllQ(false);
+    setMypage(true);
   };
   return (
     <Container login={login ? 'none' : 'content'}>
       <ul>
-        <Li margin="10px" onClick={handleMainBtn}>
+        <Li margin="10px" onClick={handleClickHome} className={home}>
           Home
         </Li>
         <Li
@@ -28,18 +42,18 @@ const LeftSideBar = ({ login }) => {
         >
           PUBLIC
         </Li>
-        <Link to="/">
-          <Li onClick={handleClickListTab}>
-            <span className="material-icons">language</span>
-            Questions
-          </Li>
-        </Link>
+        <Li onClick={handleClickQuestion} className={allQ}>
+          <span className="material-icons">language</span>
+          Questions
+        </Li>
         {loginSuccess ? (
-          <Link to="/mypage">
-            <Li padding="8px 0px 8px 31px" onClick={handleClickListTab}>
-              My page
-            </Li>
-          </Link>
+          <Li
+            padding="8px 0px 8px 31px"
+            className={mypage}
+            onClick={handleClickMyPage}
+          >
+            My page
+          </Li>
         ) : null}
       </ul>
     </Container>
@@ -65,7 +79,7 @@ const Container = styled.nav`
       color: inherit;
     }
   }
-  .selected {
+  .true {
     background-color: ${(props) => props.bg || '#ebebeb'};
     border-right: ${(props) => props.border || '3px solid orange'};
   }

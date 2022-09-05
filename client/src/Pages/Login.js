@@ -5,6 +5,95 @@ import useSideBarStore from '../Store/store-sidebar';
 import useLoginSuccessStore from '../Store/store-loginSuccess';
 import { useNavigate } from 'react-router-dom';
 
+const Login = () => {
+  const { setLeftSideBarHidden } = useSideBarStore((state) => state);
+  const { setLoginSuccess } = useLoginSuccessStore((state) => state);
+  const { loginSuccess } = useLoginSuccessStore();
+  const [errorMessage, setErrorMessage] = useState('');
+  const [loginInfo, setLoginInfo] = useState({
+    email: '',
+    password: '',
+  });
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    setLeftSideBarHidden(true);
+    if (loginSuccess) {
+      navigate('/g');
+    }
+    return () => {
+      setLeftSideBarHidden(false);
+    };
+  }, []);
+
+  const handleInputValue = (key) => (e) => {
+    setLoginInfo({ ...loginInfo, [key]: e.target.value });
+  };
+
+  const handleLoginRequest = (e) => {
+    e.preventDefault();
+    setErrorMessage('처리중입니다');
+    axios
+      .post('/members/login', loginInfo)
+      .then((res) => {
+        if (res.data.data.accessToken) {
+          localStorage.setItem('ACCESS_TOKEN', res.data.data.accessToken);
+        }
+        if (res.data.data.refreshToken) {
+          localStorage.setItem('REFRESH_TOKEN', res.data.data.refreshToken);
+        }
+        localStorage.setItem(
+          'USER_INFO',
+          JSON.stringify({
+            username: res.data.data.username,
+            email: res.data.data.email,
+            memberId: res.data.data.memberId,
+            gender: res.data.data.gender || null,
+            age: res.data.data.age || null,
+          })
+        );
+      })
+      .then((res) => {
+        alert(res.data.data.username + ' 님 환영합니다!');
+        setLoginSuccess(true);
+        setErrorMessage('');
+        navigate('/g');
+      })
+      .catch(() => {
+        setErrorMessage('로그인에 실패했습니다');
+      });
+  };
+
+  return (
+    <Container>
+      <Wrapper onSubmit={handleLoginRequest}>
+        <label htmlFor="email">Email</label>
+        <Input
+          required
+          id="email"
+          type="email"
+          onChange={handleInputValue('email')}
+        />
+        <PasswordDiv>
+          <label htmlFor="loginPassword">Password</label>
+          <Div color="#3e7bf4" size="11px">
+            Forgot Password?
+          </Div>
+        </PasswordDiv>
+        <Input
+          required
+          autoComplete="off"
+          id="password"
+          type="password"
+          onChange={handleInputValue('password')}
+        />
+        <Btn type="submit">Log in</Btn>
+        {errorMessage === '' ? null : errorMessage}
+      </Wrapper>
+    </Container>
+  );
+};
+
 const Container = styled.div`
   background-color: #f1f2f3;
   font-size: 14px;
@@ -79,83 +168,5 @@ export const Btn = styled.button`
     cursor: pointer;
   }
 `;
-
-const Login = () => {
-  const { setLeftSideBarHidden } = useSideBarStore((state) => state);
-  const { setLoginSuccess } = useLoginSuccessStore((state) => state);
-  const { loginSuccess } = useLoginSuccessStore();
-  const [errorMessage, setErrorMessage] = useState('');
-  const [loginInfo, setLoginInfo] = useState({
-    email: '',
-    password: '',
-  });
-  const navigate = useNavigate();
-
-  useEffect(() => {
-    setLeftSideBarHidden(true);
-    if (loginSuccess) {
-      navigate('/g');
-    }
-    return () => {
-      setLeftSideBarHidden(false);
-    };
-  }, []);
-
-  const handleInputValue = (key) => (e) => {
-    setLoginInfo({ ...loginInfo, [key]: e.target.value });
-  };
-
-  const handleLoginRequest = (e) => {
-    e.preventDefault();
-    axios
-      .post('/members/login', loginInfo)
-      .then((res) => {
-        if (res.data.data.accessToken) {
-          localStorage.setItem('ACCESS_TOKEN', res.data.data.accessToken);
-        }
-        if (res.data.data.refreshToken) {
-          localStorage.setItem('REFRESH_TOKEN', res.data.data.refreshToken);
-        }
-      })
-      .then(() => {
-        setLoginSuccess(true);
-        setErrorMessage('');
-        navigate('/mypage');
-      })
-      .catch((err) => {
-        console.log(err);
-        setErrorMessage('로그인에 실패했습니다.');
-      });
-  };
-
-  return (
-    <Container>
-      <Wrapper onSubmit={handleLoginRequest}>
-        <label htmlFor="email">Email</label>
-        <Input
-          required
-          id="email"
-          type="email"
-          onChange={handleInputValue('email')}
-        />
-        <PasswordDiv>
-          <label htmlFor="loginPassword">Password</label>
-          <Div color="#3e7bf4" size="11px">
-            Forgot Password?
-          </Div>
-        </PasswordDiv>
-        <Input
-          required
-          autoComplete="off"
-          id="password"
-          type="password"
-          onChange={handleInputValue('password')}
-        />
-        <Btn type="submit">Log in</Btn>
-        {errorMessage === '' ? null : errorMessage}
-      </Wrapper>
-    </Container>
-  );
-};
 
 export default Login;
