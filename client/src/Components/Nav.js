@@ -183,23 +183,26 @@ const Nav = ({ handleMobileMenuOpen }) => {
     }
   };
   const handleLogout = () => {
-    // const headers = {
-    //   'Content-Type': 'application/json',
-    //   Authorization: `Bearer ${localStorage.getItem('ACCESS_TOKEN')}`,
-    // };
-    // axios
-    //   .post('/logout', { headers })
-    //   .then(({ data }) => {
-    //     console.log(data);
-    //     alert('test');
-    //     useNavigate('/');
-    //   })
-    //   .catch((err) => {
-    //     console.log(err);
-    //     alert('로그아웃에 실패하였습니다');
-    //   });
-    // window.localStorage.removeItem('ACCESS_TOKEN');
-    // setLoginSuccess(false);
+    console.log(localStorage.getItem('ACCESS_TOKEN'));
+    const headers = {
+      Authorization: `Bearer ${localStorage.getItem('ACCESS_TOKEN')}`,
+    };
+    axios
+      .post('/members/logout', '', { headers })
+      .then((data) => {
+        if (data.status === 204) {
+          alert('로그아웃에 성공했습니다');
+          // window.localStorage.removeItem('USER_INFO');
+          window.localStorage.removeItem('ACCESS_TOKEN');
+          window.localStorage.removeItem('REFRESH_TOKEN');
+          setLoginSuccess(false);
+          useNavigate('/');
+        }
+      })
+      .catch((err) => {
+        console.log(err);
+        alert('로그아웃에 실패하였습니다');
+      });
   };
   return (
     <NavHeader className="header" display={`${isblock}`}>
