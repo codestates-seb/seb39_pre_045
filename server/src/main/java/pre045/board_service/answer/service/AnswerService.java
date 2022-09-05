@@ -79,9 +79,9 @@ public class AnswerService {
         foundAnswer.setMember(foundMember);
         foundAnswer.setQuestion(foundQuestion);
 
+        foundAnswer.setAnswerUsername(foundMember.getUsername());
         foundAnswer.setAnswerContent(answer.getAnswerContent());
         foundAnswer.setModifiedAt(LocalDateTime.now());
-        foundAnswer.setAnswerUsername(foundMember.getUsername());
 
         return answerRepository.save(foundAnswer);
     }

@@ -42,6 +42,9 @@ dependencies {
 	testImplementation 'org.springframework.boot:spring-boot-starter-test'
 	testImplementation 'org.springframework.restdocs:spring-restdocs-mockmvc'
 	testImplementation 'org.springframework.security:spring-security-test'
+	testCompileOnly 'org.projectlombok:lombok'
+	testAnnotationProcessor 'org.projectlombok:lombok'
+
 
 	implementation 'org.mapstruct:mapstruct:1.5.2.Final'
 	annotationProcessor 'org.mapstruct:mapstruct-processor:1.5.2.Final'
@@ -59,11 +62,21 @@ tasks.named('asciidoctor') {
 	configurations "asciidoctorExtensions"
 	inputs.dir snippetsDir
 	dependsOn test
+
+	sources{
+		include("**/index.adoc","**/common/*.adoc")
+	}
+
+	baseDirFollowsSourceFile()
+}
+
+asciidoctor.doFirst {
+	delete file('src/main/resources/static/docs')
 }
 
 task copyDocument(type: Copy) {
 	dependsOn asciidoctor
-	from file("${asciidoctor.outputDir}")
+	from file("build/docs/asciidoc")
 	into file("src/main/resources/static/docs")
 }
 
@@ -73,7 +86,7 @@ build {
 
 bootJar {
 	dependsOn copyDocument
-	from ("${asciidoctor.outputDir}") {
+	from ("${asciidoctor.outputDir}/html5") {
 		into 'static/docs'
 	}
 }

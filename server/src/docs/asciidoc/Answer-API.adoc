@@ -1,0 +1,40 @@
+[[Answer-API]]
+'''
+== AnswerController
+=== 답변 등록
+.http-request
+include::{snippets}/answer-controller-test/add-answer/http-request.adoc[]
+.request-fields
+include::{snippets}/answer-controller-test/add-answer/request-fields.adoc[]
+.http-response
+include::{snippets}/answer-controller-test/add-answer/http-response.adoc[]
+.response-fields
+include::{snippets}/answer-controller-test/add-answer/response-fields.adoc[]
+
+=== 답변 수정
+.http-request
+include::{snippets}/answer-controller-test/edit-answer/http-request.adoc[]
+.path-parameters
+include::{snippets}/answer-controller-test/edit-answer/path-parameters.adoc[]
+.request-fields
+include::{snippets}/answer-controller-test/edit-answer/request-fields.adoc[]
+.http-response
+include::{snippets}/answer-controller-test/edit-answer/http-response.adoc[]
+.response-fields
+include::{snippets}/answer-controller-test/edit-answer/response-fields.adoc[]
+
+=== 답변 삭제
+.http-request
+include::{snippets}/answer-controller-test/delete-answer/http-request.adoc[]
+.path-parameters
+include::{snippets}/answer-controller-test/delete-answer/path-parameters.adoc[]
+.http-response
+include::{snippets}/answer-controller-test/delete-answer/http-response.adoc[]
+
+=== 답변 채택
+.http-request
+include::{snippets}/answer-controller-test/adopt-answer/http-request.adoc[]
+.path-parameters
+include::{snippets}/answer-controller-test/adopt-answer/path-parameters.adoc[]
+.http-response
+include::{snippets}/answer-controller-test/adopt-answer/http-response.adoc[]
