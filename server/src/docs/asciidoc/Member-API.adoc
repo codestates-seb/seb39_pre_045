@@ -1,15 +1,5 @@
-= team45's stackoverflow clone service
-:sectnums:
-:toc: left
-:toclevels: 4
-:toc-title: Table of Contents
-:source-highlighter: prettify
-
-Yang Arom <baros2san@gmail.com>
-
-
 [[Member-API]]
-***
+'''
 == MemberController
 === 회원 가입
 .http-request

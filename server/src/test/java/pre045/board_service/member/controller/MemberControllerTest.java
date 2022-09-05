@@ -42,9 +42,9 @@ public class MemberControllerTest extends RestDocsTestSupport {
     @WithMockUser
     @DisplayName("회원 가입")
     public void signup() throws Exception {
-        MemberPostDto postDto = getPostDto();
+        MemberPostDto postDto = getMemberPostDto();
         String content = gson.toJson(postDto);
-        MemberResponseDto responseDto = getResponseDto();
+        MemberResponseDto responseDto = getMemberResponseDto();
 
         given(memberService.signup(Mockito.any(MemberPostDto.class))).willReturn(responseDto);
 
@@ -88,9 +88,9 @@ public class MemberControllerTest extends RestDocsTestSupport {
     @WithMockUser
     @DisplayName("로그인")
     public void login() throws Exception {
-        MemberLoginDto loginDto = getLoginDto();
+        MemberLoginDto loginDto = getMemberLoginDto();
         String content = gson.toJson(loginDto);
-        MemberLoginResponseDto loginResponseDto = getLoginResponseDto();
+        MemberLoginResponseDto loginResponseDto = getMemberLoginResponseDto();
 
         given(memberService.login(Mockito.any(MemberLoginDto.class))).willReturn(loginResponseDto);
 
@@ -117,8 +117,8 @@ public class MemberControllerTest extends RestDocsTestSupport {
                                                 fieldWithPath("data.memberId").type(NUMBER).description("회원 식별자"),
                                                 fieldWithPath("data.email").type(STRING).description("이메일"),
                                                 fieldWithPath("data.username").type(STRING).description("닉네임"),
-                                                fieldWithPath("data.gender").type(STRING).description("성별"),
-                                                fieldWithPath("data.age").type(NUMBER).description("나이"),
+                                                fieldWithPath("data.gender").type(STRING).description("성별").optional(),
+                                                fieldWithPath("data.age").type(NUMBER).description("나이").optional(),
                                                 fieldWithPath("data.grantType").type(STRING).description("권한 타입(bearer)"),
                                                 fieldWithPath("data.accessToken").type(STRING).description("액세스 토큰"),
                                                 fieldWithPath("data.refreshToken").type(STRING).description("리프레시 토큰"),
@@ -132,9 +132,9 @@ public class MemberControllerTest extends RestDocsTestSupport {
     @WithMockUser
     @DisplayName("회원 정보 수정")
     public void edit() throws Exception {
-        MemberPatchDto patchDto = getPatchDto();
+        MemberPatchDto patchDto = getMemberPatchDto();
         String content = gson.toJson(patchDto);
-        MemberResponseDto responseDto = getResponseDto();
+        MemberResponseDto responseDto = getMemberResponseDto();
 
         given(memberService.editInfo(Mockito.any(MemberPatchDto.class))).willReturn(responseDto);
 
@@ -187,7 +187,7 @@ public class MemberControllerTest extends RestDocsTestSupport {
     @WithMockUser
     @DisplayName("비밀번호 찾기")
     public void recovery() throws Exception {
-        MemberRecoveryDto recoveryDto = getRecoveryDto();
+        MemberRecoveryDto recoveryDto = getMemberRecoveryDto();
         String content = gson.toJson(recoveryDto);
 
 

@@ -13,6 +13,8 @@ import pre045.board_service.answer.service.AnswerService;
 import pre045.board_service.dto.SingleResponseDto;
 import pre045.board_service.member.token.config.SecurityUtil;
 
+import javax.validation.Valid;
+
 
 @RestController
 @RequestMapping("/answers")
@@ -30,7 +32,7 @@ public class AnswerController {
      * @return - CREATED / username, answerContent, createdAt, modifiedAt
      */
     @PostMapping
-    public ResponseEntity addAnswer(@RequestBody AnswerDto.Post postDto) {
+    public ResponseEntity addAnswer(@RequestBody @Valid AnswerDto.Post postDto) {
         Answer answer = mapper.answerPostToAnswer(postDto);
         Answer createdAnswer = answerService.createAnswer(SecurityUtil.getCurrentMemberId(), answer);
         AnswerDto.Response response = mapper.answerToAnswerResponse(createdAnswer);
@@ -48,7 +50,7 @@ public class AnswerController {
      *
      */
     @PatchMapping("/{answer-id}")
-    public ResponseEntity editAnswer(@PathVariable("answer-id") Long answerId, @RequestBody AnswerDto.Patch patchDto) {
+    public ResponseEntity editAnswer(@PathVariable("answer-id") Long answerId, @RequestBody @Valid AnswerDto.Patch patchDto) {
         patchDto.setAnswerId(answerId);
 
         Answer answer = mapper.answerPatchToAnswer(patchDto);

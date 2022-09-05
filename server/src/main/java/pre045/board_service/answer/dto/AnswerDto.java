@@ -2,6 +2,7 @@ package pre045.board_service.answer.dto;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import pre045.board_service.comment.AComment.AnswerComment;
@@ -23,18 +24,23 @@ public class AnswerDto {
     @Getter
     @AllArgsConstructor
     @NoArgsConstructor
+    @Builder
     public static class Post {
+        @NotNull
         private Question question;
 
         @NotBlank
         private String answerContent;
+
     }
 
     @Getter
     @AllArgsConstructor
     @NoArgsConstructor
+    @Builder
     public static class Patch {
 
+        @NotNull
         private Question question;
 
         @Positive
@@ -46,12 +52,12 @@ public class AnswerDto {
         public void setAnswerId(Long answerId) {
             this.answerId = answerId;
         }
+
     }
-
-
     @Getter
     @AllArgsConstructor
     @JsonInclude(JsonInclude.Include.NON_NULL)
+    @Builder
     public static class Response {
         private Long answerId;
 
@@ -59,7 +65,6 @@ public class AnswerDto {
 
         private String answerContent;
 
-        @NotNull
         private LocalDateTime createdAt;
 
         private LocalDateTime modifiedAt;
@@ -70,5 +75,6 @@ public class AnswerDto {
 
         private int totalVotes;
     }
+
 
 }
