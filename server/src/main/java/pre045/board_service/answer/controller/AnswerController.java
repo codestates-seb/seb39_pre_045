@@ -76,9 +76,9 @@ public class AnswerController {
      * @param answerId - 채택할 답변 ID
      * @return - CREATED
      */
-    @PostMapping("/{answer-id}/adopt")
-    public ResponseEntity adoptAnswer(@PathVariable("answer-id") Long answerId) {
-        answerService.adoptAnswer(answerId);
+    @PostMapping("/{answer-id}/adopt/{question-id}")
+    public ResponseEntity adoptAnswer(@PathVariable("answer-id") Long answerId, @PathVariable("question-id") Long questionId) {
+        answerService.adoptAnswer(answerId, questionId);
 
         return new ResponseEntity<>(HttpStatus.CREATED);
     }

@@ -104,9 +104,9 @@ public class AnswerService {
      *
      * @param answerId
      */
-    public void adoptAnswer(Long answerId) {
+    public void adoptAnswer(Long answerId, Long questionId) {
         Answer foundAnswer = verifyExistAnswer(answerId);
-        Question foundQuestion = verifyIfAdopted(foundAnswer);
+        Question foundQuestion = verifyIfAdopted(questionId);
 
         foundAnswer.setAdopted(true);
         foundQuestion.setCheckAdopted(true);
@@ -118,8 +118,8 @@ public class AnswerService {
 
 
     //이미 채택한 질문인지 확인
-    private Question verifyIfAdopted(Answer answer) {
-        Question foundQuestion = verifyExistQuestion(answer.getQuestion().getQuestionId());
+    private Question verifyIfAdopted(Long questionId) {
+        Question foundQuestion = verifyExistQuestion(questionId);
         if (foundQuestion.isCheckAdopted()) {
             throw new BusinessLogicException(ANSWER_DUPLICATE_ADOPT);
         }
