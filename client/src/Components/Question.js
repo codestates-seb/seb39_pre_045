@@ -49,10 +49,7 @@ const Question = ({ datas, setData }) => {
   const comment = useRef();
   const navigate = useNavigate();
   const [isOpen, setIsOpen] = useState(false);
-  const headers = {
-    'Content-Type': 'application/json',
-    Authorization: `Bearer ${localStorage.getItem('ACCESS_TOKEN')}`,
-  };
+
   const handleCommentWrite = (e) => {
     e.preventDefault();
     if (window.confirm('댓글을 등록하시겠습니까?')) {
@@ -64,16 +61,14 @@ const Question = ({ datas, setData }) => {
         questionCommentContent: comment.current.value,
       };
       // console.log(postData);
-      reIssue
-        .post(`/questions/${id}/comments`, postData, { headers })
-        .then(({ data }) => {
-          alert('댓글 등록에 성공했습니다');
-          setData({
-            ...datas,
-            questionComments: [...datas.questionComments, data.data],
-          });
-          setIsOpen(false);
+      reIssue.post(`/questions/${id}/comments`, postData).then(({ data }) => {
+        alert('댓글 등록에 성공했습니다');
+        setData({
+          ...datas,
+          questionComments: [...datas.questionComments, data.data],
         });
+        setIsOpen(false);
+      });
     } else {
       return;
     }
@@ -83,7 +78,7 @@ const Question = ({ datas, setData }) => {
       e.preventDefault();
 
       reIssue
-        .delete(`/questions/${id}`, { headers })
+        .delete(`/questions/${id}`)
         .then(() => {
           alert('질문 삭제가 완료되었습니다.');
           navigate(`/`);

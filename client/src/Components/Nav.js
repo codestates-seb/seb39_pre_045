@@ -4,7 +4,6 @@ import link from '../image/stackoverflow.png';
 import { useRef, useState } from 'react';
 import useLoginSuccessStore from '../Store/store-loginSuccess';
 import axios from 'axios';
-
 const NavHeader = styled.header`
   width: 100%;
   height: 50px;
@@ -183,7 +182,6 @@ const Nav = ({ handleMobileMenuOpen }) => {
     }
   };
   const handleLogout = () => {
-    console.log(localStorage.getItem('ACCESS_TOKEN'));
     const headers = {
       Authorization: `Bearer ${localStorage.getItem('ACCESS_TOKEN')}`,
     };
