@@ -182,7 +182,6 @@ const Nav = ({ handleMobileMenuOpen }) => {
     }
   };
   const handleLogout = () => {
-    console.log(localStorage.getItem('ACCESS_TOKEN'));
     const headers = {
       Authorization: `Bearer ${localStorage.getItem('ACCESS_TOKEN')}`,
     };

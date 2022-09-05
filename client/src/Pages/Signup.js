@@ -329,10 +329,6 @@ const Signup = () => {
           <label htmlFor="age">Age</label>
           <input type="number" ref={age} id="age" min="1" max="99" />
 
-          {/* <div className="agreeCheck">
-            <input type="checkbox" name="" id="" />
-            어쩌구에 동의하시겠습니까?
-          </div> */}
           <button onClick={handleSubmit}>Sign up</button>
         </SignupForm>
 
