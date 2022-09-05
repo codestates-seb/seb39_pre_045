@@ -9,7 +9,7 @@ import useDetaulQuestion from '../Store/store-detailquestion';
 
 const EditQuestion = () => {
   const { detailData } = useDetaulQuestion((state) => state);
-  const [title, setTitle] = useState('');
+  const [title, setTitle] = useState(detailData.title);
   const { id } = useParams();
   const editor = useRef();
   const navigate = useNavigate();
@@ -19,6 +19,7 @@ const EditQuestion = () => {
     if (detailData?.questionId === undefined) {
       alert('잘못된 접근입니다. 취소 버튼을 눌러주세요.');
     }
+    console.log(detailData);
   }, []);
 
   const handleClickCancel = () => {
