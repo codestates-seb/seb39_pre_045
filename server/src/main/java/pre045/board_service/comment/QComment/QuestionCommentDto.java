@@ -20,9 +20,6 @@ public class QuestionCommentDto {
         @NotNull
         private Question question;
 
-        @NotNull
-        private Long memberId;
-
         @NotBlank
         private String questionCommentContent;
 
