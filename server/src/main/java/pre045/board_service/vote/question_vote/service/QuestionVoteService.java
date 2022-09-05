@@ -53,7 +53,7 @@ public class QuestionVoteService {
         Member foundMember = memberService.findVerifiedMember(memberId);
         QuestionVote questionVote = mapRelation(foundQuestion, foundMember, totalVotes);
 
-        return QuestionVoteResponseDto.of(questionVoteRepository.save(questionVote));
+        return QuestionVoteResponseDto.of(questionVote);
     }
 
     private void verifyDuplicateVote(List<QuestionVote> questionVotes, Long memberId) {
