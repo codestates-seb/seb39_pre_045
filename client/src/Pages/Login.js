@@ -52,9 +52,9 @@ const Login = () => {
             age: res.data.data.age || null,
           })
         );
-      })
-      .then((res) => {
         alert(res.data.data.username + ' 님 환영합니다!');
+      })
+      .then(() => {
         setLoginSuccess(true);
         setErrorMessage('');
         navigate('/g');

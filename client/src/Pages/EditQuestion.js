@@ -2,9 +2,118 @@ import styled from 'styled-components';
 import MarkdownEditor from '../Components/MarkdownEditor';
 import { TitleInput } from './WriteQuestion';
 import { Btn } from './Login';
-import { useState, useRef } from 'react';
-import axios from 'axios';
-import { useNavigate } from 'react-router-dom';
+import { useState, useRef, useEffect } from 'react';
+import axiosInstance from '../Controller/ApiController';
+import { useNavigate, useParams } from 'react-router-dom';
+import useDetaulQuestion from '../Store/store-detailquestion';
+
+const EditQuestion = () => {
+  const { detailData } = useDetaulQuestion((state) => state);
+  const [title, setTitle] = useState('');
+  const { id } = useParams();
+  const editor = useRef();
+  const navigate = useNavigate();
+  const QUESTION_ID = id;
+
+  useEffect(() => {
+    if (detailData?.questionId === undefined) {
+      alert('잘못된 접근입니다. 취소 버튼을 눌러주세요.');
+    }
+  }, []);
+
+  const handleClickCancel = () => {
+    navigate(`/questions/${QUESTION_ID}`);
+  };
+
+  const handleSubmitQuestion = (e) => {
+    e.preventDefault();
+    if (editor.current.getInstance().getMarkdown() === 'please write here') {
+      alert('내용을 입력해주세요');
+    } else {
+      axiosInstance
+        .patch(`/questions/${QUESTION_ID}`, {
+          questionId: QUESTION_ID,
+          title,
+          questionContent: editor.current.getInstance().getMarkdown(),
+        })
+        .then(() => {
+          window.scrollTo(0, 1000);
+          navigate(`/questions/${QUESTION_ID}`);
+        })
+        .catch((err) => {
+          alert(err.response.data.message || '잘못된 접근입니다');
+        });
+    }
+  };
+  return (
+    <PageContainer>
+      <ContentWrapper className="contentWrapper">
+        <NoticeWrapper as="div" margin>
+          <p>Your edit will be placed in a queue until it is peer reviewed.</p>
+          <p>
+            We welcome edits that make the post easier to understand and more
+            valuable for readers. Because community members review edits, please
+            try to make the post substantially better than how you found it, for
+            example, by fixing grammar or adding additional resources and
+            hyperlinks.
+          </p>
+        </NoticeWrapper>
+        <Wrapper onSubmit={handleSubmitQuestion}>
+          <label htmlFor="title">Title</label>
+          <TitleInput
+            required
+            defaultValue={detailData.title}
+            id="title"
+            onChange={(e) => setTitle(e.target.value)}
+          />
+          <label required htmlFor="body">
+            Body
+          </label>
+          <MarkdownEditor
+            required
+            id="body"
+            ref={editor}
+            value={detailData.questionContent}
+          />
+          <Btn width="100px" type="submit" bottom="30px">
+            Edit
+          </Btn>
+          <RedBtn type="button" onClick={handleClickCancel}>
+            Cancel
+          </RedBtn>
+        </Wrapper>
+      </ContentWrapper>
+      <NoticeWrapper as="div" width="350px" margin="70px 0 10px 30px">
+        <ListTitle>How to Edit</ListTitle>
+        <ul>
+          <List>Correct minor typos or mistakes</List>
+          <List>Clarify meaning without changing it</List>
+          <List>Add related resources or links</List>
+          <List>Always respect the author’s intent</List>
+          <List>Don’t use edits to reply to the author</List>
+        </ul>
+      </NoticeWrapper>
+    </PageContainer>
+  );
+};
+
+export const RedBtn = styled.button`
+  margin-left: 10px;
+  background-color: white;
+  color: red;
+  box-shadow: 0px 0px 3px 1px red inset;
+  width: 100px;
+  padding: 10px 0;
+  border: none;
+  border-radius: 5px;
+  font-weight: 600;
+  &:hover {
+    background-color: rgba(180, 60, 64, 100);
+    color: white;
+    box-shadow: 0px 0px 1px 2px rgba(230, 0, 0, 0.59) inset;
+    cursor: pointer;
+  }
+`;
 
 export const PageContainer = styled.div`
   display: flex;
@@ -74,71 +183,5 @@ export const List = styled.li`
   padding: 5px 0;
   font-size: 13px;
 `;
-
-const EditQuestion = () => {
-  //zustand에 저장된 id (params) 가져오기
-  const [title, setTitle] = useState('');
-  const editor = useRef();
-  const navigate = useNavigate();
-  const QUESTION_ID = 2;
-
-  const handleSubmitQuestion = (e) => {
-    e.preventDefault();
-    if (editor.current.getInstance().getMarkdown() === 'please write here') {
-      alert('내용을 입력해주세요');
-    } else {
-      axios
-        .patch(`/questions/${QUESTION_ID}`, {
-          memberId: 1,
-          questionId: QUESTION_ID,
-          title,
-          questionContent: editor.current.getInstance().getMarkdown(),
-        })
-        .then(() => navigate(`/questions/${QUESTION_ID}`))
-        .catch((err) => console.log(err));
-    }
-  };
-  return (
-    <PageContainer>
-      <ContentWrapper className="contentWrapper">
-        <NoticeWrapper as="div" margin>
-          <p>Your edit will be placed in a queue until it is peer reviewed.</p>
-          <p>
-            We welcome edits that make the post easier to understand and more
-            valuable for readers. Because community members review edits, please
-            try to make the post substantially better than how you found it, for
-            example, by fixing grammar or adding additional resources and
-            hyperlinks.
-          </p>
-        </NoticeWrapper>
-        <Wrapper onSubmit={handleSubmitQuestion}>
-          <label htmlFor="title">Title</label>
-          <TitleInput
-            required
-            id="title"
-            onChange={(e) => setTitle(e.target.value)}
-          />
-          <label required htmlFor="body">
-            Body
-          </label>
-          <MarkdownEditor required id="body" ref={editor} />
-          <Btn width="100px" type="submit" bottom="30px">
-            Edit
-          </Btn>
-        </Wrapper>
-      </ContentWrapper>
-      <NoticeWrapper as="div" width="350px" margin="70px 0 10px 30px">
-        <ListTitle>How to Edit</ListTitle>
-        <ul>
-          <List>Correct minor typos or mistakes</List>
-          <List>Clarify meaning without changing it</List>
-          <List>Add related resources or links</List>
-          <List>Always respect the author’s intent</List>
-          <List>Don’t use edits to reply to the author</List>
-        </ul>
-      </NoticeWrapper>
-    </PageContainer>
-  );
-};
 
 export default EditQuestion;

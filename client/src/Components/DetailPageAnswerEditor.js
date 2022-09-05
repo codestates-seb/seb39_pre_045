@@ -3,8 +3,86 @@ import styled from 'styled-components';
 import { Btn } from '../Pages/Login';
 import { Wrapper } from '../Pages/EditQuestion';
 import { useRef, useState } from 'react';
-import axios from 'axios';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
+import axiosInstance from '../Controller/ApiController';
+
+const DetailPageAnswerEditor = () => {
+  const [isWritingMode, setIsWritingMode] = useState(false);
+  const [display, setDisplay] = useState('content');
+  const [message, setMessage] = useState('');
+  const { id } = useParams();
+  const editor = useRef();
+  const navigate = useNavigate();
+  const QUESTION_ID = id;
+
+  const handlePostAnswer = (e) => {
+    e.preventDefault();
+    setMessage('처리중입니다');
+    axiosInstance
+      .post(`/answers`, {
+        question: {
+          questionId: QUESTION_ID,
+        },
+        answerContent: editor.current.getInstance().getMarkdown(),
+      })
+      .then(() => {
+        navigate(`/questions/${QUESTION_ID}`);
+        setMessage('');
+        editor.current.getInstance().setHTML('');
+      })
+      .catch((err) => {
+        alert(err.response?.data.message || '다시 시도해주세요');
+        setMessage('');
+        navigate(`/questions/${QUESTION_ID}`);
+      });
+  };
+  const handleNoticeWrapper = () => {
+    setIsWritingMode(true);
+  };
+  const handleCloseNoticeWrapper = () => {
+    setDisplay('none');
+  };
+  return (
+    <Container>
+      <Div>Your Answer</Div>
+      <Wrapper onSubmit={handlePostAnswer} onClick={handleNoticeWrapper}>
+        <MarkdownEditor ref={editor} value={'please write here'} />
+        {isWritingMode ? (
+          <NoticeWrapper as="div" display={display}>
+            <div>
+              <p>Thanks for contributing an answer to Stack Overflow!</p>
+              <ul>
+                <li>
+                  Please be sure to answer the question. Provide details and
+                  share your research!
+                </li>
+              </ul>
+              <p>But avoid …</p>
+              <ul>
+                <li>
+                  Asking for help, clarification, or responding to other
+                  answers.
+                </li>
+                <li>
+                  Making statements based on opinion; back them up with
+                  references or personal experience.
+                </li>
+              </ul>
+              <p>To learn more, see our tips on writing great answers.</p>
+            </div>
+            <CloseBtn role="button" onClick={handleCloseNoticeWrapper}>
+              X
+            </CloseBtn>
+          </NoticeWrapper>
+        ) : null}
+        <Btn type="submit" width="130px">
+          Post Your Answer
+        </Btn>
+        <span>{message}</span>
+      </Wrapper>
+    </Container>
+  );
+};
 
 const Container = styled.div`
   margin-top: 50px;
@@ -40,72 +118,5 @@ const CloseBtn = styled.div`
     cursor: pointer;
   }
 `;
-
-const DetailPageAnswerEditor = () => {
-  const [isWritingMode, setIsWritingMode] = useState(false);
-  const [display, setDisplay] = useState('content');
-  const editor = useRef();
-  const navigate = useNavigate();
-  const QUESTION_ID = 10;
-
-  const handlePostAnswer = (e) => {
-    e.preventDefault();
-    axios
-      .post(`/answers`, {
-        memberId: 1,
-        question: {
-          questionId: QUESTION_ID,
-        },
-        answerContent: editor.current.getInstance().getHTML(),
-      })
-      .then(() => navigate(`/questions/${QUESTION_ID}`))
-      .catch((err) => Error(err));
-  };
-  const handleNoticeWrapper = () => {
-    setIsWritingMode(true);
-  };
-  const handleCloseNoticeWrapper = () => {
-    setDisplay('none');
-  };
-  return (
-    <Container>
-      <Div>Your Answer</Div>
-      <Wrapper onSubmit={handlePostAnswer} onClick={handleNoticeWrapper}>
-        <MarkdownEditor ref={editor} />
-        {isWritingMode ? (
-          <NoticeWrapper as="div" display={display}>
-            <div>
-              <p>Thanks for contributing an answer to Stack Overflow!</p>
-              <ul>
-                <li>
-                  Please be sure to answer the question. Provide details and
-                  share your research!
-                </li>
-              </ul>
-              <p>But avoid …</p>
-              <ul>
-                <li>
-                  Asking for help, clarification, or responding to other
-                  answers.
-                </li>
-                <li>
-                  Making statements based on opinion; back them up with
-                  references or personal experience.
-                </li>
-              </ul>
-              <p>To learn more, see our tips on writing great answers.</p>
-            </div>
-            <CloseBtn role="button" onClick={handleCloseNoticeWrapper}>
-              X
-            </CloseBtn>
-          </NoticeWrapper>
-        ) : null}
-        <Btn type="submit" width="130px">
-          Post Your Answer
-        </Btn>
-      </Wrapper>
-    </Container>
-  );
-};
 
 export default DetailPageAnswerEditor;
