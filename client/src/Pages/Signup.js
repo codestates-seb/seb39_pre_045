@@ -213,8 +213,7 @@ const Signup = () => {
       }
       axios
         .post('/members/signup', formData)
-        .then(({ data }) => {
-          console.log(data.data);
+        .then(() => {
           alert('회원가입이 완료되었습니다!');
           navigate('/login');
         })

@@ -5,7 +5,9 @@ import { useRef, useState } from 'react';
 import { InfoBarDiv } from './Question';
 import LikeRate from './LikeRate';
 import { useNavigate } from 'react-router-dom';
+
 import axios from 'axios';
+import reIssue from '../reIssue';
 
 const AnswerDiv = styled.div`
   display: flex;
@@ -33,7 +35,7 @@ const AnswerDiv = styled.div`
   border-top: ${(props) => props.idx !== 0 && '1px solid #babfc49b'};
 `;
 
-const Answer = ({ data, idx }) => {
+const Answer = ({ data, originData, setData, idx }) => {
   const navigate = useNavigate();
   const [isOpen, setIsOpen] = useState(false);
   const id = data.answerId;
@@ -44,7 +46,6 @@ const Answer = ({ data, idx }) => {
   };
   const handleCommentWrite = (e) => {
     e.preventDefault();
-    console.log('err');
     if (window.confirm('댓글을 등록하시겠습니까?')) {
       const postData = {
         answer: {
@@ -53,11 +54,21 @@ const Answer = ({ data, idx }) => {
         memberId: 1,
         answerCommentContent: comment.current.value,
       };
-      console.log(postData);
-      axios
+      reIssue
         .post(`/answers/${id}/comments`, postData, { headers })
         .then(({ data }) => {
-          alert('등록 성공이닷!', data.data);
+          // setDetailData({...detailData,answers.answerComment})// 보류
+          alert('댓글 등록에 성공했습니다');
+          setIsOpen(false);
+          setData({
+            ...originData,
+            answers: originData.answers.map((el) => {
+              if (el.answerId === id) {
+                el.answerComments = [...el.answerComments, data.data];
+              }
+              return el;
+            }),
+          });
         })
         .catch((err) => {
           alert('등록에 실패했습니다');
@@ -69,11 +80,20 @@ const Answer = ({ data, idx }) => {
   };
 
   const handleDelete = () => {
+    if (data.adopted) {
+      alert('채택된 답변은 삭제할 수 없습니다');
+      return;
+    }
     if (window.confirm('답변을 삭제하시겠습니까?')) {
-      // axios.delete(`/answers/${id}`).then(({ data }) => {
-      //   console.log(data);
-      //   navigate('/');
-      // });
+      reIssue.delete(`/answers/${id}`, { headers }).then(({ data }) => {
+        setData({
+          ...originData,
+          answers: originData.answers.filter((el) => el.answerId !== id),
+        });
+        console.log(data);
+        alert('답변이 삭제되었습니다');
+        // setDetailData({});보류
+      });
     } else {
       return;
     }
@@ -81,7 +101,12 @@ const Answer = ({ data, idx }) => {
 
   return (
     <AnswerDiv className="wrapper" idx={idx}>
-      <LikeRate className="rateLike" status={'answers'} />
+      <LikeRate
+        className="rateLike"
+        status={'answers'}
+        id={id}
+        originData={originData}
+      />
       <div className="test">
         <MarkdownViewer margin={'20px auto'} value={data.answerContent} />
         <InfoBarDiv>
@@ -107,7 +132,14 @@ const Answer = ({ data, idx }) => {
         <ul className="comment">
           {data.answerComments.length !== 0 &&
             data.answerComments.map((el, index) => (
-              <Comment data={el} id={id} key={index} status={'answers'} />
+              <Comment
+                originData={originData}
+                data={el}
+                id={id}
+                key={index}
+                status={'answers'}
+                setData={setData}
+              />
             ))}
         </ul>
         <div>
