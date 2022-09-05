@@ -1,6 +1,6 @@
 import create from 'zustand';
 
-const useDetaulQuestion = create((set) => ({
+const useDetailQuestion = create((set) => ({
   detailData: {},
   setDetailData: (value) => {
     set(() => ({ detailData: value }));
@@ -11,4 +11,4 @@ const useDetaulQuestion = create((set) => ({
   },
 }));
 
-export default useDetaulQuestion;
+export default useDetailQuestion;

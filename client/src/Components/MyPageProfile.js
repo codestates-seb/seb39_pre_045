@@ -1,5 +1,33 @@
 import styled from 'styled-components';
 
+const MyPageProfile = ({ parsed }) => {
+  return (
+    <Section>
+      <Img
+        alt="profile"
+        src="https://cdn.pixabay.com/photo/2022/08/18/09/20/houses-7394390__480.jpg"
+      />
+      <div>
+        <div className="greeting">Hello, {parsed.username}!</div>
+        <span className="status">
+          <span className="material-icons">mail_outline</span>
+          {parsed.email}
+        </span>
+        <span className="status">
+          {parsed.gender === 'female' ? (
+            <span className="material-icons">female</span>
+          ) : (
+            <span className="material-icons">male</span>
+          )}
+        </span>
+        <span className="status">
+          <span className="material-icons">cake</span> {parsed.age}
+        </span>
+      </div>
+    </Section>
+  );
+};
+
 const Section = styled.div`
   padding: 20px 20px;
   display: flex;
@@ -12,12 +40,21 @@ const Section = styled.div`
     padding-left: 20px;
     font-size: 20px;
   }
+  .material-icons {
+    font-size: 20px;
+  }
   @media only screen and (max-width: 767px) {
     padding-left: 0;
     img {
       width: 100px;
       height: 100px;
     }
+  }
+  .material-icons {
+    padding-right: 5px;
+    font-size: 17px;
+    color: gray;
+    vertical-align: bottom;
   }
   @media only screen and (min-width: 768px) and (max-width: 1200px) {
     padding-left: 50px;
@@ -43,19 +80,4 @@ const Img = styled.img`
   box-shadow: 1px 2px 7px 3px hsla(0, 0%, 0%, 0.1);
   border-radius: 5px;
 `;
-const MyPageProfile = () => {
-  return (
-    <Section>
-      <Img
-        alt="profile"
-        src="https://cdn.pixabay.com/photo/2022/08/18/09/20/houses-7394390__480.jpg"
-      />
-      <div>
-        <div className="greeting">Hello, 닉네임!</div>
-        <span className="status">123@stackoverflow.com</span>
-      </div>
-    </Section>
-  );
-};
-
 export default MyPageProfile;

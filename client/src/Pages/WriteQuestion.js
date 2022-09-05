@@ -2,61 +2,92 @@ import MarkdownEditor from '../Components/MarkdownEditor';
 import styled from 'styled-components';
 import { useRef, useState } from 'react';
 import { Input, Wrapper, Btn } from '../Pages/Login';
-import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
+import axiosInstance from '../Controller/ApiController';
+import { RedBtn } from './EditQuestion';
+import useLoginSuccessStore from '../Store/store-loginSuccess';
 
 const WriteQuestion = () => {
-  const header = `Bearer ${localStorage.getItem('ACCESS_TOKEN')}`;
-  axios.defaults.headers = {
-    'Content-Type': 'application/json',
-    Authorization: header,
-  };
   const [title, setTitle] = useState('');
+  const [message, setMessage] = useState('');
   const editor = useRef();
   const navigate = useNavigate();
+  const { loginSuccess } = useLoginSuccessStore((state) => state);
+
+  const handleClickCancel = () => {
+    navigate(`/`);
+  };
+
   const handleSubmitQuestion = (e) => {
     e.preventDefault();
+    setMessage('처리중입니다');
     if (editor.current.getInstance().getMarkdown() === 'please write here') {
       alert('내용을 입력해주세요');
     } else {
-      axios
+      axiosInstance
         .post('/questions', {
           title,
           questionContent: editor.current.getInstance().getMarkdown(),
         })
-        .then((res) => navigate(`/questions/${res.data.data.questionId}`))
-        .catch((err) => console.log(err));
+        .then((res) => {
+          setMessage('');
+          navigate(`/questions/${res.data.data.questionId}`);
+        })
+        .catch((err) => {
+          setMessage('');
+          alert(
+            err.response?.data.message
+              ? err.response.data.message
+              : '다시 시도해주세요'
+          );
+        });
     }
   };
 
   return (
-    <WritePage>
-      <Wrapper
-        width="500px"
-        maxWidth="700px"
-        mobile="0"
-        middle="200px"
-        onSubmit={handleSubmitQuestion}
-      >
-        <label htmlFor="title">Title</label>
-        <P>
-          Be specific and imagine you’re asking a question to another person
-        </P>
-        <TitleInput
-          required
-          type="text"
-          id="title"
-          value={title}
-          onChange={(e) => setTitle(e.target.value)}
-        />
-        <label htmlFor="body">Body</label>
-        <P>
-          Include all the information someone would need to answer your question
-        </P>
-        <MarkdownEditor required id="body" ref={editor} />
-        <Btn width="180px">Review your Question</Btn>
-      </Wrapper>
-    </WritePage>
+    <>
+      {loginSuccess ? (
+        <WritePage>
+          <Wrapper
+            width="500px"
+            maxWidth="700px"
+            mobile="0"
+            middle="200px"
+            onSubmit={handleSubmitQuestion}
+          >
+            <label htmlFor="title">Title</label>
+            <P>
+              Be specific and imagine you’re asking a question to another person
+            </P>
+            <TitleInput
+              required
+              type="text"
+              id="title"
+              value={title}
+              onChange={(e) => setTitle(e.target.value)}
+            />
+            <label htmlFor="body">Body</label>
+            <P>
+              Include all the information someone would need to answer your
+              question
+            </P>
+            <MarkdownEditor
+              required
+              id="body"
+              ref={editor}
+              value={'please write here'}
+            />
+            <div>
+              <Btn width="180px">Review your Question</Btn>
+              <RedBtn type="button" onClick={handleClickCancel}>
+                Cancel
+              </RedBtn>
+            </div>
+            <span>{message}</span>
+          </Wrapper>
+        </WritePage>
+      ) : null}
+    </>
   );
 };
 export const WritePage = styled.div`

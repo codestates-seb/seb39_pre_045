@@ -2,8 +2,108 @@ import styled from 'styled-components';
 import { Btn, Input } from '../Pages/Login';
 import { Content, Title } from '../Pages/MyPage';
 import { useState } from 'react';
-// import { useNavigate } from 'react-router-dom';
-// import axios from 'axios';
+import { useNavigate } from 'react-router-dom';
+import axios from 'axios';
+import axiosInstance from '../Controller/ApiController';
+
+const MyPageEdit = ({ parsed, setRender }) => {
+  const [username, setUsername] = useState(`${parsed.username}`);
+  const [password, setPassword] = useState('');
+  const [newPassword, setNewPassword] = useState('');
+  const navigate = useNavigate();
+
+  const handleSaveProfile = (e) => {
+    e.preventDefault();
+    const users = { username, prePassword: password };
+    if (newPassword !== '') {
+      users[newPassword] = newPassword;
+    }
+    axiosInstance
+      .patch(`/members/${parsed.memberId}`, users)
+      .then((res) => {
+        localStorage.setItem(
+          'USER_INFO',
+          JSON.stringify({
+            ...parsed,
+            username: res.data.data.username,
+          })
+        );
+        alert('변경되었습니다!');
+        setRender(JSON.parse(localStorage.getItem('USER_INFO')));
+        setPassword('');
+        setNewPassword('');
+      })
+      .catch((err) => {
+        alert(
+          err.response.data.message
+            ? err.response.data.message
+            : '다시 시도해주세요'
+        );
+        setRender(JSON.parse(localStorage.getItem('USER_INFO')));
+      });
+  };
+
+  const handleDeleteProfile = (e) => {
+    e.preventDefault();
+    axios
+      .delete(`/members/${parsed.memberId}`, {
+        headers: {
+          Authorization: 'Bearer ' + localStorage.getItem('ACCESS_TOKEN'),
+        },
+      })
+      .then(() => {
+        localStorage.clear();
+        navigate('/');
+      })
+      .catch((err) => alert(err.response.data.message));
+  };
+
+  return (
+    <>
+      <Title>Edit Profile</Title>
+      <Content>
+        <Form>
+          <label htmlFor="changeName">Display name</label>
+          <Input
+            required
+            value={username}
+            onChange={(e) => setUsername(e.target.value)}
+            type="text"
+            id="changeName"
+          />
+          <label htmlFor="pre-password">Password</label>
+          <Input
+            required
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
+            autoComplete="off"
+            type="password"
+            id="pre-password"
+          />
+          <label htmlFor="new-password">New Password</label>
+          <Input
+            required
+            value={newPassword}
+            onChange={(e) => setNewPassword(e.target.value)}
+            autoComplete="off"
+            type="password"
+            id="new-password"
+          />
+          <Btn
+            bottom="60px"
+            width="150px"
+            type="submit"
+            onClick={handleSaveProfile}
+          >
+            Save Profile
+          </Btn>
+        </Form>
+        <Span>Delete Profile</Span>
+        <RedBtn onClick={handleDeleteProfile}>Delete Profile</RedBtn>
+      </Content>
+    </>
+  );
+};
 
 const Form = styled.form`
   display: flex;
@@ -32,75 +132,5 @@ const RedBtn = styled(Btn)`
     box-shadow: 0px 0px 1px 2px rgba(230, 0, 0, 0.59) inset;
   }
 `;
-
-const MyPageEdit = () => {
-  const [name, setName] = useState('');
-  const [password, setPassword] = useState('');
-  const [checkPassword, setCheckPassword] = useState('');
-  // const navigate = useNavigate();
-
-  //defaultValue 설정하기
-  const handleSaveProfile = (e) => {
-    e.preventDefault();
-    alert('hi');
-    // navigate('/'), { replace: true };
-    // axios
-    //   .patch(`/${memberid}`, { name, password })
-    //   .then((res) => console.log(res))
-    //   .catch((err) => alert(err));
-  };
-
-  const handleDeleteProfile = (e) => {
-    e.preventDefault();
-  };
-
-  return (
-    <>
-      <Title>Edit Profile</Title>
-      <Content>
-        <Form>
-          <label htmlFor="changeName">Display name</label>
-          <Input
-            required
-            value={name}
-            onChange={(e) => setName(e.target.value)}
-            type="text"
-            id="changeName"
-          />
-          {/* <label htmlFor="new-message">Status Message</label>
-          <Input type="text" id="new-message" /> */}
-          <label htmlFor="new-password">Password</label>
-          <Input
-            required
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
-            autoComplete="off"
-            type="password"
-            id="new-password"
-          />
-          <label htmlFor="check-password">Check Password</label>
-          <Input
-            required
-            value={checkPassword}
-            onChange={(e) => setCheckPassword(e.target.value)}
-            autoComplete="off"
-            type="password"
-            id="check-password"
-          />
-          <Btn
-            bottom="60px"
-            width="150px"
-            type="submit"
-            onClick={handleSaveProfile}
-          >
-            Save Profile
-          </Btn>
-        </Form>
-        <Span>Delete Profile</Span>
-        <RedBtn onClick={handleDeleteProfile}>Delete Profile</RedBtn>
-      </Content>
-    </>
-  );
-};
 
 export default MyPageEdit;

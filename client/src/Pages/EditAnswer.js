@@ -9,49 +9,58 @@ import {
   NoticeWrapper,
   ListTitle,
   List,
+  RedBtn,
 } from './EditQuestion';
-import { useRef } from 'react';
-import axios from 'axios';
-import useDetailQuestions from '../Store/store-detailquestion';
-import { useParams } from 'react-router-dom';
-
-const QuestionWrapper = styled.div`
-  @media only screen and (max-width: 767px) {
-    margin-left: 15px;
-  }
-  .title {
-    margin-top: 20px;
-    font-size: 19px;
-    color: #2578ad;
-    font-weight: 500;
-  }
-`;
+import { useEffect, useRef } from 'react';
+import useDetailQuestion from '../Store/store-detailquestion';
+import { useNavigate, useParams } from 'react-router-dom';
+import axiosInstance from '../Controller/ApiController';
 
 const EditAnswer = () => {
-  const { detailData } = useDetailQuestions();
+  const { detailData } = useDetailQuestion((state) => state);
   const editor = useRef();
   const { id } = useParams();
-  const QUESTION_ID = 10;
+  const navigate = useNavigate();
+  const QUESTION_ID = detailData.questionId;
   const ANSWER_ID = id;
-  console.log(detailData);
+
+  useEffect(() => {
+    if (detailData?.answers) {
+      const currentAnswer = detailData.answers.filter((el) => {
+        return el.answerId === parseInt(id);
+      });
+      const value = currentAnswer[0].answerContent;
+      editor.current.getInstance().setHTML(value);
+    } else {
+      alert('잘못된 접근입니다. 뒤로가기를 눌러주세요.');
+    }
+  }, []);
 
   const handleSubmitAnswer = (e) => {
     e.preventDefault();
     if (editor.current.getInstance().getMarkdown() === 'please write here') {
       alert('내용을 입력해주세요');
     } else {
-      axios
+      axiosInstance
         .patch(`/answers/${ANSWER_ID}`, {
-          memberId: 1,
           question: {
             questionId: QUESTION_ID,
           },
           answerId: ANSWER_ID,
           answerContent: editor.current.getInstance().getMarkdown(),
         })
-        .then((res) => console.log(res))
-        .catch((err) => Error(err));
+        .then(() => {
+          window.scrollTo(0, 1000);
+          navigate(`/questions/${QUESTION_ID}`);
+        })
+        .catch((err) =>
+          alert(err.response.data.message || '다시 시도해주세요')
+        );
     }
+  };
+
+  const handleClickCancel = () => {
+    navigate(`/questions/${QUESTION_ID}`);
   };
 
   return (
@@ -68,8 +77,8 @@ const EditAnswer = () => {
           </p>
         </NoticeWrapper>
         <QuestionWrapper>
-          <div className="title">원문 질문 제목</div>
-          <MarkdownViewer margin="10px 0" />
+          <div className="title">{detailData.title}</div>
+          <MarkdownViewer margin="10px 0" value={detailData.questionContent} />
         </QuestionWrapper>
         <Wrapper onSubmit={handleSubmitAnswer}>
           <label htmlFor="answer">Answer</label>
@@ -77,6 +86,9 @@ const EditAnswer = () => {
           <Btn width="100px" type="submit" bottom="30px">
             Edit
           </Btn>
+          <RedBtn type="button" onClick={handleClickCancel}>
+            Cancel
+          </RedBtn>
         </Wrapper>
       </ContentWrapper>
       <NoticeWrapper as="div" width="350px" margin="70px 0 10px 30px">
@@ -92,5 +104,17 @@ const EditAnswer = () => {
     </PageContainer>
   );
 };
+
+const QuestionWrapper = styled.div`
+  @media only screen and (max-width: 767px) {
+    margin-left: 15px;
+  }
+  .title {
+    margin-top: 20px;
+    font-size: 19px;
+    color: #2578ad;
+    font-weight: 500;
+  }
+`;
 
 export default EditAnswer;
