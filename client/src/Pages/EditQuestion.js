@@ -9,7 +9,7 @@ import useDetaulQuestion from '../Store/store-detailquestion';
 
 const EditQuestion = () => {
   const { detailData } = useDetaulQuestion((state) => state);
-  const [title, setTitle] = useState('');
+  const [title, setTitle] = useState(detailData.title);
   const { id } = useParams();
   const editor = useRef();
   const navigate = useNavigate();
