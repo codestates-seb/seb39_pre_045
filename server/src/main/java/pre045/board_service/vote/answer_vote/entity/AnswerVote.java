@@ -16,12 +16,6 @@ public class AnswerVote {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long answerVoteId;
 
-    @Column(columnDefinition = "TINYINT", length = 1)
-    private boolean up;
-
-    @Column(columnDefinition = "TINYINT", length = 1)
-    private boolean down;
-
     private int total;
 
 

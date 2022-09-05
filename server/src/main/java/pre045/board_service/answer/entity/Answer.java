@@ -3,9 +3,7 @@ package pre045.board_service.answer.entity;
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 import pre045.board_service.comment.AComment.AnswerComment;
 import pre045.board_service.member.entity.Member;
 import pre045.board_service.question.entity.Question;
@@ -23,8 +21,9 @@ import java.util.List;
 
 @Entity
 @Getter
-@Setter
 @NoArgsConstructor
+@AllArgsConstructor
+@Builder
 public class Answer {
 
     @Id
@@ -106,5 +105,27 @@ public class Answer {
         }
     }
 
+    public void setAnswerUsername(String answerUsername) {
+        this.answerUsername = answerUsername;
+    }
 
+    public void setAnswerContent(String answerContent) {
+        this.answerContent = answerContent;
+    }
+
+    public void setCreatedAt(LocalDateTime createdAt) {
+        this.createdAt = createdAt;
+    }
+
+    public void setModifiedAt(LocalDateTime modifiedAt) {
+        this.modifiedAt = modifiedAt;
+    }
+
+    public void setAdopted(boolean adopted) {
+        this.adopted = adopted;
+    }
+
+    public void setTotalVotes(int totalVotes) {
+        this.totalVotes = totalVotes;
+    }
 }
