@@ -87,6 +87,7 @@ const Comment = ({ status, data, id, originData, setData }) => {
   const username = window.localStorage.getItem('USER_INFO')
     ? JSON.parse(window.localStorage.getItem('USER_INFO')).username
     : 'x';
+
   const commentId =
     status === 'questions' ? data.questionCommentId : data.answerCommentId;
   const handleEdit = async (e) => {
