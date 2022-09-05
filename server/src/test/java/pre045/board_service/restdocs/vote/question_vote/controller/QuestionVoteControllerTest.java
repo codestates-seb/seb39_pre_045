@@ -1,4 +1,4 @@
-package pre045.board_service.vote.question_vote.controller;
+package pre045.board_service.restdocs.vote.question_vote.controller;
 
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -7,7 +7,9 @@ import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.data.jpa.mapping.JpaMetamodelMappingContext;
 import org.springframework.security.test.context.support.WithMockUser;
-import pre045.board_service.util.RestDocsTestSupport;
+import pre045.board_service.restdocs.util.RestDocsTestSupport;
+import pre045.board_service.restdocs.util.StubData;
+import pre045.board_service.vote.question_vote.controller.QuestionVoteController;
 import pre045.board_service.vote.question_vote.dto.QuestionVoteResponseDto;
 import pre045.board_service.vote.question_vote.service.QuestionVoteService;
 
@@ -16,7 +18,6 @@ import static org.springframework.restdocs.mockmvc.RestDocumentationRequestBuild
 import static org.springframework.restdocs.request.RequestDocumentation.parameterWithName;
 import static org.springframework.restdocs.request.RequestDocumentation.pathParameters;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
-import static pre045.board_service.util.StubData.MockQuestionVote.getQuestionVoteResponseDto;
 
 @WebMvcTest(QuestionVoteController.class)
 @MockBean(JpaMetamodelMappingContext.class)
@@ -28,7 +29,7 @@ class QuestionVoteControllerTest extends RestDocsTestSupport {
     @WithMockUser
     @DisplayName("질문 추천")
     void upVote() throws Exception {
-        QuestionVoteResponseDto questionVoteResponseDto = getQuestionVoteResponseDto(1);
+        QuestionVoteResponseDto questionVoteResponseDto = StubData.MockQuestionVote.getQuestionVoteResponseDto(1);
 
         given(questionVoteService.upVote(Mockito.anyLong())).willReturn(questionVoteResponseDto);
 
@@ -49,7 +50,7 @@ class QuestionVoteControllerTest extends RestDocsTestSupport {
     @WithMockUser
     @DisplayName("질문 비추천")
     void downVote() throws Exception {
-        QuestionVoteResponseDto questionVoteResponseDto = getQuestionVoteResponseDto(-1);
+        QuestionVoteResponseDto questionVoteResponseDto = StubData.MockQuestionVote.getQuestionVoteResponseDto(-1);
 
         given(questionVoteService.downVote(Mockito.anyLong())).willReturn(questionVoteResponseDto);
 

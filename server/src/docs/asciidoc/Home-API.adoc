@@ -1,0 +1,12 @@
+[[Home-API]]
+'''
+== HomeController
+=== 질문 20개 리스트 반환
+.http-request
+include::{snippets}/home-controller-test/home/http-request.adoc[]
+.request-parameters
+include::{snippets}/home-controller-test/home/request-parameters.adoc[]
+.http-response
+include::{snippets}/home-controller-test/home/http-response.adoc[]
+.response-fields
+include::{snippets}/home-controller-test/home/response-fields.adoc[]
