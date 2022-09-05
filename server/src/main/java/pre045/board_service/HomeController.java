@@ -19,25 +19,31 @@ public class HomeController {
 
     private final QuestionRepository questionRepository;
 
+    /**
+     * 기본 절렬 -최신순
+     *
+     * @param sort - 정렬 조건
+     * @return - 20개
+     */
     @GetMapping("/")
     public ResponseEntity home(@RequestParam String sort) {
         List<Question> all = questionRepository.findAll();
         all.sort(sortQuestions(sort));
-        List<Question> questions = all.subList(0, 20);
 
+        List<Question> questions = all.subList(0, 20);
 
         return new ResponseEntity(new SingleResponseDto<>(questions), HttpStatus.OK);
     }
 
-    public Comparator<Question> sortQuestions(String sort) {
+    public static Comparator<Question> sortQuestions(String sort) {
         if (!sort.isEmpty()) {
             switch (sort) {
                 case "votes":
                     return (o1, o2) -> o2.getTotalVotes() - o1.getTotalVotes();
                 case "answers":
                     return ((o1, o2) -> o2.getAnswers().size() - o1.getAnswers().size());
-                case "oldest":
-                    return (Comparator.comparingLong(Question::getQuestionId));
+                case "newest":
+                    return ((o1, o2) -> Long.compare(o2.getQuestionId(), o1.getQuestionId()));
             }
         }
         return ((o1, o2) -> Long.compare(o2.getQuestionId(), o1.getQuestionId()));
