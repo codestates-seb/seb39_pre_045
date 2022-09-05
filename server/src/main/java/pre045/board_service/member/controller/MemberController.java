@@ -99,7 +99,7 @@ public class MemberController {
     public ResponseEntity updateMember(@PathVariable("member-id") @Positive Long memberId,
                                        @Valid @RequestBody MemberPatchDto patchDto){
 
-        return new ResponseEntity<>(memberService.editInfo(patchDto), HttpStatus.OK);
+        return new ResponseEntity<>(new SingleResponseDto<>(memberService.editInfo(patchDto)), HttpStatus.OK);
     }
 
     /**
