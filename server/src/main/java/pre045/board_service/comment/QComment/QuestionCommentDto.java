@@ -49,7 +49,6 @@ public class QuestionCommentDto {
 
     @Getter
     @AllArgsConstructor
-
     public static class Response {
 
         private Long questionCommentId;

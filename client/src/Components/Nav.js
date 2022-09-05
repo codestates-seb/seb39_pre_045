@@ -191,7 +191,7 @@ const Nav = ({ handleMobileMenuOpen }) => {
       .then((data) => {
         if (data.status === 204) {
           alert('로그아웃에 성공했습니다');
-          // window.localStorage.removeItem('USER_INFO');
+          window.localStorage.removeItem('USER_INFO');
           window.localStorage.removeItem('ACCESS_TOKEN');
           window.localStorage.removeItem('REFRESH_TOKEN');
           setLoginSuccess(false);
