@@ -1,4 +1,4 @@
-package pre045.board_service.util;
+package pre045.board_service.restdocs.util;
 
 import org.springframework.boot.test.context.TestConfiguration;
 import org.springframework.context.annotation.Bean;
@@ -23,4 +23,7 @@ public class RestDocsConfig {
     public static final Attribute field(final String key, final String value) {
         return new Attribute(key, value);
     }
+
+
+
 }
