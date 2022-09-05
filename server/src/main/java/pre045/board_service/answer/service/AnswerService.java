@@ -153,7 +153,7 @@ public class AnswerService {
     //작성자 == 수정자 검증
     private void verifySameWriter(Long addMemberId, Long editMemberId) {
         if (!addMemberId.equals(editMemberId)) {
-            throw new BusinessLogicException(ANSWER_CANNOT_EDIT);
+            throw new BusinessLogicException(ONLY_FOR_WRITER);
         }
     }
 
