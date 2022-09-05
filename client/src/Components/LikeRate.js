@@ -1,5 +1,5 @@
 // import { useEffect, useState } from 'react';
-import axios from 'axios';
+import reIssue from '../reIssue';
 import link from '../image/stackoverflow.png';
 import styled from 'styled-components';
 import { useParams } from 'react-router-dom';
@@ -63,11 +63,7 @@ const RateWrapper = styled.div`
 const LikeRate = ({ status, originData, id }) => {
   const { id: ids } = useParams();
   // 아마 이거아닐듯 questionId일듯
-  const headers = {
-    'Content-Type': 'application/json',
-    Authorization: `Bearer ${localStorage.getItem('ACCESS_TOKEN')}`,
-  };
-  const username = 'test';
+  const username = window.localStorage.getItem('USER_INFO').username;
   const [like, setLike] = useState({
     like: 0,
     dislike: 0,
@@ -76,33 +72,33 @@ const LikeRate = ({ status, originData, id }) => {
         ? originData.totalVotes
         : originData.answers.filter((el) => el.answerId === id)[0].totalVotes,
   });
-  const [adopted, setAdopted] = useState(
-    `&{originData.answers.filter((el) => el.answerId === id)[0].adopted}`
-  );
 
-  // useEffect(()=>{
-  //   axios.get(`/${status}/${id}/`).then(({data})=>setLike({...like,..data}).catch(err=>console.log(err))
-  // 이거아닐듯 props로 내려올듯
-  // },[])
+  const [adopted, setAdopted] = useState(
+    status === 'answers'
+      ? `${originData.answers.filter((el) => el.answerId === id)[0].adopted}`
+      : false
+  );
   const handleLike = (e) => {
     if (like.like === 1 || like.dislike === 1) {
       return;
     } else {
       if (e.target.name === 'like') {
-        axios
-          .post(`/${status}/${id}/up`, '', { headers })
+        reIssue
+          .post(`/${status}/${id}/up`, '')
           .then(({ data }) => {
             setLike({ ...like, like: 1, totalVotes: data.data.total });
           })
 
-          .catch((err) => alert(err.reponse.data.message));
+          .catch((err) => {
+            alert(err.response.data.message);
+          });
       } else {
-        axios
-          .post(`/${status}/${id}/down`, '', { headers })
+        reIssue
+          .post(`/${status}/${id}/down`, '')
           .then(({ data }) =>
             setLike({ ...like, dislike: 1, totalVotes: data.data.total })
           )
-          .catch((err) => alert(err.reponse.data.message));
+          .catch((err) => alert(err.response.data.message));
       }
     }
   };
@@ -110,11 +106,10 @@ const LikeRate = ({ status, originData, id }) => {
     if (adopted === true) {
       return;
     }
-    axios
-      .post(`/answers/${id}/adopt/${ids}`, '', { headers })
-      .then((data) => {
+    reIssue
+      .post(`/answers/${id}/adopt/${ids}`, '')
+      .then(() => {
         setAdopted(true);
-        console.log(data);
       })
       .catch((err) => console.log(err));
   };
@@ -132,7 +127,12 @@ const LikeRate = ({ status, originData, id }) => {
           : like.totalVotes}
       </div>
       <button className="dislike" name="dislike" onClick={handleLike}></button>
-      {username === originData.questionUsername ? (
+
+      {adopted === 'true' ? (
+        <>
+          <button className="isadopted"></button>
+        </>
+      ) : username === originData.questionUsername ? (
         status === 'answers' && (
           <button onClick={handleAdopted} className="isadopted"></button>
         )

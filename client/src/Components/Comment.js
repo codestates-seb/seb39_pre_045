@@ -162,9 +162,8 @@ const Comment = ({ status, data, id, originData, setData }) => {
             setIsOpen(false);
           }
         })
-        .catch((err) => {
+        .catch(() => {
           alert('댓글수정에 실패하였습니다');
-          console.log(err);
         });
     } else {
       return;
