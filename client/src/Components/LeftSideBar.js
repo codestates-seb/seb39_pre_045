@@ -1,36 +1,23 @@
 import styled from 'styled-components';
-import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import useLoginSuccessStore from '../Store/store-loginSuccess';
 
 const LeftSideBar = ({ login }) => {
   const { loginSuccess } = useLoginSuccessStore((state) => state);
-  const [home, setHome] = useState(true);
-  const [allQ, setAllQ] = useState(false);
-  const [mypage, setMypage] = useState(false);
   const navigate = useNavigate();
   const handleClickHome = () => {
     navigate('/g');
-    setHome(true);
-    setAllQ(false);
-    setMypage(false);
   };
   const handleClickQuestion = () => {
     navigate('/');
-    setHome(false);
-    setAllQ(true);
-    setMypage(false);
   };
   const handleClickMyPage = () => {
     navigate('/mypage');
-    setHome(false);
-    setAllQ(false);
-    setMypage(true);
   };
   return (
     <Container login={login ? 'none' : 'content'}>
       <ul>
-        <Li margin="10px" onClick={handleClickHome} className={home}>
+        <Li margin="10px" onClick={handleClickHome}>
           Home
         </Li>
         <Li
@@ -42,16 +29,12 @@ const LeftSideBar = ({ login }) => {
         >
           PUBLIC
         </Li>
-        <Li onClick={handleClickQuestion} className={allQ}>
+        <Li onClick={handleClickQuestion}>
           <span className="material-icons">language</span>
           Questions
         </Li>
         {loginSuccess ? (
-          <Li
-            padding="8px 0px 8px 31px"
-            className={mypage}
-            onClick={handleClickMyPage}
-          >
+          <Li padding="8px 0px 8px 31px" onClick={handleClickMyPage}>
             My page
           </Li>
         ) : null}
@@ -78,10 +61,6 @@ const Container = styled.nav`
     &:visited {
       color: inherit;
     }
-  }
-  .true {
-    background-color: ${(props) => props.bg || '#ebebeb'};
-    border-right: ${(props) => props.border || '3px solid orange'};
   }
   .material-icons {
     vertical-align: -20%;

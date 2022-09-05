@@ -77,7 +77,18 @@ const Login = () => {
 
   const handleRecovery = (e) => {
     e.preventDefault();
-    alert('작성하신 이메일로 임시 비밀번호를 발송하였습니다.');
+    // alert('작성하신 이메일로 임시 비밀번호를 발송하였습니다.');
+    setErrorMessage('처리중입니다');
+    axios
+      .post('/members/recovery', searchInfo)
+      .then(() => {
+        setErrorMessage('');
+        alert('작성하신 이메일로 임시 비밀번호를 발송하였습니다.');
+      })
+      .catch((err) => {
+        setErrorMessage('');
+        alert(err.response.data.message || '다시 시도해주세요');
+      });
   };
 
   return (
