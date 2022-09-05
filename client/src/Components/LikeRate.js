@@ -63,9 +63,10 @@ const RateWrapper = styled.div`
 const LikeRate = ({ status, originData, id }) => {
   const { id: ids } = useParams();
   // 아마 이거아닐듯 questionId일듯
-  const username = JSON.parse(
-    window.localStorage.getItem('USER_INFO')
-  ).username;
+
+  const username = window.localStorage.getItem('USER_INFO')
+    ? JSON.parse(window.localStorage.getItem('USER_INFO')).username
+    : 'x';
   const [like, setLike] = useState({
     like: 0,
     dislike: 0,

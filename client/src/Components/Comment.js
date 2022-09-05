@@ -84,9 +84,9 @@ export const WriteComment = styled.form`
 const Comment = ({ status, data, id, originData, setData }) => {
   const [isOpen, setIsOpen] = useState(false);
   const content = useRef();
-  const username = JSON.parse(
-    window.localStorage.getItem('USER_INFO')
-  ).username;
+  const username = window.localStorage.getItem('USER_INFO')
+    ? JSON.parse(window.localStorage.getItem('USER_INFO')).username
+    : 'x';
   const commentId =
     status === 'questions' ? data.questionCommentId : data.answerCommentId;
   const handleEdit = async (e) => {
