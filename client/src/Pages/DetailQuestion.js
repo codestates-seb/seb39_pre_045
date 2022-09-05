@@ -124,7 +124,7 @@ const DetailQuestion = () => {
                 setData={setData}
               />
             ))}
-          <DetailPageAnswerEditor />
+          <DetailPageAnswerEditor originData={data} setData={setData} />
         </>
       ) : (
         <>
