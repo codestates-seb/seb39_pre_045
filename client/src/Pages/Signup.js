@@ -286,7 +286,7 @@ const Signup = () => {
             type="text"
             onChange={handleFormState}
             name="username"
-            onBlur={() => checkisInvalid(checkName, formData.username, 2, 8)}
+            onBlur={() => checkisInvalid(checkName, formData.username, 2, 15)}
           />
           <span className="alert" ref={checkName}></span>
           <label htmlFor="signupEmail">Email</label>
@@ -306,7 +306,7 @@ const Signup = () => {
             name="password"
             type="password"
             onChange={handleFormState}
-            onBlur={() => checkisInvalid(checkPw, formData.password, 4, 8)}
+            onBlur={() => checkisInvalid(checkPw, formData.password, 8, 20)}
           />
           <span className="alert" ref={checkPw}></span>
           <fieldset className="genderFieldset">
@@ -327,12 +327,8 @@ const Signup = () => {
             male
           </fieldset>
           <label htmlFor="age">Age</label>
-          <input type="number" ref={age} id="age" min="8" max="100" />
+          <input type="number" ref={age} id="age" min="1" max="99" />
 
-          {/* <div className="agreeCheck">
-            <input type="checkbox" name="" id="" />
-            어쩌구에 동의하시겠습니까?
-          </div> */}
           <button onClick={handleSubmit}>Sign up</button>
         </SignupForm>
 
