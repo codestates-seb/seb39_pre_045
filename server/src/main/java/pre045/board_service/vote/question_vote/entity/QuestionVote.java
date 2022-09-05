@@ -23,7 +23,7 @@ public class QuestionVote {
     private Member member;
 
     @ManyToOne
-    @JoinColumn(name = "ANSWER_ID")
+    @JoinColumn(name = "QUESTION_ID")
     private Question question;
 
 
