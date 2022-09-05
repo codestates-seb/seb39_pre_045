@@ -32,6 +32,7 @@ public class Answer {
 
     private String answerUsername;
 
+    @Column(columnDefinition = "TEXT")
     private String answerContent;
 
     @Column(updatable = false)

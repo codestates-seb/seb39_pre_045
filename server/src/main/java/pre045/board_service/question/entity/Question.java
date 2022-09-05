@@ -28,7 +28,7 @@ public class Question {
     @Column(nullable = false)
     private String title;
 
-    @Column(nullable = false)
+    @Column(nullable = false, columnDefinition = "TEXT")
     private String questionContent;
 
     @Column(nullable = false)
