@@ -32,7 +32,6 @@ import static pre045.board_service.util.StubData.MockAnswer.*;
 
 @WebMvcTest(AnswerController.class)
 @MockBean(JpaMetamodelMappingContext.class)
-@Slf4j
 class AnswerControllerTest extends RestDocsTestSupport {
     @MockBean
     private AnswerService answerService;
@@ -43,7 +42,7 @@ class AnswerControllerTest extends RestDocsTestSupport {
     @Test
     @WithMockUser(username = "1")
     @DisplayName("답변 등록")
-    public void addAnswer() throws Exception {
+    void addAnswer() throws Exception {
         AnswerDto.Post answerPostDto = getAnswerPostDto();
         String content = gson.toJson(answerPostDto);
         AnswerDto.Response answerResponseDto = getAnswerResponseDto();
@@ -96,7 +95,7 @@ class AnswerControllerTest extends RestDocsTestSupport {
     @Test
     @WithMockUser(username = "1")
     @DisplayName("답변 수정")
-    public void editAnswer() throws Exception {
+    void editAnswer() throws Exception {
         AnswerDto.Patch answerPatchDto = getAnswerPatchDto();
         String content = gson.toJson(answerPatchDto);
         AnswerDto.Response answerResponseDto = getAnswerEditResponseDto();
@@ -151,7 +150,7 @@ class AnswerControllerTest extends RestDocsTestSupport {
     @Test
     @WithMockUser
     @DisplayName("답변 삭제")
-    public void deleteAnswer() throws Exception {
+    void deleteAnswer() throws Exception {
         doNothing().when(answerService).deleteAnswer(1L);
 
         mockMvc.perform(
@@ -170,7 +169,7 @@ class AnswerControllerTest extends RestDocsTestSupport {
     @Test
     @WithMockUser
     @DisplayName("답변 채택")
-    public void adoptAnswer() throws Exception {
+    void adoptAnswer() throws Exception {
         doNothing().when(answerService).adoptAnswer(1L);
 
         mockMvc.perform(

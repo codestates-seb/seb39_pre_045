@@ -7,7 +7,6 @@ import styled from 'styled-components';
 import DetailPageAnswerEditor from '../Components/DetailPageAnswerEditor';
 import { useEffect, useState } from 'react';
 import Loading from '../Components/Loading';
-import useDetaulQuestion from '../Store/store-detailquestion';
 const DivWrapper = styled.div`
   width: 100%;
   min-height: calc(100vh - 50px);
@@ -68,20 +67,16 @@ const DivWrapper = styled.div`
 `;
 
 const DetailQuestion = () => {
-  const { setDetailData } = useDetaulQuestion((state) => state);
   const { id } = useParams();
   const [ispending, setIsPending] = useState(true);
   const navigate = useNavigate();
-  console.log(id);
+
   const [data, setData] = useState({});
 
   useEffect(() => {
     axios
       .get(`/questions/${id}`)
       .then(({ data }) => {
-        console.log(`/questions/${id}`);
-        console.log(data.data);
-        setDetailData(data.data);
         setData(data.data);
         setIsPending(false);
         window.scrollTo(0, 0);
@@ -109,24 +104,23 @@ const DetailQuestion = () => {
               </span>
               {data.modifiedAt === undefined || (
                 <span>
-                  {new Date(data.createdAt).toLocaleString('en-US', options)}
+                  {new Date(data.modifiedAt).toLocaleString('en-US', options)}
                 </span>
               )}
               <span>{data.view}</span>
             </div>
           </div>
-          <Question
-            data={{
-              createdAt: data.createdAt,
-              totalVotes: data.totalVotes,
-              questionUserName: data.questionUserName,
-              questionComments: data.questionComments,
-            }}
-          />
+          <Question datas={data} setData={setData} />
           <div>{data.answers.length} Answers</div>
           {data.answers.length !== 0 &&
             data.answers.map((el, index) => (
-              <Answer data={el} key={el.answerId} idx={index} />
+              <Answer
+                originData={data}
+                data={el}
+                key={el.answerId}
+                idx={index}
+                setData={setData}
+              />
             ))}
           <DetailPageAnswerEditor />
         </>

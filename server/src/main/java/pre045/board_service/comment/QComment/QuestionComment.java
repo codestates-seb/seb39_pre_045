@@ -20,6 +20,7 @@ public class QuestionComment {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long questionCommentId;
 
+    @Column(columnDefinition = "TEXT")
     private String questionCommentContent;
 
     //추가

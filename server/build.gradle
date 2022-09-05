@@ -83,10 +83,3 @@ task copyDocument(type: Copy) {
 build {
 	dependsOn copyDocument
 }
-
-bootJar {
-	dependsOn copyDocument
-	from ("${asciidoctor.outputDir}/html5") {
-		into 'static/docs'
-	}
-}

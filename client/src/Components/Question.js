@@ -3,9 +3,8 @@ import MarkdownViewer from '../Components/MarkdownViewer';
 import Comment, { WriteComment } from './Comment';
 import { useRef, useState } from 'react';
 import LikeRate from './LikeRate';
-import axios from 'axios';
 import { useNavigate, useParams } from 'react-router-dom';
-import useDetaulQuestion from '../Store/store-detailquestion';
+import reIssue from '../reIssue';
 
 const QuestionDiv = styled.div`
   display: flex;
@@ -45,12 +44,11 @@ export const InfoBarDiv = styled.div`
   }
 `;
 
-const Question = ({ data }) => {
+const Question = ({ datas, setData }) => {
   const { id } = useParams();
   const comment = useRef();
   const navigate = useNavigate();
   const [isOpen, setIsOpen] = useState(false);
-  const { detailData, setDatailData } = useDetaulQuestion((state) => state);
   const headers = {
     'Content-Type': 'application/json',
     Authorization: `Bearer ${localStorage.getItem('ACCESS_TOKEN')}`,
@@ -66,15 +64,15 @@ const Question = ({ data }) => {
         questionCommentContent: comment.current.value,
       };
       // console.log(postData);
-      axios
+      reIssue
         .post(`/questions/${id}/comments`, postData, { headers })
         .then(({ data }) => {
-          console.log('등록 성공이닷!', data.data);
-          setDatailData({
-            ...detailData,
-            questionComments: [...setDatailData.questionComments, data.data],
+          alert('댓글 등록에 성공했습니다');
+          setData({
+            ...datas,
+            questionComments: [...datas.questionComments, data.data],
           });
-          navigate(`/questions/${id}`);
+          setIsOpen(false);
         });
     } else {
       return;
@@ -83,11 +81,17 @@ const Question = ({ data }) => {
   const handleDelete = (e) => {
     if (window.confirm('질문을 삭제하시겠습니까?')) {
       e.preventDefault();
-      console.log(id);
-      // axios.delete(`/questions/${id}`).then(({ data }) => {
-      //   console.log(data);
-      //   // navigate('/');
-      // });
+
+      reIssue
+        .delete(`/questions/${id}`, { headers })
+        .then(() => {
+          alert('질문 삭제가 완료되었습니다.');
+          navigate(`/`);
+        })
+        .catch((err) => {
+          console.log(err);
+          alert('질문 삭제를 실패했습니다.');
+        });
     } else {
       return;
     }
@@ -95,12 +99,14 @@ const Question = ({ data }) => {
 
   return (
     <QuestionDiv className="wrapper">
-      <LikeRate className="rateLike" status={'questions'} />
+      <LikeRate
+        className="rateLike"
+        status={'questions'}
+        originData={datas}
+        id={id}
+      />
       <div className="test">
-        <MarkdownViewer
-          margin={'20px auto'}
-          value={detailData.questionContent}
-        />
+        <MarkdownViewer margin={'20px auto'} value={datas.questionContent} />
         <InfoBarDiv>
           <div>
             <button onClick={() => navigate(`/questions/edit/${id}`)}>
@@ -108,23 +114,31 @@ const Question = ({ data }) => {
             </button>
             <button onClick={handleDelete}>Delete</button>
           </div>
+
           <div className="userInfo">
             <span>
               asked{' '}
-              {new Date(data.createdAt).toLocaleString('en-US', {
+              {new Date(datas.createdAt).toLocaleString('en-US', {
                 weekday: 'short',
                 year: 'numeric',
                 month: 'short',
                 day: 'numeric',
               })}
             </span>
-            <span>{data.questionUserName}</span>
+            <span>{datas.questionUsername}</span>
           </div>
         </InfoBarDiv>
         <ul className="comment">
-          {data.questionComments.length !== 0 &&
-            data.questionComments.map((el, index) => (
-              <Comment data={el} key={index} id={id} status={'questions'} />
+          {datas.questionComments.length !== 0 &&
+            datas.questionComments.map((el, index) => (
+              <Comment
+                originData={datas}
+                data={el}
+                key={index}
+                id={id}
+                status={'questions'}
+                setData={setData}
+              />
             ))}
         </ul>
         <div>

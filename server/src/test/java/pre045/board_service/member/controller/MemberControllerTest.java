@@ -41,7 +41,7 @@ public class MemberControllerTest extends RestDocsTestSupport {
     @Test
     @WithMockUser
     @DisplayName("회원 가입")
-    public void signup() throws Exception {
+    void signup() throws Exception {
         MemberPostDto postDto = getMemberPostDto();
         String content = gson.toJson(postDto);
         MemberResponseDto responseDto = getMemberResponseDto();
@@ -87,7 +87,7 @@ public class MemberControllerTest extends RestDocsTestSupport {
     @Test
     @WithMockUser
     @DisplayName("로그인")
-    public void login() throws Exception {
+    void login() throws Exception {
         MemberLoginDto loginDto = getMemberLoginDto();
         String content = gson.toJson(loginDto);
         MemberLoginResponseDto loginResponseDto = getMemberLoginResponseDto();
@@ -131,7 +131,7 @@ public class MemberControllerTest extends RestDocsTestSupport {
     @Test
     @WithMockUser
     @DisplayName("회원 정보 수정")
-    public void edit() throws Exception {
+    void edit() throws Exception {
         MemberPatchDto patchDto = getMemberPatchDto();
         String content = gson.toJson(patchDto);
         MemberResponseDto responseDto = getMemberResponseDto();
@@ -174,7 +174,7 @@ public class MemberControllerTest extends RestDocsTestSupport {
     @Test
     @WithMockUser
     @DisplayName("로그아웃")
-    public void logout() throws Exception {
+    void logout() throws Exception {
         doNothing().when(memberService).logout();
 
         mockMvc.perform(
@@ -186,7 +186,7 @@ public class MemberControllerTest extends RestDocsTestSupport {
     @Test
     @WithMockUser
     @DisplayName("비밀번호 찾기")
-    public void recovery() throws Exception {
+    void recovery() throws Exception {
         MemberRecoveryDto recoveryDto = getMemberRecoveryDto();
         String content = gson.toJson(recoveryDto);
 
@@ -216,7 +216,7 @@ public class MemberControllerTest extends RestDocsTestSupport {
     @Test
     @WithMockUser
     @DisplayName("회원 탈퇴")
-    public void deleteMember() throws Exception {
+    void deleteMember() throws Exception {
         doNothing().when(memberService).deleteMember(1L);
 
         mockMvc.perform(
@@ -236,7 +236,7 @@ public class MemberControllerTest extends RestDocsTestSupport {
     @Test
     @WithMockUser
     @DisplayName("액세스 토큰 재발급")
-    public void reissue() throws Exception {
+    void reissue() throws Exception {
         TokenRequestDto tokenRequestDto = getTokenRequestDto();
         String content = gson.toJson(tokenRequestDto);
         TokenDto tokenDto = getTokenDto();

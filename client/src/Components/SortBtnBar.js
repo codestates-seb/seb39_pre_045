@@ -33,28 +33,15 @@ const SortBtnBar = ({ setIsPending, setNoResult }) => {
       .then(({ data }) => {
         setPageInfo(data.pageInfo);
         setData(data.data);
-        console.log(`/questions?page=1&sort=${sorting}&filters=`);
-        console.log(data.data);
         setIsPending(false);
       })
       .catch((err) => {
-        console.log(err);
         setTimeout(() => {
           setNoResult({ status: 'httpErr', keyword: err.response.status });
           setIsPending(false);
         }, 200);
         alert('정렬에 실패했습니다');
       });
-
-    // .catch((err) => {
-    //   setData([]);
-
-    //   setTimeout(() => {
-    //     setNoResult({ status: 'httpErr', keyword: err.response.status });
-    //     setIsPending(false);
-    //   }, 200);
-    //   console.log(err);
-    // });
   };
 
   return (
