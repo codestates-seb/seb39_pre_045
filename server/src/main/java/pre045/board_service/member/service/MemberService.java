@@ -175,7 +175,7 @@ public class MemberService {
         Optional.ofNullable(patchDto.getUsername())
                 .ifPresent(foundMember::setUsername);
         Optional.ofNullable(patchDto.getNewPassword())
-                .ifPresent(foundMember::setPassword);
+                .ifPresent(password -> foundMember.setPassword(passwordEncoder.encode(patchDto.getNewPassword())));
 
 
         return MemberResponseDto.of(memberRepository.save(foundMember));
