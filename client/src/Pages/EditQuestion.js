@@ -32,7 +32,7 @@ const EditQuestion = () => {
     } else {
       axiosInstance
         .patch(`/questions/${QUESTION_ID}`, {
-          questionId: QUESTION_ID,
+          questionId: parseInt(QUESTION_ID),
           title,
           questionContent: editor.current.getInstance().getMarkdown(),
         })
@@ -41,7 +41,7 @@ const EditQuestion = () => {
           navigate(`/questions/${QUESTION_ID}`);
         })
         .catch((err) => {
-          alert(err.response.data.message || '잘못된 접근입니다');
+          alert(err.response.data.message || '다시 시도해주세요');
         });
     }
   };

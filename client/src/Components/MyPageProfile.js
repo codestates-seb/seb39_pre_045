@@ -1,12 +1,10 @@
 import styled from 'styled-components';
+import { ReactComponent as Profile } from '../image/profile.svg';
 
 const MyPageProfile = ({ parsed }) => {
   return (
     <Section>
-      <Img
-        alt="profile"
-        src="https://cdn.pixabay.com/photo/2022/08/18/09/20/houses-7394390__480.jpg"
-      />
+      <Profile alt="profile" className="profileImage" />
       <div>
         <div className="greeting">Hello, {parsed.username}!</div>
         <span className="status">
@@ -27,7 +25,6 @@ const MyPageProfile = ({ parsed }) => {
     </Section>
   );
 };
-
 const Section = styled.div`
   padding: 20px 20px;
   display: flex;
@@ -42,6 +39,13 @@ const Section = styled.div`
   }
   .material-icons {
     font-size: 20px;
+  }
+  .profileImage {
+    object-fit: cover;
+    width: 150px;
+    height: 150px;
+    box-shadow: 1px 2px 7px 3px hsla(0, 0%, 0%, 0.1);
+    border-radius: 5px;
   }
   @media only screen and (max-width: 767px) {
     padding-left: 0;
@@ -73,11 +77,4 @@ const Section = styled.div`
   }
 `;
 
-const Img = styled.img`
-  object-fit: cover;
-  width: 150px;
-  height: 150px;
-  box-shadow: 1px 2px 7px 3px hsla(0, 0%, 0%, 0.1);
-  border-radius: 5px;
-`;
 export default MyPageProfile;
