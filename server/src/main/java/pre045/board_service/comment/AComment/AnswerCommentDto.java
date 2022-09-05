@@ -22,8 +22,6 @@ public class AnswerCommentDto {
         @NotNull
         private Answer answer;
 
-        @NotNull
-        private Long memberId;
 
         @NotBlank
         private String answerCommentContent;
