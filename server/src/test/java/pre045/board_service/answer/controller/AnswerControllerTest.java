@@ -170,7 +170,7 @@ class AnswerControllerTest extends RestDocsTestSupport {
     @WithMockUser
     @DisplayName("답변 채택")
     void adoptAnswer() throws Exception {
-        doNothing().when(answerService).adoptAnswer(1L);
+        doNothing().when(answerService).adoptAnswer(1L,2L);
 
         mockMvc.perform(
                     post("/answers/{answer-id}/adopt", 1L)

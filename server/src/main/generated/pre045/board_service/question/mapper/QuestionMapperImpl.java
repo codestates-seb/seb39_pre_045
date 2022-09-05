@@ -14,7 +14,7 @@ import pre045.board_service.question.entity.Question;
 
 @Generated(
     value = "org.mapstruct.ap.MappingProcessor",
-    date = "2022-09-04T00:32:36+0900",
+    date = "2022-09-05T18:22:15+0900",
     comments = "version: 1.5.2.Final, compiler: javac, environment: Java 11.0.15 (Azul Systems, Inc.)"
 )
 @Component
@@ -26,13 +26,13 @@ public class QuestionMapperImpl implements QuestionMapper {
             return null;
         }
 
-        Question question = new Question();
+        Question.QuestionBuilder question = Question.builder();
 
-        question.setQuestionId( questionPatchDto.getQuestionId() );
-        question.setTitle( questionPatchDto.getTitle() );
-        question.setQuestionContent( questionPatchDto.getQuestionContent() );
+        question.questionId( questionPatchDto.getQuestionId() );
+        question.title( questionPatchDto.getTitle() );
+        question.questionContent( questionPatchDto.getQuestionContent() );
 
-        return question;
+        return question.build();
     }
 
     @Override
@@ -41,12 +41,12 @@ public class QuestionMapperImpl implements QuestionMapper {
             return null;
         }
 
-        Question question = new Question();
+        Question.QuestionBuilder question = Question.builder();
 
-        question.setTitle( questionPostDto.getTitle() );
-        question.setQuestionContent( questionPostDto.getQuestionContent() );
+        question.title( questionPostDto.getTitle() );
+        question.questionContent( questionPostDto.getQuestionContent() );
 
-        return question;
+        return question.build();
     }
 
     @Override

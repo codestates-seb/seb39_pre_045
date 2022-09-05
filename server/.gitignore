@@ -19,6 +19,7 @@ bin/
 
 ### IntelliJ IDEA ###
 application-server.yml
+application.yml
 .idea
 *.iws
 *.iml
