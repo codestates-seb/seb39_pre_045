@@ -16,14 +16,11 @@ export const MainContainer = styled.div`
   flex-direction: column;
   margin: 50px 0 0 230px;
   max-width: 850px;
-  /* 이거민영님한테물어보기 */
-  /* padding: 20px; */
   .pageDesc {
     padding: 10px;
     display: flex;
     align-items: center;
     justify-content: space-between;
-    /* max-width: 850px; */
     h2 {
       padding: 0 10px;
       font-weight: 500;
@@ -45,7 +42,6 @@ export const MainContainer = styled.div`
   .totalNbtns {
     display: flex;
     justify-content: space-between;
-    /* max-width: 850px; */
     padding: 0 10px;
     .totalQuestion {
       padding: 0 10px;
@@ -150,7 +146,6 @@ const MainLogout = () => {
                   setNoResult={setNoResult}
                   status={'question'}
                 />
-                {'?'}
               </>
             ) : (
               <>
