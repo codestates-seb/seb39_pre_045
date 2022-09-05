@@ -6,6 +6,9 @@ import pre045.board_service.member.entity.Member;
 import pre045.board_service.member.token.dto.TokenDto;
 import pre045.board_service.member.token.dto.TokenRequestDto;
 import pre045.board_service.question.entity.Question;
+import pre045.board_service.vote.question_vote.dto.QuestionVoteResponseDto;
+import pre045.board_service.vote.question_vote.entity.QuestionVote;
+import pre045.board_service.vote.question_vote.service.QuestionVoteService;
 
 import java.time.LocalDateTime;
 
@@ -129,6 +132,15 @@ public class StubData {
                     .build();
         }
     }
+
+    public static class MockQuestionVote {
+        public static QuestionVoteResponseDto getQuestionVoteResponseDto(int vote) {
+            QuestionVote questionVote = new QuestionVote();
+            questionVote.setTotal(vote);
+            return QuestionVoteResponseDto.of(questionVote);
+        }
+    }
+
 
 
 }
