@@ -42,7 +42,7 @@ const Pagination = ({ status, setIsPending, setNoResult }) => {
   // const [num, setNum] = useState(1);
 
   const handlePagination = async (e) => {
-    if (status === 'search') {
+    if (status === 'question') {
       axios
         .get(
           `/questions?page=${Number(
@@ -53,7 +53,9 @@ const Pagination = ({ status, setIsPending, setNoResult }) => {
           setPageInfo(data.pageInfo);
           setData(data.data);
           setPageInfo(data.pageInfo);
+
           setIsPending(false);
+          window.scrollTo(0, 0);
         })
         .catch((err) => {
           setData([]);
@@ -66,13 +68,17 @@ const Pagination = ({ status, setIsPending, setNoResult }) => {
     } else {
       axios
         .get(
-          `/search?q=${query}&page=${Number(e.target.textContent)}&sort=${sort}`
+          `/search?q=${query}&page=${Number(
+            e.target.textContent
+          )}&sort=${sort}&`
         )
         .then(({ data }) => {
           setPageInfo(data.pageInfo);
           setData(data.data);
           setPageInfo(data.pageInfo);
+
           setIsPending(false);
+          window.scrollTo(0, 0);
         })
         .catch((err) => {
           setData([]);

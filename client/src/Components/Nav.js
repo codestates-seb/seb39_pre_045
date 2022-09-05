@@ -3,7 +3,7 @@ import { Link, useNavigate } from 'react-router-dom';
 import link from '../image/stackoverflow.png';
 import { useRef, useState } from 'react';
 import useLoginSuccessStore from '../Store/store-loginSuccess';
-// import axios from 'axios';
+import axios from 'axios';
 // import axios from 'axios'
 const NavHeader = styled.header`
   width: 100%;
@@ -200,7 +200,6 @@ const Nav = ({ handleMobileMenuOpen }) => {
     //   });
     // window.localStorage.removeItem('ACCESS_TOKEN');
     // setLoginSuccess(false);
-    setLoginSuccess();
   };
   return (
     <NavHeader className="header" display={`${isblock}`}>
