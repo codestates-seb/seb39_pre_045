@@ -1,5 +1,5 @@
-import axios from 'axios';
 import { useState, useRef } from 'react';
+import reIssue from '../reIssue';
 
 import styled from 'styled-components';
 import link from '../image/stackoverflow.png';
@@ -81,9 +81,16 @@ export const WriteComment = styled.form`
     margin: 3px;
   }
 `;
-const Comment = ({ status, data, id }) => {
+const Comment = ({ status, data, id, originData, setData }) => {
+  const headers = {
+    'Content-Type': 'application/json',
+    Authorization: `Bearer ${localStorage.getItem('ACCESS_TOKEN')}`,
+  };
   const [isOpen, setIsOpen] = useState(false);
   const content = useRef();
+  const username = 'test';
+  const commentId =
+    status === 'questions' ? data.questionCommentId : data.answerCommentId;
   const handleEdit = async (e) => {
     e.preventDefault();
     if (window.confirm('댓글을 수정하시겠습니까?')) {
@@ -109,16 +116,52 @@ const Comment = ({ status, data, id }) => {
               answerCommentContent: content.current.value,
             };
 
-      await axios
+      await reIssue
         .patch(
           `/${status}/${id}/comments/${
             status === 'questions'
               ? data.questionCommentId
               : data.answerCommentId
           }`,
-          patchData
+          patchData,
+          { headers }
         )
-        .then(({ data }) => console.log(data.data))
+        .then(({ data }) => {
+          if (status === 'questions') {
+            setData({
+              ...originData,
+              questionComments: originData.questionComments.map((el) => {
+                if (el.questionCommentId === data.data.questionCommentId) {
+                  return data.data;
+                }
+                return el;
+              }),
+            });
+            alert('댓글이 수정되었습니다');
+            setIsOpen(false);
+          } else {
+            setData({
+              ...originData,
+              answers: originData.answers.map((el) => {
+                if (el.answerId === id) {
+                  return {
+                    ...el,
+                    answerComments: el.answerComments.map((el) => {
+                      if (el.answerCommentId == data.data.answerCommentId) {
+                        return data.data;
+                      }
+                      return el;
+                    }),
+                  };
+                } else {
+                  return el;
+                }
+              }),
+            });
+            alert('댓글이 수정되었습니다');
+            setIsOpen(false);
+          }
+        })
         .catch((err) => {
           alert('댓글수정에 실패하였습니다');
           console.log(err);
@@ -129,17 +172,42 @@ const Comment = ({ status, data, id }) => {
   };
   const handleDelete = () => {
     if (window.confirm('댓글을 삭제하시겠습니까?')) {
-      axios
+      reIssue
         .delete(
           `/${status}/${id}/comments/${
             status === 'questions'
               ? data.questionCommentId
               : data.answerCommentId
-          }`
+          }`,
+          { headers }
         )
-        .then(({ data }) => {
-          alert('댓글 삭제');
-          console.log(data.data);
+        .then(() => {
+          if (status === 'questions') {
+            setData({
+              ...originData,
+              questionComments: originData.questionComments.filter(
+                (el) => el.questionCommentId !== commentId
+              ),
+            });
+          } else {
+            setData({
+              ...originData,
+              answers: originData.answers.map((el) => {
+                if (el.answerId === id) {
+                  return {
+                    ...el,
+                    answerComments: el.answerComments.filter(
+                      (el) => el.answerCommentId !== commentId
+                    ),
+                  };
+                } else {
+                  return el;
+                }
+              }),
+            });
+          }
+
+          alert('댓글이 삭제되었습니다');
         })
         .catch((err) => {
           alert('댓글 삭제 실패하였습니다');
@@ -163,14 +231,20 @@ const Comment = ({ status, data, id }) => {
           ) : (
             <span className="author">{data.answerCommentUsername}</span>
           )}
-
-          <div className="editNdelete">
-            <button
-              className="editBtn"
-              onClick={() => setIsOpen(!isOpen)}
-            ></button>
-            <button className="deleteBtn" onClick={handleDelete}></button>
-          </div>
+          {username ===
+          (status === 'questions'
+            ? data.questionCommentUsername
+            : data.answerCommentUsername) ? (
+            <div className="editNdelete">
+              <button
+                className="editBtn"
+                onClick={() => setIsOpen(!isOpen)}
+              ></button>
+              <button className="deleteBtn" onClick={handleDelete}></button>
+            </div>
+          ) : (
+            <></>
+          )}
         </>
       ) : (
         <>
