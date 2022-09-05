@@ -3,16 +3,16 @@ import styled from 'styled-components';
 import { Btn } from '../Pages/Login';
 import { Wrapper } from '../Pages/EditQuestion';
 import { useRef, useState } from 'react';
-import { useNavigate, useParams } from 'react-router-dom';
+import { useParams } from 'react-router-dom';
 import axiosInstance from '../Controller/ApiController';
 
-const DetailPageAnswerEditor = () => {
+const DetailPageAnswerEditor = (props) => {
+  const { setData, originData } = props;
   const [isWritingMode, setIsWritingMode] = useState(false);
   const [display, setDisplay] = useState('content');
   const [message, setMessage] = useState('');
   const { id } = useParams();
   const editor = useRef();
-  const navigate = useNavigate();
   const QUESTION_ID = id;
 
   const handlePostAnswer = (e) => {
@@ -25,15 +25,17 @@ const DetailPageAnswerEditor = () => {
         },
         answerContent: editor.current.getInstance().getMarkdown(),
       })
-      .then(() => {
-        navigate(`/questions/${QUESTION_ID}`);
+      .then(({ data }) => {
         setMessage('');
         editor.current.getInstance().setHTML('');
+        setData({
+          ...originData,
+          answers: [...originData.answers, data.data],
+        });
       })
       .catch((err) => {
         alert(err.response?.data.message || '다시 시도해주세요');
         setMessage('');
-        navigate(`/questions/${QUESTION_ID}`);
       });
   };
   const handleNoticeWrapper = () => {

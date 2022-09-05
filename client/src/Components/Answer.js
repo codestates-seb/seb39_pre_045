@@ -126,17 +126,18 @@ const Answer = ({ data, originData, setData, idx }) => {
           </div>
         </InfoBarDiv>
         <ul className="comment">
-          {data.answerComments.length !== 0 &&
-            data.answerComments.map((el, index) => (
-              <Comment
-                originData={originData}
-                data={el}
-                id={id}
-                key={index}
-                status={'answers'}
-                setData={setData}
-              />
-            ))}
+          {data?.answerComments
+            ? data.answerComments.map((el, index) => (
+                <Comment
+                  originData={originData}
+                  data={el}
+                  id={id}
+                  key={index}
+                  status={'answers'}
+                  setData={setData}
+                />
+              ))
+            : null}
         </ul>
         <div>
           {isOpen === false ? (
