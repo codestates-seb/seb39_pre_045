@@ -8,6 +8,8 @@ import pre045.board_service.exception.BusinessLogicException;
 import pre045.board_service.member.entity.Member;
 import pre045.board_service.member.repository.MemberRepository;
 import pre045.board_service.member.service.MemberService;
+import pre045.board_service.member.token.config.SecurityUtil;
+import pre045.board_service.vote.answer_vote.dto.AnswerVoteResponseDto;
 import pre045.board_service.vote.answer_vote.entity.AnswerVote;
 import pre045.board_service.vote.answer_vote.repository.AnswerVoteRepository;
 
@@ -20,73 +22,63 @@ import static pre045.board_service.exception.ExceptionCode.CANT_DUPLICATE_VOTE;
 public class AnswerVoteService {
 
     private final AnswerVoteRepository answerVoteRepository;
-    private final MemberRepository memberRepository;
     private final MemberService memberService;
-
     private final AnswerService answerService;
 
-    public AnswerVote upVote(Long memberId, AnswerVote answerVote) {
-        List<Member> all = memberRepository.findAll();
 
-        //중복 추천 방지
-        all.stream()
-                .filter(member -> !member.getAnswerVotes().isEmpty())
-                .filter(duplicate -> duplicate.getMemberId().equals(memberId))
+    public AnswerVoteResponseDto upVote(Long answerId) {
+        Answer foundAnswer = answerService.verifyExistAnswer(answerId);
+
+        List<AnswerVote> answerVotes = foundAnswer.getAnswerVotes();
+        Long memberId = SecurityUtil.getCurrentMemberId();
+
+        Member foundMember = memberService.findVerifiedMember(memberId);
+
+
+        answerVotes.stream()
+                .filter(answerVote -> answerVote.getMember().getMemberId().equals(memberId))
                 .findAny()
                 .ifPresent(duplicate -> {
                     throw new BusinessLogicException(CANT_DUPLICATE_VOTE);
                 });
 
-        if (answerVote.isUp() || answerVote.isDown()) {
-            throw new BusinessLogicException(CANT_DUPLICATE_VOTE);
-        } else {
-            answerVote.setUp(true);
+        int answerTotalVotes = foundAnswer.getTotalVotes() + 1;
+        foundAnswer.setTotalVotes(answerTotalVotes);
 
-            Member foundMember = memberService.findVerifiedMember(memberId);
-            Answer foundAnswer = answerService.verifyExistAnswer(answerVote.getAnswer().getAnswerId());
+        AnswerVote answerVote = new AnswerVote();
+        answerVote.setMember(foundMember);
+        answerVote.setAnswer(foundAnswer);
+        answerVote.setTotal(answerTotalVotes);
 
-            int answerTotalVotes = foundAnswer.getTotalVotes() + 1;
-            answerVote.setTotal(answerTotalVotes);
-            foundAnswer.setTotalVotes(answerTotalVotes);
+        return AnswerVoteResponseDto.of(answerVoteRepository.save(answerVote));
 
-            answerVote.setMember(foundMember);
-            answerVote.setAnswer(foundAnswer);
-        }
-
-        return answerVoteRepository.save(answerVote);
     }
 
-    public AnswerVote downVote(Long memberId, AnswerVote answerVote) {
-        List<Member> all = memberRepository.findAll();
-        Long answerId = answerVote.getAnswer().getAnswerId();
+    public AnswerVoteResponseDto downVote(Long answerId) {
+        Answer foundAnswer = answerService.verifyExistAnswer(answerId);
 
-        //중복 추천 방지
-        all.stream()
-                .filter(member -> !member.getAnswerVotes().isEmpty())
-                .filter(duplicate -> duplicate.getMemberId().equals(memberId))
+        List<AnswerVote> answerVotes = foundAnswer.getAnswerVotes();
+        Long memberId = SecurityUtil.getCurrentMemberId();
+
+        Member foundMember = memberService.findVerifiedMember(memberId);
+
+
+        answerVotes.stream()
+                .filter(answerVote -> answerVote.getMember().getMemberId().equals(memberId))
                 .findAny()
                 .ifPresent(duplicate -> {
                     throw new BusinessLogicException(CANT_DUPLICATE_VOTE);
                 });
-        if (answerVote.isUp() || answerVote.isDown()) {
-            throw new BusinessLogicException(CANT_DUPLICATE_VOTE);
-        } else {
-            answerVote.setDown(true);
 
-            Member foundMember = memberService.findVerifiedMember(memberId);
-            Answer foundAnswer = answerService.verifyExistAnswer(answerVote.getAnswer().getAnswerId());
+        int answerTotalVotes = foundAnswer.getTotalVotes() + 1;
+        foundAnswer.setTotalVotes(answerTotalVotes);
 
-            int answerTotalVotes = foundAnswer.getTotalVotes() - 1;
-            answerVote.setTotal(answerTotalVotes);
-            foundAnswer.setTotalVotes(answerTotalVotes);
+        AnswerVote answerVote = new AnswerVote();
+        answerVote.setMember(foundMember);
+        answerVote.setAnswer(foundAnswer);
+        answerVote.setTotal(answerTotalVotes);
 
-            answerVote.setMember(foundMember);
-            answerVote.setAnswer(foundAnswer);
-        }
+        return AnswerVoteResponseDto.of(answerVoteRepository.save(answerVote));
 
-        return answerVoteRepository.save(answerVote);
     }
-
-
-
 }
