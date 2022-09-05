@@ -1,11 +1,14 @@
-package pre045.board_service.util;
+package pre045.board_service.restdocs.util;
 
-import pre045.board_service.answer.controller.AnswerController;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import pre045.board_service.answer.dto.AnswerDto;
 import pre045.board_service.answer.entity.Answer;
-import pre045.board_service.answer.mapper.AnswerMapper;
 import pre045.board_service.comment.AComment.AnswerComment;
 import pre045.board_service.comment.QComment.QuestionComment;
+import pre045.board_service.dto.MultiResponseDto;
 import pre045.board_service.member.dto.*;
 import pre045.board_service.member.entity.Member;
 import pre045.board_service.member.token.dto.TokenDto;
@@ -13,22 +16,17 @@ import pre045.board_service.member.token.dto.TokenRequestDto;
 import pre045.board_service.question.entity.Question;
 import pre045.board_service.vote.question_vote.dto.QuestionVoteResponseDto;
 import pre045.board_service.vote.question_vote.entity.QuestionVote;
-import pre045.board_service.vote.question_vote.service.QuestionVoteService;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
-import static pre045.board_service.util.StubData.*;
-import static pre045.board_service.util.StubData.MockAnswer.*;
-import static pre045.board_service.util.StubData.MockAnswerComment.*;
-import static pre045.board_service.util.StubData.MockQuestion.getQuestion1;
-import static pre045.board_service.util.StubData.MockQuestion.getQuestion2;
-import static pre045.board_service.util.StubData.MockQuestionComment.*;
+import static pre045.board_service.restdocs.util.StubData.MockAnswer.getAnswer;
+import static pre045.board_service.restdocs.util.StubData.MockAnswerComment.getAnswerComment;
+import static pre045.board_service.restdocs.util.StubData.MockQuestion.getQuestion1;
+import static pre045.board_service.restdocs.util.StubData.MockQuestionComment.getQuestionComment;
 
 public class StubData {
-
-    private static AnswerMapper answerMapper;
 
     public static class MockMember {
         public static MemberPostDto getMemberPostDto() {
@@ -97,7 +95,7 @@ public class StubData {
 
         public static AnswerDto.Patch getAnswerPatchDto() {
             return AnswerDto.Patch.builder()
-                    .question(getQuestion2())
+                    .question(getQuestion1())
                     .answerId(1L)
                     .answerContent("답변 수정 내용")
                     .build();
@@ -147,15 +145,12 @@ public class StubData {
                     .questionId(1L)
                     .title("질문 제목1")
                     .questionContent("질문 내용1")
-                    .createdAt(LocalDateTime.of(2022, 9, 5, 13, 36, 0))
-                    .modifiedAt(null)
                     .view(10)
                     .checkAdopted(false)
                     .questionUsername("질문 작성자1")
                     .totalVotes(10)
                     .answers(new ArrayList<>())
                     .questionComments(new ArrayList<>())
-                    .questionVotes(new ArrayList<>())
                     .build();
         }
 
@@ -172,13 +167,28 @@ public class StubData {
                     .totalVotes(20)
                     .answers(new ArrayList<>())
                     .questionComments(new ArrayList<>())
-                    .questionVotes(new ArrayList<>())
+                    .build();
+        }
+
+        public static Question getQuestion3() {
+            return Question.builder()
+                    .questionId(3L)
+                    .title("질문 제목3")
+                    .questionContent("질문 내용3")
+                    .createdAt(LocalDateTime.of(2022, 9, 5, 18, 0, 0))
+                    .modifiedAt(null)
+                    .view(30)
+                    .checkAdopted(false)
+                    .questionUsername("질문 작성자3")
+                    .totalVotes(30)
+                    .answers(new ArrayList<>())
+                    .questionComments(new ArrayList<>())
                     .build();
         }
 
         public static List<Question> getQuestionList() {
             List<Question> questions = new ArrayList<>();
-            Question question1 = getQuestion1();
+            Question question1 = getQuestion3();
             Question question2 = getQuestion2();
 
             Answer answer = getAnswer();
@@ -193,6 +203,23 @@ public class StubData {
             questions.add(question2);
 
             return questions;
+        }
+
+
+        public static Page<Question> getPageResult(int page, List<Question> foundQuestions) {
+            Pageable pageable = PageRequest.of(page, 20);
+            final int start = (int) pageable.getOffset();
+            final int end = Math.min((start + pageable.getPageSize()), foundQuestions.size());
+
+            Page<Question> pageResult = new PageImpl<>(foundQuestions.subList(start, end), pageable, foundQuestions.size());
+            return pageResult;
+        }
+
+        public static MultiResponseDto<Question> getMultiResponseDto() {
+            List<Question> questionList = getQuestionList();
+            Page<Question> pageResult = getPageResult(0, questionList);
+
+            return new MultiResponseDto<>(pageResult.getContent(), pageResult);
         }
     }
 

@@ -1,0 +1,22 @@
+[[Question-API]]
+'''
+== QuestionController
+=== 전체 질문 조회
+.http-request
+include::{snippets}/question-controller-test/get-questions/http-request.adoc[]
+.request-parameters
+include::{snippets}/question-controller-test/get-questions/request-parameters.adoc[]
+.http-response
+include::{snippets}/question-controller-test/get-questions/http-response.adoc[]
+.response-fields
+include::{snippets}/question-controller-test/get-questions/response-fields.adoc[]
+
+=== 질문 검색
+.http-request
+include::{snippets}/question-controller-test/find-questions/http-request.adoc[]
+.request-parameters
+include::{snippets}/question-controller-test/find-questions/request-parameters.adoc[]
+.http-response
+include::{snippets}/question-controller-test/find-questions/http-response.adoc[]
+.response-fields
+include::{snippets}/question-controller-test/find-questions/response-fields.adoc[]

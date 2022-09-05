@@ -1,4 +1,4 @@
-package pre045.board_service.member.controller;
+package pre045.board_service.restdocs.member.controller;
 
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -7,12 +7,14 @@ import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.data.jpa.mapping.JpaMetamodelMappingContext;
 import org.springframework.security.test.context.support.WithMockUser;
+import pre045.board_service.member.controller.MemberController;
 import pre045.board_service.member.dto.*;
 import pre045.board_service.member.repository.MemberRepository;
 import pre045.board_service.member.service.MemberService;
 import pre045.board_service.member.token.dto.TokenDto;
 import pre045.board_service.member.token.dto.TokenRequestDto;
-import pre045.board_service.util.RestDocsTestSupport;
+import pre045.board_service.restdocs.util.StubData;
+import pre045.board_service.restdocs.util.RestDocsTestSupport;
 
 import java.util.List;
 
@@ -27,8 +29,7 @@ import static org.springframework.restdocs.request.RequestDocumentation.pathPara
 import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.csrf;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
-import static pre045.board_service.util.RestDocsConfig.field;
-import static pre045.board_service.util.StubData.MockMember.*;
+import static pre045.board_service.restdocs.util.RestDocsConfig.field;
 
 @WebMvcTest(MemberController.class)
 @MockBean(JpaMetamodelMappingContext.class)
@@ -42,9 +43,9 @@ public class MemberControllerTest extends RestDocsTestSupport {
     @WithMockUser
     @DisplayName("회원 가입")
     void signup() throws Exception {
-        MemberPostDto postDto = getMemberPostDto();
+        MemberPostDto postDto = StubData.MockMember.getMemberPostDto();
         String content = gson.toJson(postDto);
-        MemberResponseDto responseDto = getMemberResponseDto();
+        MemberResponseDto responseDto = StubData.MockMember.getMemberResponseDto();
 
         given(memberService.signup(Mockito.any(MemberPostDto.class))).willReturn(responseDto);
 
@@ -88,9 +89,9 @@ public class MemberControllerTest extends RestDocsTestSupport {
     @WithMockUser
     @DisplayName("로그인")
     void login() throws Exception {
-        MemberLoginDto loginDto = getMemberLoginDto();
+        MemberLoginDto loginDto = StubData.MockMember.getMemberLoginDto();
         String content = gson.toJson(loginDto);
-        MemberLoginResponseDto loginResponseDto = getMemberLoginResponseDto();
+        MemberLoginResponseDto loginResponseDto = StubData.MockMember.getMemberLoginResponseDto();
 
         given(memberService.login(Mockito.any(MemberLoginDto.class))).willReturn(loginResponseDto);
 
@@ -132,9 +133,9 @@ public class MemberControllerTest extends RestDocsTestSupport {
     @WithMockUser
     @DisplayName("회원 정보 수정")
     void edit() throws Exception {
-        MemberPatchDto patchDto = getMemberPatchDto();
+        MemberPatchDto patchDto = StubData.MockMember.getMemberPatchDto();
         String content = gson.toJson(patchDto);
-        MemberResponseDto responseDto = getMemberResponseDto();
+        MemberResponseDto responseDto = StubData.MockMember.getMemberResponseDto();
 
         given(memberService.editInfo(Mockito.any(MemberPatchDto.class))).willReturn(responseDto);
 
@@ -187,14 +188,14 @@ public class MemberControllerTest extends RestDocsTestSupport {
     @WithMockUser
     @DisplayName("비밀번호 찾기")
     void recovery() throws Exception {
-        MemberRecoveryDto recoveryDto = getMemberRecoveryDto();
+        MemberRecoveryDto recoveryDto = StubData.MockMember.getMemberRecoveryDto();
         String content = gson.toJson(recoveryDto);
 
 
         doNothing().when(memberService).recoveryPassword(Mockito.any(MemberRecoveryDto.class));
 
         mockMvc.perform(
-                        get("/members/recovery")
+                        post("/members/recovery")
                                 .accept(APPLICATION_JSON)
                                 .contentType(APPLICATION_JSON)
                                 .content(content)
@@ -237,9 +238,9 @@ public class MemberControllerTest extends RestDocsTestSupport {
     @WithMockUser
     @DisplayName("액세스 토큰 재발급")
     void reissue() throws Exception {
-        TokenRequestDto tokenRequestDto = getTokenRequestDto();
+        TokenRequestDto tokenRequestDto = StubData.MockMember.getTokenRequestDto();
         String content = gson.toJson(tokenRequestDto);
-        TokenDto tokenDto = getTokenDto();
+        TokenDto tokenDto = StubData.MockMember.getTokenDto();
 
         given(memberService.reissue(Mockito.any(TokenRequestDto.class))).willReturn(tokenDto);
 

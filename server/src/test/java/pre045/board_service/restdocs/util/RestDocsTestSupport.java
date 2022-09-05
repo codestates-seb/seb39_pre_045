@@ -1,4 +1,4 @@
-package pre045.board_service.util;
+package pre045.board_service.restdocs.util;
 
 import com.google.gson.Gson;
 import org.junit.jupiter.api.BeforeEach;
@@ -23,9 +23,11 @@ public class RestDocsTestSupport {
     @Autowired
     protected MockMvc mockMvc;
     @Autowired
-    protected Gson gson;
-    @Autowired
     protected RestDocumentationResultHandler restDocs;
+
+    @Autowired
+    protected Gson gson;
+
 
     @BeforeEach
     void init(final WebApplicationContext context, final RestDocumentationContextProvider provider) {
@@ -36,4 +38,5 @@ public class RestDocsTestSupport {
                 .addFilters(new CharacterEncodingFilter("UTF-8", true))
                 .build();
     }
+
 }
