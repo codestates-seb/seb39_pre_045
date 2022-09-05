@@ -1,6 +1,11 @@
 package pre045.board_service.util;
 
+import pre045.board_service.answer.controller.AnswerController;
 import pre045.board_service.answer.dto.AnswerDto;
+import pre045.board_service.answer.entity.Answer;
+import pre045.board_service.answer.mapper.AnswerMapper;
+import pre045.board_service.comment.AComment.AnswerComment;
+import pre045.board_service.comment.QComment.QuestionComment;
 import pre045.board_service.member.dto.*;
 import pre045.board_service.member.entity.Member;
 import pre045.board_service.member.token.dto.TokenDto;
@@ -11,10 +16,20 @@ import pre045.board_service.vote.question_vote.entity.QuestionVote;
 import pre045.board_service.vote.question_vote.service.QuestionVoteService;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 
-import static pre045.board_service.util.StubData.MockQuestion.getQuestion;
+import static pre045.board_service.util.StubData.*;
+import static pre045.board_service.util.StubData.MockAnswer.*;
+import static pre045.board_service.util.StubData.MockAnswerComment.*;
+import static pre045.board_service.util.StubData.MockQuestion.getQuestion1;
+import static pre045.board_service.util.StubData.MockQuestion.getQuestion2;
+import static pre045.board_service.util.StubData.MockQuestionComment.*;
 
 public class StubData {
+
+    private static AnswerMapper answerMapper;
+
     public static class MockMember {
         public static MemberPostDto getMemberPostDto() {
             return MemberPostDto.builder()
@@ -75,14 +90,14 @@ public class StubData {
     public static class MockAnswer {
         public static AnswerDto.Post getAnswerPostDto() {
             return AnswerDto.Post.builder()
-                    .question(getQuestion())
+                    .question(getQuestion1())
                     .answerContent("답변 내용")
                     .build();
         }
 
         public static AnswerDto.Patch getAnswerPatchDto() {
             return AnswerDto.Patch.builder()
-                    .question(getQuestion())
+                    .question(getQuestion2())
                     .answerId(1L)
                     .answerContent("답변 수정 내용")
                     .build();
@@ -115,21 +130,69 @@ public class StubData {
                     .build();
         }
 
+        public static Answer getAnswer() {
+            Answer answer = new Answer(1L, "답변 작성자", "답변 내용",
+                    LocalDateTime.of(2022, 9, 5, 19, 0, 0),
+                    LocalDateTime.of(2022, 9, 5, 20, 0, 0),
+                    false, 2, null, null, new ArrayList<>(), new ArrayList<>());
+
+            return answer;
+        }
+
     }
 
     public static class MockQuestion {
-        public static Question getQuestion() {
+        public static Question getQuestion1() {
             return Question.builder()
                     .questionId(1L)
-                    .title("질문 제목")
-                    .questionContent("질문 내용")
-                    .createdAt(null)
+                    .title("질문 제목1")
+                    .questionContent("질문 내용1")
+                    .createdAt(LocalDateTime.of(2022, 9, 5, 13, 36, 0))
                     .modifiedAt(null)
                     .view(10)
                     .checkAdopted(false)
-                    .questionUsername("질문 작성자")
+                    .questionUsername("질문 작성자1")
                     .totalVotes(10)
+                    .answers(new ArrayList<>())
+                    .questionComments(new ArrayList<>())
+                    .questionVotes(new ArrayList<>())
                     .build();
+        }
+
+        public static Question getQuestion2() {
+            return Question.builder()
+                    .questionId(2L)
+                    .title("질문 제목2")
+                    .questionContent("질문 내용2")
+                    .createdAt(LocalDateTime.of(2022, 9, 5, 18, 0, 0))
+                    .modifiedAt(null)
+                    .view(20)
+                    .checkAdopted(false)
+                    .questionUsername("질문 작성자2")
+                    .totalVotes(20)
+                    .answers(new ArrayList<>())
+                    .questionComments(new ArrayList<>())
+                    .questionVotes(new ArrayList<>())
+                    .build();
+        }
+
+        public static List<Question> getQuestionList() {
+            List<Question> questions = new ArrayList<>();
+            Question question1 = getQuestion1();
+            Question question2 = getQuestion2();
+
+            Answer answer = getAnswer();
+            answer.setQuestion(question1);
+
+            QuestionComment questionComment = getQuestionComment();
+            questionComment.setQuestion(question2);
+            AnswerComment answerComment = getAnswerComment();
+            answerComment.setAnswer(answer);
+
+            questions.add(question1);
+            questions.add(question2);
+
+            return questions;
         }
     }
 
@@ -138,6 +201,28 @@ public class StubData {
             QuestionVote questionVote = new QuestionVote();
             questionVote.setTotal(vote);
             return QuestionVoteResponseDto.of(questionVote);
+        }
+    }
+
+    public static class MockQuestionComment {
+        public static QuestionComment getQuestionComment() {
+            QuestionComment questionComment = new QuestionComment();
+            questionComment.setQuestionCommentId(1L);
+            questionComment.setQuestionCommentUsername("질문 댓글 작성자");
+            questionComment.setQuestionCommentContent("질문 댓글 내용");
+
+            return questionComment;
+        }
+    }
+
+    public static class MockAnswerComment {
+        public static AnswerComment getAnswerComment() {
+            AnswerComment answerComment = new AnswerComment();
+            answerComment.setAnswerCommentId(1L);
+            answerComment.setAnswerCommentUsername("답변 댓글 작성자");
+            answerComment.setAnswerCommentContent("답변 댓글 내용");
+
+            return answerComment;
         }
     }
 

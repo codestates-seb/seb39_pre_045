@@ -78,6 +78,7 @@ class AnswerControllerTest extends RestDocsTestSupport {
                                 ),
                                 responseFields(
                                         List.of(
+                                                fieldWithPath("data").type(OBJECT).description("데이터"),
                                                 fieldWithPath("data.answerId").type(NUMBER).description("답변 식별자"),
                                                 fieldWithPath("data.answerUsername").type(STRING).description("답변 작성자"),
                                                 fieldWithPath("data.answerContent").type(STRING).description("답변 내용"),
@@ -133,6 +134,7 @@ class AnswerControllerTest extends RestDocsTestSupport {
                                 ),
                                 responseFields(
                                         List.of(
+                                                fieldWithPath("data").type(OBJECT).description("데이터"),
                                                 fieldWithPath("data.answerId").type(NUMBER).description("답변 식별자"),
                                                 fieldWithPath("data.answerUsername").type(STRING).description("답변 작성자"),
                                                 fieldWithPath("data.answerContent").type(STRING).description("답변 수정 내용"),
@@ -170,16 +172,17 @@ class AnswerControllerTest extends RestDocsTestSupport {
     @WithMockUser
     @DisplayName("답변 채택")
     void adoptAnswer() throws Exception {
-        doNothing().when(answerService).adoptAnswer(1L);
+        doNothing().when(answerService).adoptAnswer(1L, 1L);
 
         mockMvc.perform(
-                    post("/answers/{answer-id}/adopt", 1L)
+                    post("/answers/{answer-id}/adopt/{question-id}", 1L, 1L)
                 )
                 .andExpect(status().isCreated())
                 .andDo(
                         restDocs.document(
                                 pathParameters(
-                                        parameterWithName("answer-id").description("답변 식별자")
+                                        parameterWithName("answer-id").description("답변 식별자"),
+                                        parameterWithName("question-id").description("질문 식별자")
                                 )
                         )
                 );

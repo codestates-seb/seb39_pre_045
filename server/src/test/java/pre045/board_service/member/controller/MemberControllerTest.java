@@ -34,9 +34,9 @@ import static pre045.board_service.util.StubData.MockMember.*;
 @MockBean(JpaMetamodelMappingContext.class)
 public class MemberControllerTest extends RestDocsTestSupport {
     @MockBean
-    protected MemberService memberService;
+    private MemberService memberService;
     @MockBean
-    protected MemberRepository memberRepository;
+    private MemberRepository memberRepository;
 
     @Test
     @WithMockUser
