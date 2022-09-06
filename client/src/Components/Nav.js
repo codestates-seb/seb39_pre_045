@@ -3,7 +3,7 @@ import { Link, useNavigate } from 'react-router-dom';
 import link from '../image/stackoverflow.png';
 import { useRef, useState } from 'react';
 import useLoginSuccessStore from '../Store/store-loginSuccess';
-import axios from 'axios';
+import reIssue from '../Controller/reIssue';
 const NavHeader = styled.header`
   width: 100%;
   height: 50px;
@@ -182,11 +182,8 @@ const Nav = ({ handleMobileMenuOpen }) => {
     }
   };
   const handleLogout = () => {
-    const headers = {
-      Authorization: `Bearer ${localStorage.getItem('ACCESS_TOKEN')}`,
-    };
-    axios
-      .post('/members/logout', '', { headers })
+    reIssue
+      .post('/members/logout', '')
       .then((data) => {
         if (data.status === 204) {
           alert('로그아웃에 성공했습니다');

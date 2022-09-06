@@ -1,5 +1,5 @@
 import { useState, useRef } from 'react';
-import reIssue from '../reIssue';
+import reIssue from '../Controller/reIssue';
 
 import styled from 'styled-components';
 import link from '../image/stackoverflow.png';

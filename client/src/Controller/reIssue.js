@@ -1,6 +1,8 @@
 import axios from 'axios';
 
-const reIssue = axios.create();
+const reIssue = axios.create({
+  baseURL: process.env.REACT_APP_PROXY_URL,
+});
 reIssue.interceptors.request.use(function (config) {
   const token = localStorage.getItem('ACCESS_TOKEN');
   if (!token) {

@@ -1,4 +1,3 @@
-import axios from 'axios';
 import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
@@ -9,6 +8,7 @@ import Pagination from '../Components/Pagination';
 import useSortStore from '../Store/store-sort';
 import SortBtnBar from '../Components/SortBtnBar';
 import RightSideBar from '../Components/RightSideBar';
+import defAxios from '../Controller/default';
 export const MainContainer = styled.div`
   width: 100%;
   min-height: calc(100vh - 50px);
@@ -79,7 +79,7 @@ const MainLogout = () => {
   const { setPagination, data, setData, setSort, setPageInfo, pageInfo } =
     useSortStore((state) => state);
   useEffect(() => {
-    axios
+    defAxios
       .get(`/questions?page=1&sort=newest&filters=`)
       .then(({ data }) => {
         setData(data.data !== undefined ? data.data : []);

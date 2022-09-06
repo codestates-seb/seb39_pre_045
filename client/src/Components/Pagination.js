@@ -1,6 +1,6 @@
-import axios from 'axios';
 import { useEffect } from 'react';
 import styled from 'styled-components';
+import defAxios from '../Controller/default';
 import useSortStore from '../Store/store-sort';
 const PaginationDiv = styled.div`
   width: 100%;
@@ -43,7 +43,7 @@ const Pagination = ({ status, setIsPending, setNoResult }) => {
 
   const handlePagination = async (e) => {
     if (status === 'question') {
-      axios
+      defAxios
         .get(
           `/questions?page=${Number(
             e.target.textContent
@@ -66,7 +66,7 @@ const Pagination = ({ status, setIsPending, setNoResult }) => {
           console.log(err);
         });
     } else {
-      axios
+      defAxios
         .get(
           `/search?q=${query}&page=${Number(
             e.target.textContent

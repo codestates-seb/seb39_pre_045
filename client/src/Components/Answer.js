@@ -6,7 +6,7 @@ import { InfoBarDiv } from './Question';
 import LikeRate from './LikeRate';
 import { useNavigate } from 'react-router-dom';
 
-import reIssue from '../reIssue';
+import reIssue from '../Controller/reIssue';
 
 const AnswerDiv = styled.div`
   display: flex;
