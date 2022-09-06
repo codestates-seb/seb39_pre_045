@@ -2,13 +2,14 @@ import { useEffect, useState } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 import QuestItem from '../Components/QuestItem';
-import axios from 'axios';
+
 import useSortStore from '../Store/store-sort';
 import { MainContainer } from './MainLogout';
 import NoResult from '../Components/NoResult';
 import Pagination from '../Components/Pagination';
 import Loading from '../Components/Loading';
 import SortBtnBar from '../Components/SortBtnBar';
+import defAxios from '../Controller/default';
 
 const SearchContainer = styled(MainContainer)`
   flex: 1 1 1;
@@ -46,7 +47,7 @@ const SearchResult = () => {
   useEffect(() => {
     setQuery(query);
     setSort('votes');
-    axios
+    defAxios
       .get(`/questions/search?q=${query}&sort=votes&page=1`)
       .then(({ data }) => {
         setData(data.data !== undefined ? data.data : []);

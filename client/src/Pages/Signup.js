@@ -1,8 +1,7 @@
-// import { useState } from 'react';
-import axios from 'axios';
 import { useRef, useState, useEffect } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
+import defAxios from '../Controller/default';
 import useSideBarStore from '../Store/store-sidebar';
 
 const SignupContainer = styled.div`
@@ -211,7 +210,7 @@ const Signup = () => {
       if (age !== '') {
         formData.age = age.current.value;
       }
-      axios
+      defAxios
         .post('/members/signup', formData)
         .then(() => {
           alert('회원가입이 완료되었습니다!');
