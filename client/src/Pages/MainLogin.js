@@ -1,5 +1,5 @@
 import QuestItem from '../Components/QuestItem';
-import { MainContainer } from './MainLogout';
+import { MainContainer, Div } from './MainLogout';
 import { useEffect, useState } from 'react';
 import NoResult from '../Components/NoResult';
 import { useNavigate } from 'react-router-dom';
@@ -15,9 +15,6 @@ const MainLoginDiv = styled(MainContainer)`
     display: flex;
     justify-content: flex-end;
   }
-`;
-const Div = styled.div`
-  display: flex;
 `;
 
 const MainLogin = () => {
