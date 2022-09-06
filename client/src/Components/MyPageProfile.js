@@ -14,12 +14,21 @@ const MyPageProfile = ({ parsed }) => {
         <span className="status">
           {parsed.gender === 'female' ? (
             <span className="material-icons">female</span>
-          ) : (
+          ) : null}
+          {parsed.gender === 'male' ? (
             <span className="material-icons">male</span>
-          )}
+          ) : null}
+          {parsed.gender === null ? (
+            <>
+              <span className="material-icons">female</span>
+              or
+              <span className="material-icons">male</span>
+            </>
+          ) : null}
         </span>
         <span className="status">
-          <span className="material-icons">cake</span> {parsed.age}
+          <span className="material-icons">cake</span>
+          {parsed.age || <span className="material-icons">question_mark</span>}
         </span>
       </div>
     </Section>
