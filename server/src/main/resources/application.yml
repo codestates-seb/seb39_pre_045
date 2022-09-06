@@ -20,5 +20,5 @@ spring:
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
     url: jdbc:mysql://121.189.189.136:3306/board_service?createDatabaseIfNotExist=true&testOnBorrow=true&testWhileIdle=true&timeBetweenEvictionRunsMillis=3000&validationQuery="select 1"
-      username: team45
-      password: 1q2w3e4r
+    username: team45
+    password: 1q2w3e4r
