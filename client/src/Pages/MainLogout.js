@@ -111,7 +111,8 @@ const MainLogout = () => {
         </div>
         <div className="totalNbtns">
           <div className="totalQuestion">
-            {pageInfo.totalElements} questions
+            {pageInfo.totalElements !== undefined && pageInfo.totalElements}{' '}
+            questions
           </div>
           <SortBtnBar
             setData={setData}
