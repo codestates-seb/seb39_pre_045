@@ -35,9 +35,9 @@ const MyPageEdit = ({ parsed, setRender }) => {
       })
       .catch((err) => {
         alert(
-          err.response.data.message
+          err.response?.data.message
             ? err.response.data.message
-            : '다시 시도해주세요'
+            : '다시 시도해주세요. 비밀번호는 필수 입력값입니다.'
         );
         setRender(JSON.parse(localStorage.getItem('USER_INFO')));
       });
@@ -47,11 +47,14 @@ const MyPageEdit = ({ parsed, setRender }) => {
     e.preventDefault();
     if (window.confirm('확인을 누르면 회원 정보가 삭제됩니다.')) {
       axios
-        .delete(`/members/${parsed.memberId}`, {
-          headers: {
-            Authorization: 'Bearer ' + localStorage.getItem('ACCESS_TOKEN'),
-          },
-        })
+        .delete(
+          `${process.env.REACT_APP_PROXY_URL}/members/${parsed.memberId}`,
+          {
+            headers: {
+              Authorization: 'Bearer ' + localStorage.getItem('ACCESS_TOKEN'),
+            },
+          }
+        )
         .then(() => {
           localStorage.clear();
           alert('그동안 이용해주셔서 감사합니다.');
@@ -87,7 +90,6 @@ const MyPageEdit = ({ parsed, setRender }) => {
           />
           <label htmlFor="new-password">New Password</label>
           <Input
-            required
             value={newPassword}
             onChange={(e) => setNewPassword(e.target.value)}
             autoComplete="off"

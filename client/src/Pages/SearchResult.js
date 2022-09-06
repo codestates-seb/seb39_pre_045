@@ -2,20 +2,27 @@ import { useEffect, useState } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 import QuestItem from '../Components/QuestItem';
-import axios from 'axios';
+
 import useSortStore from '../Store/store-sort';
 import { MainContainer } from './MainLogout';
 import NoResult from '../Components/NoResult';
 import Pagination from '../Components/Pagination';
 import Loading from '../Components/Loading';
 import SortBtnBar from '../Components/SortBtnBar';
+import defAxios from '../Controller/default';
 
 const SearchContainer = styled(MainContainer)`
+  flex: 1 1 1;
+  margin: 50px 0 0 230px;
+  width: 100%;
   .resultQueryDiv {
     padding: 0px 20px 20px;
     font-size: 12px;
     box-sizing: border-box;
     max-width: 850px;
+  }
+  @media screen and (max-width: 768px) {
+    margin: 50px auto;
   }
 `;
 const SearchResult = () => {
@@ -40,12 +47,11 @@ const SearchResult = () => {
   useEffect(() => {
     setQuery(query);
     setSort('votes');
-    axios
+    defAxios
       .get(`/questions/search?q=${query}&sort=votes&page=1`)
       .then(({ data }) => {
         setData(data.data !== undefined ? data.data : []);
         setPageInfo(data.pageInfo);
-        console.log(data);
         setIsPending(false);
       })
       .catch((err) => {

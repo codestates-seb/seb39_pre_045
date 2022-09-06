@@ -25,12 +25,12 @@ const EditAnswer = () => {
   const ANSWER_ID = id;
 
   useEffect(() => {
-    if (detailData?.answers) {
+    if (detailData?.answers !== undefined) {
       const currentAnswer = detailData.answers.filter((el) => {
         return el.answerId === parseInt(id);
       });
       const value = currentAnswer[0].answerContent;
-      editor.current.getInstance().setHTML(value);
+      editor.current.getInstance().setMarkdown(value, true);
     } else {
       alert('잘못된 접근입니다. 뒤로가기를 눌러주세요.');
     }
@@ -60,7 +60,7 @@ const EditAnswer = () => {
   };
 
   const handleClickCancel = () => {
-    navigate(`/questions/${QUESTION_ID}`);
+    navigate(`/`);
   };
 
   return (

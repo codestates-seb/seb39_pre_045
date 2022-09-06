@@ -5,15 +5,16 @@ import { Btn } from './Login';
 import { useState, useRef, useEffect } from 'react';
 import axiosInstance from '../Controller/ApiController';
 import { useNavigate, useParams } from 'react-router-dom';
-import useDetaulQuestion from '../Store/store-detailquestion';
+import useDetailQuestion from '../Store/store-detailquestion';
 
 const EditQuestion = () => {
-  const { detailData } = useDetaulQuestion((state) => state);
+  const { detailData } = useDetailQuestion((state) => state);
   const [title, setTitle] = useState(detailData.title);
   const { id } = useParams();
   const editor = useRef();
   const navigate = useNavigate();
   const QUESTION_ID = id;
+  const [errorMessage, setErrorMessage] = useState('');
 
   useEffect(() => {
     if (detailData?.questionId === undefined) {
@@ -27,6 +28,7 @@ const EditQuestion = () => {
 
   const handleSubmitQuestion = (e) => {
     e.preventDefault();
+    setErrorMessage('처리중입니다');
     if (editor.current.getInstance().getMarkdown() === 'please write here') {
       alert('내용을 입력해주세요');
     } else {
@@ -38,9 +40,11 @@ const EditQuestion = () => {
         })
         .then(() => {
           window.scrollTo(0, 1000);
+          setErrorMessage('');
           navigate(`/questions/${QUESTION_ID}`);
         })
         .catch((err) => {
+          setErrorMessage('');
           alert(err.response.data.message || '다시 시도해주세요');
         });
     }
@@ -81,6 +85,7 @@ const EditQuestion = () => {
           <RedBtn type="button" onClick={handleClickCancel}>
             Cancel
           </RedBtn>
+          <span>{errorMessage}</span>
         </Wrapper>
       </ContentWrapper>
       <NoticeWrapper as="div" width="350px" margin="70px 0 10px 30px">
