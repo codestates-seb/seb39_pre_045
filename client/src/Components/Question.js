@@ -4,7 +4,7 @@ import Comment, { WriteComment } from './Comment';
 import { useRef, useState } from 'react';
 import LikeRate from './LikeRate';
 import { useNavigate, useParams } from 'react-router-dom';
-import reIssue from '../reIssue';
+import reIssue from '../Controller/reIssue';
 
 const QuestionDiv = styled.div`
   display: flex;
@@ -30,7 +30,8 @@ export const InfoBarDiv = styled.div`
   justify-content: space-between;
   button {
     margin: 0 5px;
-    color: #0c0d0e;
+    color: #6a737c;
+    font-weight: 200;
     padding: 5px;
     border: none;
     background-color: transparent;
@@ -41,6 +42,13 @@ export const InfoBarDiv = styled.div`
     flex-direction: column;
     font-size: 12px;
     align-items: flex-end;
+    .username {
+      color: #00747c;
+      background-color: #daeaf7;
+      padding: 2px;
+      border-radius: 3px;
+      margin-top: 5px;
+    }
   }
 `;
 
@@ -120,7 +128,7 @@ const Question = ({ datas, setData }) => {
                 day: 'numeric',
               })}
             </span>
-            <span>{datas.questionUsername}</span>
+            <span className="username">{datas.questionUsername}</span>
           </div>
         </InfoBarDiv>
         <ul className="comment">

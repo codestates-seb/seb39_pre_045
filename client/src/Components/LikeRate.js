@@ -1,5 +1,5 @@
 // import { useEffect, useState } from 'react';
-import reIssue from '../reIssue';
+import reIssue from '../Controller/reIssue';
 import link from '../image/stackoverflow.png';
 import styled from 'styled-components';
 import { useParams } from 'react-router-dom';

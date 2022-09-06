@@ -10,7 +10,7 @@ const Question = styled.li`
   font-size: 14px;
   border-top: 1px solid #babfc4;
   display: flex;
-
+  word-break: break-all;
   .info {
     flex: 1 1 15%;
     display: flex;
@@ -59,6 +59,13 @@ const Question = styled.li`
     text-align: right;
     span {
       margin: 5px;
+      font-size: 12px;
+      &.username {
+        color: #00747c;
+        background-color: #daeaf7;
+        padding: 3px;
+        border-radius: 3px;
+      }
     }
   }
   @media screen and (max-width: 768px) {
@@ -85,15 +92,21 @@ const QuestItem = ({ el }) => {
       <div className="info">
         <span>{el.totalVotes} votes</span>
         <span className="answer">{el.answers.length} answers</span>
-        <span>{el.view} views</span>
+        <span>
+          {el.view > 999 ? `${(el.view / 1000).toFixed(1)}k` : el.view} views
+        </span>
       </div>
       <div className="question">
         <h3 className="title">
           <Link to={`/questions/${el.questionId}`}>{el.title}</Link>
         </h3>
-        <p className="content">{el.questionContent}</p>
+        <p className="content">
+          {el.questionContent.length > 100
+            ? el.questionContent.slice(0, 100)
+            : el.questionContent}
+        </p>
         <div className="userNdate">
-          <span>{el.questionUsername}</span>
+          <span className="username">{el.questionUsername}</span>
           <span>
             asked {new Date(el.createdAt).toLocaleString('en-US', options)}
           </span>
