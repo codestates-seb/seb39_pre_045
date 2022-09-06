@@ -51,6 +51,7 @@ export const MainContainer = styled.div`
   ul {
     padding: 0;
     margin-bottom: 50px;
+    min-height: calc(100vh - 400px);
   }
   @media screen and (max-width: 768px) {
     margin: 50px auto;
@@ -61,6 +62,7 @@ export const Div = styled.div`
   margin: 50px 0 0 230px;
   width: 100%;
   max-width: 1200px;
+  min-height: calc(100vh - 50px);
   @media screen and (max-width: 768px) {
     margin: 50px auto;
   }
