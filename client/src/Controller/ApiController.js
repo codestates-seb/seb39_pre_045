@@ -2,6 +2,7 @@ import axios from 'axios';
 
 const TOKEN = localStorage.getItem('ACCESS_TOKEN');
 const axiosInstance = axios.create({
+  baseURL: process.env.REACT_APP_PROXY_URL,
   headers: {
     'Content-Type': 'application/json',
     Authorization: 'Bearer ' + TOKEN,

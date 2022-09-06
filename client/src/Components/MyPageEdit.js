@@ -47,11 +47,14 @@ const MyPageEdit = ({ parsed, setRender }) => {
     e.preventDefault();
     if (window.confirm('확인을 누르면 회원 정보가 삭제됩니다.')) {
       axios
-        .delete(`/members/${parsed.memberId}`, {
-          headers: {
-            Authorization: 'Bearer ' + localStorage.getItem('ACCESS_TOKEN'),
-          },
-        })
+        .delete(
+          `${process.env.REACT_APP_PROXY_URL}/members/${parsed.memberId}`,
+          {
+            headers: {
+              Authorization: 'Bearer ' + localStorage.getItem('ACCESS_TOKEN'),
+            },
+          }
+        )
         .then(() => {
           localStorage.clear();
           alert('그동안 이용해주셔서 감사합니다.');
