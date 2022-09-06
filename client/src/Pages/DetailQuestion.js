@@ -1,14 +1,16 @@
 // import { useEffect, useState } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
-import axios from 'axios';
 import Question from '../Components/Question';
 import Answer from '../Components/Answer';
 import styled from 'styled-components';
 import DetailPageAnswerEditor from '../Components/DetailPageAnswerEditor';
 import { useEffect, useState } from 'react';
 import Loading from '../Components/Loading';
+import useDetailQuestion from '../Store/store-detailquestion';
+import defAxios from '../Controller/default';
 const DivWrapper = styled.div`
   width: 100%;
+
   min-height: calc(100vh - 50px);
   display: flex;
   flex-direction: column;
@@ -27,10 +29,12 @@ const DivWrapper = styled.div`
       align-items: center;
 
       h2 {
-        font-weight: 400;
+        width: 80%;
+        font-weight: 500;
         font-size: 22px;
         color: #3b4045;
         margin: 10px;
+        word-break: break-all;
       }
       button {
         border: none;
@@ -49,12 +53,18 @@ const DivWrapper = styled.div`
 
     .dateNview {
       margin: 10px;
+      font-size: 14px;
       span {
         margin-right: 20px;
       }
     }
   }
 
+  .totalAnswers {
+    padding: 30px 0;
+    font-size: 18px;
+    font-weight: 400;
+  }
   @media screen and (max-width: 768px) {
     margin: 50px auto;
     .titleNbtn {
@@ -70,14 +80,15 @@ const DetailQuestion = () => {
   const { id } = useParams();
   const [ispending, setIsPending] = useState(true);
   const navigate = useNavigate();
-
+  const { setDetailData } = useDetailQuestion((state) => state);
   const [data, setData] = useState({});
 
   useEffect(() => {
-    axios
+    defAxios
       .get(`/questions/${id}`)
       .then(({ data }) => {
         setData(data.data);
+        setDetailData(data.data);
         setIsPending(false);
         window.scrollTo(0, 0);
       })
@@ -95,11 +106,12 @@ const DetailQuestion = () => {
         <>
           <div className="questionDesc">
             <div className="titleNbtn">
-              <h2>{data.title}</h2>
+              <h2 className="title">{data.title}</h2>
               <button onClick={() => navigate('/write')}>Ask Question</button>
             </div>
             <div className="dateNview">
               <span>
+                Asked{' '}
                 {new Date(data.createdAt).toLocaleString('en-US', options)}
               </span>
               {data.modifiedAt === undefined || (
@@ -107,11 +119,16 @@ const DetailQuestion = () => {
                   {new Date(data.modifiedAt).toLocaleString('en-US', options)}
                 </span>
               )}
-              <span>{data.view}</span>
+              <span>
+                {data.view > 999
+                  ? `${(data.view / 1000).toFixed(1)}k`
+                  : data.view}{' '}
+                views
+              </span>
             </div>
           </div>
           <Question datas={data} setData={setData} />
-          <div>{data.answers.length} Answers</div>
+          <div className="totalAnswers">{data.answers.length} Answers</div>
           {data.answers.length !== 0 &&
             data.answers.map((el, index) => (
               <Answer
@@ -122,7 +139,7 @@ const DetailQuestion = () => {
                 setData={setData}
               />
             ))}
-          <DetailPageAnswerEditor />
+          <DetailPageAnswerEditor originData={data} setData={setData} />
         </>
       ) : (
         <>

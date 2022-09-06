@@ -9,6 +9,8 @@
 
 Yang A-rom <baros2san@gmail.com>
 
+include::Home-API.adoc[]
 include::Member-API.adoc[]
 include::Answer-API.adoc[]
+include::Question-API.adoc[]
 include::QuestionVote-API.adoc[]

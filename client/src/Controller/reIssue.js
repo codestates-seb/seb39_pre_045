@@ -1,7 +1,8 @@
 import axios from 'axios';
-import { useNavigate } from 'react-router-dom';
 
-const reIssue = axios.create();
+const reIssue = axios.create({
+  baseURL: process.env.REACT_APP_PROXY_URL,
+});
 reIssue.interceptors.request.use(function (config) {
   const token = localStorage.getItem('ACCESS_TOKEN');
   if (!token) {
@@ -32,17 +33,11 @@ reIssue.interceptors.response.use(
         accessToken: access,
         refreshToken: refresh,
       };
-      const headers = {
-        'Content-Type': 'application/json',
-      };
       try {
-        console.log('ddd');
-        const data = await axios
-          .post('/members/reissue', ddaa)
-          .then(({ data }) => {
-            localStorage.setItem('ACCESS_TOKEN', data.data.accessToken);
-            localStorage.setItem('REFRESH_TOKEN', data.data.refreshToken);
-          });
+        await axios.post('/members/reissue', ddaa).then(({ data }) => {
+          localStorage.setItem('ACCESS_TOKEN', data.data.accessToken);
+          localStorage.setItem('REFRESH_TOKEN', data.data.refreshToken);
+        });
         return await reIssue.request(originalConfig);
       } catch (err) {
         console.log('토큰 갱신 에러');

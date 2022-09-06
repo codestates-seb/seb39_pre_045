@@ -7,14 +7,20 @@ import { useNavigate } from 'react-router-dom';
 
 const Login = () => {
   const { setLeftSideBarHidden } = useSideBarStore((state) => state);
-  const { setLoginSuccess } = useLoginSuccessStore((state) => state);
-  const { loginSuccess } = useLoginSuccessStore();
+  const { loginSuccess, setLoginSuccess } = useLoginSuccessStore(
+    (state) => state
+  );
   const [errorMessage, setErrorMessage] = useState('');
   const [loginInfo, setLoginInfo] = useState({
     email: '',
     password: '',
   });
+  const [searchInfo, setSearchInfo] = useState({
+    email: '',
+    username: '',
+  });
   const navigate = useNavigate();
+  const [change, setChange] = useState(true);
 
   useEffect(() => {
     setLeftSideBarHidden(true);
@@ -28,13 +34,18 @@ const Login = () => {
 
   const handleInputValue = (key) => (e) => {
     setLoginInfo({ ...loginInfo, [key]: e.target.value });
+    setSearchInfo({ ...searchInfo, [key]: e.target.value });
+  };
+
+  const handleForgotPW = () => {
+    setChange(!change);
   };
 
   const handleLoginRequest = (e) => {
     e.preventDefault();
     setErrorMessage('처리중입니다');
     axios
-      .post('/members/login', loginInfo)
+      .post(`${process.env.REACT_APP_PROXY_URL}/members/login`, loginInfo)
       .then((res) => {
         if (res.data.data.accessToken) {
           localStorage.setItem('ACCESS_TOKEN', res.data.data.accessToken);
@@ -52,9 +63,9 @@ const Login = () => {
             age: res.data.data.age || null,
           })
         );
-      })
-      .then((res) => {
         alert(res.data.data.username + ' 님 환영합니다!');
+      })
+      .then(() => {
         setLoginSuccess(true);
         setErrorMessage('');
         navigate('/g');
@@ -64,33 +75,80 @@ const Login = () => {
       });
   };
 
+  const handleRecovery = (e) => {
+    e.preventDefault();
+    setErrorMessage('처리중입니다');
+    axios
+      .post(`${process.env.REACT_APP_PROXY_URL}/members/recovery`, searchInfo)
+      .then(() => {
+        setErrorMessage('');
+        alert('작성하신 이메일로 임시 비밀번호를 발송하였습니다.');
+      })
+      .catch((err) => {
+        setErrorMessage('');
+        alert(err.response.data.message || '다시 시도해주세요');
+      });
+  };
+
   return (
-    <Container>
-      <Wrapper onSubmit={handleLoginRequest}>
-        <label htmlFor="email">Email</label>
-        <Input
-          required
-          id="email"
-          type="email"
-          onChange={handleInputValue('email')}
-        />
-        <PasswordDiv>
-          <label htmlFor="loginPassword">Password</label>
-          <Div color="#3e7bf4" size="11px">
-            Forgot Password?
-          </Div>
-        </PasswordDiv>
-        <Input
-          required
-          autoComplete="off"
-          id="password"
-          type="password"
-          onChange={handleInputValue('password')}
-        />
-        <Btn type="submit">Log in</Btn>
-        {errorMessage === '' ? null : errorMessage}
-      </Wrapper>
-    </Container>
+    <>
+      {change ? (
+        <Container>
+          <Wrapper onSubmit={handleLoginRequest}>
+            <label htmlFor="email">Email</label>
+            <Input
+              required
+              id="email"
+              type="email"
+              onChange={handleInputValue('email')}
+            />
+            <PasswordDiv>
+              <label htmlFor="loginPassword">Password</label>
+              <Div color="#3e7bf4" size="11px" onClick={handleForgotPW}>
+                Forgot Password?
+              </Div>
+            </PasswordDiv>
+            <Input
+              required
+              autoComplete="off"
+              id="password"
+              type="password"
+              onChange={handleInputValue('password')}
+            />
+            <Btn type="submit">Log in</Btn>
+            {errorMessage === '' ? null : errorMessage}
+          </Wrapper>
+        </Container>
+      ) : (
+        <Container>
+          <Wrapper onSubmit={handleRecovery}>
+            <button
+              type="button"
+              className="backToLogin"
+              onClick={handleForgotPW}
+            >
+              Back to login
+            </button>
+            <label htmlFor="username">Email</label>
+            <Input
+              required
+              id="email"
+              type="email"
+              onChange={handleInputValue('email')}
+            />
+            <label htmlFor="username">username</label>
+            <Input
+              required
+              id="username"
+              type="text"
+              onChange={handleInputValue('username')}
+            />
+            <Btn type="submit">Confirm</Btn>
+            {errorMessage === '' ? null : errorMessage}
+          </Wrapper>
+        </Container>
+      )}
+    </>
   );
 };
 
@@ -116,7 +174,13 @@ export const Wrapper = styled.form`
   width: ${(props) => props.maxWidth || '288px'};
   box-shadow: 0 10px 24px hsla(0, 0%, 0%, 0.05),
     0 20px 48px hsla(0, 0%, 0%, 0.05), 0 1px 4px hsla(0, 0%, 0%, 0.1);
-
+  .backToLogin {
+    width: fit-content;
+    margin-bottom: 20px;
+    &:hover {
+      cursor: pointer;
+    }
+  }
   @media only screen and (max-width: 767px) {
     width: ${(props) => props.width || '10em'};
     margin-left: ${(props) => props.mobile || '0'};
@@ -150,6 +214,9 @@ export const Input = styled.input`
 const Div = styled.div`
   color: ${(props) => props.color || 'black'};
   font-size: ${(props) => props.size || '14px'};
+  &:hover {
+    cursor: pointer;
+  }
 `;
 
 export const Btn = styled.button`

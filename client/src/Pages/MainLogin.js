@@ -1,23 +1,20 @@
 import QuestItem from '../Components/QuestItem';
-import { MainContainer } from './MainLogout';
+import { MainContainer, Div } from './MainLogout';
 import { useEffect, useState } from 'react';
 import NoResult from '../Components/NoResult';
 import { useNavigate } from 'react-router-dom';
-import axios from 'axios';
 import Loading from '../Components/Loading';
 import useSortStore from '../Store/store-sort';
 import SortBtnBar from '../Components/SortBtnBar';
 import styled from 'styled-components';
 import RightSideBar from '../Components/RightSideBar';
+import defAxios from '../Controller/default';
 
 const MainLoginDiv = styled(MainContainer)`
   .btns {
     display: flex;
     justify-content: flex-end;
   }
-`;
-const Div = styled.div`
-  display: flex;
 `;
 
 const MainLogin = () => {
@@ -31,7 +28,7 @@ const MainLogin = () => {
     (state) => state
   );
   useEffect(() => {
-    axios
+    defAxios
       .get(`/questions?page=1&sort=newest&filters=`)
       .then(({ data }) => {
         setData(data.data !== undefined ? data.data : []);

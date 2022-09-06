@@ -1,5 +1,5 @@
 import { useState, useRef } from 'react';
-import reIssue from '../reIssue';
+import reIssue from '../Controller/reIssue';
 
 import styled from 'styled-components';
 import link from '../image/stackoverflow.png';
@@ -82,13 +82,12 @@ export const WriteComment = styled.form`
   }
 `;
 const Comment = ({ status, data, id, originData, setData }) => {
-  const headers = {
-    'Content-Type': 'application/json',
-    Authorization: `Bearer ${localStorage.getItem('ACCESS_TOKEN')}`,
-  };
   const [isOpen, setIsOpen] = useState(false);
   const content = useRef();
-  const username = 'test';
+  const username = window.localStorage.getItem('USER_INFO')
+    ? JSON.parse(window.localStorage.getItem('USER_INFO')).username
+    : 'x';
+
   const commentId =
     status === 'questions' ? data.questionCommentId : data.answerCommentId;
   const handleEdit = async (e) => {
@@ -123,8 +122,7 @@ const Comment = ({ status, data, id, originData, setData }) => {
               ? data.questionCommentId
               : data.answerCommentId
           }`,
-          patchData,
-          { headers }
+          patchData
         )
         .then(({ data }) => {
           if (status === 'questions') {
@@ -162,9 +160,8 @@ const Comment = ({ status, data, id, originData, setData }) => {
             setIsOpen(false);
           }
         })
-        .catch((err) => {
+        .catch(() => {
           alert('댓글수정에 실패하였습니다');
-          console.log(err);
         });
     } else {
       return;
@@ -178,8 +175,7 @@ const Comment = ({ status, data, id, originData, setData }) => {
             status === 'questions'
               ? data.questionCommentId
               : data.answerCommentId
-          }`,
-          { headers }
+          }`
         )
         .then(() => {
           if (status === 'questions') {

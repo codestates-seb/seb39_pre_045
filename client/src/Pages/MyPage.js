@@ -8,12 +8,98 @@ import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import useLoginSuccessStore from '../Store/store-loginSuccess';
 
+const MyPage = () => {
+  const { loginSuccess } = useLoginSuccessStore((state) => state);
+  const [render, setRender] = useState(
+    JSON.parse(localStorage.getItem('USER_INFO'))
+  );
+  const [selectQ, setSelectQ] = useState(true);
+  const [selectA, setSelectA] = useState(false);
+  const [selectE, setSelectE] = useState(false);
+  const navigate = useNavigate();
+  const handleClickQuestions = () => {
+    navigate('?tab=questions');
+    setSelectQ(true);
+    setSelectA(false);
+    setSelectE(false);
+  };
+  const handleClickAnswers = () => {
+    navigate('?tab=answers');
+    setSelectQ(false);
+    setSelectA(true);
+    setSelectE(false);
+  };
+  const handleClickEdit = () => {
+    navigate('?tab=edit');
+    setSelectQ(false);
+    setSelectA(false);
+    setSelectE(true);
+  };
+
+  useEffect(() => {
+    if (!loginSuccess) {
+      navigate('/login');
+    }
+  }, []);
+
+  return (
+    <>
+      {loginSuccess ? (
+        <PageWrapper>
+          <MyPageProfile parsed={render} />
+          <Section className="section">
+            <MenuContainer className="menuContainer">
+              <Li
+                onClick={handleClickQuestions}
+                border="none"
+                radius="15px"
+                size="13px"
+                className={selectQ}
+              >
+                Questions
+              </Li>
+              <Li
+                onClick={handleClickAnswers}
+                border="none"
+                radius="15px"
+                size="13px"
+                className={selectA}
+              >
+                Answers
+              </Li>
+              <Li
+                onClick={handleClickEdit}
+                border="none"
+                radius="15px"
+                size="13px"
+                className={selectE}
+              >
+                Edit Profile
+              </Li>
+            </MenuContainer>
+            <InsideContentWrapper>
+              {selectQ ? <MyPageQItem /> : null}
+              {selectA ? <MyPageAItem /> : null}
+              {selectE ? (
+                <MyPageEdit parsed={render} setRender={setRender} />
+              ) : null}
+            </InsideContentWrapper>
+          </Section>
+        </PageWrapper>
+      ) : null}
+    </>
+  );
+};
+
 const PageWrapper = styled.div`
   margin: 80px 0 0 30%;
   display: flex;
   flex-direction: column;
   width: 100%;
   min-height: calc(100vh - 350px);
+  .true {
+    background-color: #ebebeb;
+  }
   @media only screen and (max-width: 767px) {
     margin: 50px 0 0 20px;
     .menuContainer {
@@ -77,71 +163,5 @@ export const Content = styled.div`
   display: flex;
   flex-direction: column;
 `;
-
-const MyPage = () => {
-  const { loginSuccess } = useLoginSuccessStore();
-  const [selectQ, setSelectQ] = useState(true);
-  const [selectA, setSelectA] = useState(false);
-  const [selectE, setSelectE] = useState(false);
-  const navigate = useNavigate();
-  const handleClickQuestions = () => {
-    navigate('?tab=questions');
-    setSelectQ(true);
-    setSelectA(false);
-    setSelectE(false);
-  };
-  const handleClickAnswers = () => {
-    navigate('?tab=answers');
-    setSelectQ(false);
-    setSelectA(true);
-    setSelectE(false);
-  };
-  const handleClickEdit = () => {
-    navigate('?tab=edit');
-    setSelectQ(false);
-    setSelectA(false);
-    setSelectE(true);
-  };
-
-  useEffect(() => {
-    if (!loginSuccess) {
-      navigate('/login');
-    }
-  }, []);
-
-  return (
-    <PageWrapper>
-      <MyPageProfile />
-      <Section className="section">
-        <MenuContainer className="menuContainer">
-          <Li
-            onClick={handleClickQuestions}
-            border="none"
-            radius="15px"
-            size="13px"
-          >
-            Questions
-          </Li>
-          <Li
-            onClick={handleClickAnswers}
-            border="none"
-            radius="15px"
-            size="13px"
-          >
-            Answers
-          </Li>
-          <Li onClick={handleClickEdit} border="none" radius="15px" size="13px">
-            Edit Profile
-          </Li>
-        </MenuContainer>
-        <InsideContentWrapper>
-          {selectQ ? <MyPageQItem /> : null}
-          {selectA ? <MyPageAItem /> : null}
-          {selectE ? <MyPageEdit /> : null}
-        </InsideContentWrapper>
-      </Section>
-    </PageWrapper>
-  );
-};
 
 export default MyPage;

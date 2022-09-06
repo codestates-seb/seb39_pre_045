@@ -4,7 +4,7 @@ import Comment, { WriteComment } from './Comment';
 import { useRef, useState } from 'react';
 import LikeRate from './LikeRate';
 import { useNavigate, useParams } from 'react-router-dom';
-import reIssue from '../reIssue';
+import reIssue from '../Controller/reIssue';
 
 const QuestionDiv = styled.div`
   display: flex;
@@ -30,7 +30,8 @@ export const InfoBarDiv = styled.div`
   justify-content: space-between;
   button {
     margin: 0 5px;
-    color: #0c0d0e;
+    color: #6a737c;
+    font-weight: 200;
     padding: 5px;
     border: none;
     background-color: transparent;
@@ -41,6 +42,13 @@ export const InfoBarDiv = styled.div`
     flex-direction: column;
     font-size: 12px;
     align-items: flex-end;
+    .username {
+      color: #00747c;
+      background-color: #daeaf7;
+      padding: 2px;
+      border-radius: 3px;
+      margin-top: 5px;
+    }
   }
 `;
 
@@ -49,10 +57,7 @@ const Question = ({ datas, setData }) => {
   const comment = useRef();
   const navigate = useNavigate();
   const [isOpen, setIsOpen] = useState(false);
-  const headers = {
-    'Content-Type': 'application/json',
-    Authorization: `Bearer ${localStorage.getItem('ACCESS_TOKEN')}`,
-  };
+
   const handleCommentWrite = (e) => {
     e.preventDefault();
     if (window.confirm('댓글을 등록하시겠습니까?')) {
@@ -64,16 +69,14 @@ const Question = ({ datas, setData }) => {
         questionCommentContent: comment.current.value,
       };
       // console.log(postData);
-      reIssue
-        .post(`/questions/${id}/comments`, postData, { headers })
-        .then(({ data }) => {
-          alert('댓글 등록에 성공했습니다');
-          setData({
-            ...datas,
-            questionComments: [...datas.questionComments, data.data],
-          });
-          setIsOpen(false);
+      reIssue.post(`/questions/${id}/comments`, postData).then(({ data }) => {
+        alert('댓글 등록에 성공했습니다');
+        setData({
+          ...datas,
+          questionComments: [...datas.questionComments, data.data],
         });
+        setIsOpen(false);
+      });
     } else {
       return;
     }
@@ -83,7 +86,7 @@ const Question = ({ datas, setData }) => {
       e.preventDefault();
 
       reIssue
-        .delete(`/questions/${id}`, { headers })
+        .delete(`/questions/${id}`)
         .then(() => {
           alert('질문 삭제가 완료되었습니다.');
           navigate(`/`);
@@ -125,7 +128,7 @@ const Question = ({ datas, setData }) => {
                 day: 'numeric',
               })}
             </span>
-            <span>{datas.questionUsername}</span>
+            <span className="username">{datas.questionUsername}</span>
           </div>
         </InfoBarDiv>
         <ul className="comment">

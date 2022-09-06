@@ -1,6 +1,6 @@
-package pre045.board_service.answer.controller;
+package pre045.board_service.restdocs.answer.controller;
 
-import lombok.extern.slf4j.Slf4j;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
@@ -8,11 +8,12 @@ import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.data.jpa.mapping.JpaMetamodelMappingContext;
 import org.springframework.security.test.context.support.WithMockUser;
+import pre045.board_service.answer.controller.AnswerController;
 import pre045.board_service.answer.dto.AnswerDto;
 import pre045.board_service.answer.entity.Answer;
 import pre045.board_service.answer.mapper.AnswerMapper;
 import pre045.board_service.answer.service.AnswerService;
-import pre045.board_service.util.RestDocsTestSupport;
+import pre045.board_service.restdocs.util.RestDocsTestSupport;
 
 import java.util.List;
 
@@ -26,8 +27,8 @@ import static org.springframework.restdocs.request.RequestDocumentation.paramete
 import static org.springframework.restdocs.request.RequestDocumentation.pathParameters;
 import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.csrf;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
-import static pre045.board_service.util.RestDocsConfig.field;
-import static pre045.board_service.util.StubData.MockAnswer.*;
+import static pre045.board_service.restdocs.util.RestDocsConfig.field;
+import static pre045.board_service.restdocs.util.StubData.MockAnswer.*;
 
 
 @WebMvcTest(AnswerController.class)
@@ -38,6 +39,7 @@ class AnswerControllerTest extends RestDocsTestSupport {
     @MockBean
     private AnswerMapper mapper;
 
+    private ObjectMapper objectMapper;
 
     @Test
     @WithMockUser(username = "1")
@@ -73,11 +75,14 @@ class AnswerControllerTest extends RestDocsTestSupport {
                                                 fieldWithPath("question.checkAdopted").type(BOOLEAN).description("질문 채택 여부"),
                                                 fieldWithPath("question.questionUsername").type(STRING).description("질문 작성자").attributes(field("constraints", "Not Blank")),
                                                 fieldWithPath("question.totalVotes").type(NUMBER).description("질문 추천수"),
+                                                fieldWithPath("question.answers").type(ARRAY).description("질문에 달린 답변들").optional(),
+                                                fieldWithPath("question.questionComments").type(ARRAY).description("질문에 달린 댓글들").optional(),
                                                 fieldWithPath("answerContent").type(STRING).description("답변 내용").attributes(field("constraints", "Not Blank"))
                                         )
                                 ),
                                 responseFields(
                                         List.of(
+                                                fieldWithPath("data").type(OBJECT).description("데이터"),
                                                 fieldWithPath("data.answerId").type(NUMBER).description("답변 식별자"),
                                                 fieldWithPath("data.answerUsername").type(STRING).description("답변 작성자"),
                                                 fieldWithPath("data.answerContent").type(STRING).description("답변 내용"),
@@ -127,12 +132,15 @@ class AnswerControllerTest extends RestDocsTestSupport {
                                                 fieldWithPath("question.checkAdopted").type(BOOLEAN).description("질문 채택 여부"),
                                                 fieldWithPath("question.questionUsername").type(STRING).description("질문 작성자").attributes(field("constraints", "Not Blank")),
                                                 fieldWithPath("question.totalVotes").type(NUMBER).description("질문 추천수"),
+                                                fieldWithPath("question.answers").type(ARRAY).description("질문에 달린 답변들").optional(),
+                                                fieldWithPath("question.questionComments").type(ARRAY).description("질문에 달린 댓글들").optional(),
                                                 fieldWithPath("answerId").type(NUMBER).description("답변 식별자").attributes(field("constraints", "양수")),
                                                 fieldWithPath("answerContent").type(STRING).description("답변 수정 내용").attributes(field("constraints", "Not Blank"))
                                         )
                                 ),
                                 responseFields(
                                         List.of(
+                                                fieldWithPath("data").type(OBJECT).description("데이터"),
                                                 fieldWithPath("data.answerId").type(NUMBER).description("답변 식별자"),
                                                 fieldWithPath("data.answerUsername").type(STRING).description("답변 작성자"),
                                                 fieldWithPath("data.answerContent").type(STRING).description("답변 수정 내용"),
@@ -170,16 +178,21 @@ class AnswerControllerTest extends RestDocsTestSupport {
     @WithMockUser
     @DisplayName("답변 채택")
     void adoptAnswer() throws Exception {
+<<<<<<< HEAD:server/src/test/java/pre045/board_service/answer/controller/AnswerControllerTest.java
         doNothing().when(answerService).adoptAnswer(1L,2L);
+=======
+        doNothing().when(answerService).adoptAnswer(1L, 1L);
+>>>>>>> 60bb51d3137bb4c04f4c867123627a83fad0500c:server/src/test/java/pre045/board_service/restdocs/answer/controller/AnswerControllerTest.java
 
         mockMvc.perform(
-                    post("/answers/{answer-id}/adopt", 1L)
+                    post("/answers/{answer-id}/adopt/{question-id}", 1L, 1L)
                 )
                 .andExpect(status().isCreated())
                 .andDo(
                         restDocs.document(
                                 pathParameters(
-                                        parameterWithName("answer-id").description("답변 식별자")
+                                        parameterWithName("answer-id").description("답변 식별자"),
+                                        parameterWithName("question-id").description("질문 식별자")
                                 )
                         )
                 );

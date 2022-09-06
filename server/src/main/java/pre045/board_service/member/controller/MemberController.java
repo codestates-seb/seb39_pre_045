@@ -107,7 +107,7 @@ public class MemberController {
      * @param recoveryDto - email, username
      * @return - 200
      */
-    @GetMapping("/recovery")
+    @PostMapping("/recovery")
     public ResponseEntity recoveryMember(@RequestBody MemberRecoveryDto recoveryDto){
 
         memberService.recoveryPassword(recoveryDto);

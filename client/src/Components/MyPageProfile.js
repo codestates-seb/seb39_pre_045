@@ -1,5 +1,39 @@
 import styled from 'styled-components';
+import { ReactComponent as Profile } from '../image/profile.svg';
 
+const MyPageProfile = ({ parsed }) => {
+  return (
+    <Section>
+      <Profile alt="profile" className="profileImage" />
+      <div>
+        <div className="greeting">Hello, {parsed.username}!</div>
+        <span className="status">
+          <span className="material-icons">mail_outline</span>
+          {parsed.email}
+        </span>
+        <span className="status">
+          {parsed.gender === 'female' ? (
+            <span className="material-icons">female</span>
+          ) : null}
+          {parsed.gender === 'male' ? (
+            <span className="material-icons">male</span>
+          ) : null}
+          {parsed.gender === null ? (
+            <>
+              <span className="material-icons">female</span>
+              or
+              <span className="material-icons">male</span>
+            </>
+          ) : null}
+        </span>
+        <span className="status">
+          <span className="material-icons">cake</span>
+          {parsed.age || <span className="material-icons">question_mark</span>}
+        </span>
+      </div>
+    </Section>
+  );
+};
 const Section = styled.div`
   padding: 20px 20px;
   display: flex;
@@ -12,12 +46,28 @@ const Section = styled.div`
     padding-left: 20px;
     font-size: 20px;
   }
+  .material-icons {
+    font-size: 20px;
+  }
+  .profileImage {
+    object-fit: cover;
+    width: 150px;
+    height: 150px;
+    box-shadow: 1px 2px 7px 3px hsla(0, 0%, 0%, 0.1);
+    border-radius: 5px;
+  }
   @media only screen and (max-width: 767px) {
     padding-left: 0;
     img {
       width: 100px;
       height: 100px;
     }
+  }
+  .material-icons {
+    padding-right: 5px;
+    font-size: 17px;
+    color: gray;
+    vertical-align: bottom;
   }
   @media only screen and (min-width: 768px) and (max-width: 1200px) {
     padding-left: 50px;
@@ -35,27 +85,5 @@ const Section = styled.div`
     }
   }
 `;
-
-const Img = styled.img`
-  object-fit: cover;
-  width: 150px;
-  height: 150px;
-  box-shadow: 1px 2px 7px 3px hsla(0, 0%, 0%, 0.1);
-  border-radius: 5px;
-`;
-const MyPageProfile = () => {
-  return (
-    <Section>
-      <Img
-        alt="profile"
-        src="https://cdn.pixabay.com/photo/2022/08/18/09/20/houses-7394390__480.jpg"
-      />
-      <div>
-        <div className="greeting">Hello, 닉네임!</div>
-        <span className="status">123@stackoverflow.com</span>
-      </div>
-    </Section>
-  );
-};
 
 export default MyPageProfile;

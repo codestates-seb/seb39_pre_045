@@ -6,8 +6,7 @@ import { InfoBarDiv } from './Question';
 import LikeRate from './LikeRate';
 import { useNavigate } from 'react-router-dom';
 
-import axios from 'axios';
-import reIssue from '../reIssue';
+import reIssue from '../Controller/reIssue';
 
 const AnswerDiv = styled.div`
   display: flex;
@@ -40,10 +39,7 @@ const Answer = ({ data, originData, setData, idx }) => {
   const [isOpen, setIsOpen] = useState(false);
   const id = data.answerId;
   const comment = useRef();
-  const headers = {
-    'Content-Type': 'application/json',
-    Authorization: `Bearer ${localStorage.getItem('ACCESS_TOKEN')}`,
-  };
+
   const handleCommentWrite = (e) => {
     e.preventDefault();
     if (window.confirm('댓글을 등록하시겠습니까?')) {
@@ -55,7 +51,7 @@ const Answer = ({ data, originData, setData, idx }) => {
         answerCommentContent: comment.current.value,
       };
       reIssue
-        .post(`/answers/${id}/comments`, postData, { headers })
+        .post(`/answers/${id}/comments`, postData)
         .then(({ data }) => {
           // setDetailData({...detailData,answers.answerComment})// 보류
           alert('댓글 등록에 성공했습니다');
@@ -85,7 +81,7 @@ const Answer = ({ data, originData, setData, idx }) => {
       return;
     }
     if (window.confirm('답변을 삭제하시겠습니까?')) {
-      reIssue.delete(`/answers/${id}`, { headers }).then(({ data }) => {
+      reIssue.delete(`/answers/${id}`).then(({ data }) => {
         setData({
           ...originData,
           answers: originData.answers.filter((el) => el.answerId !== id),
@@ -130,17 +126,18 @@ const Answer = ({ data, originData, setData, idx }) => {
           </div>
         </InfoBarDiv>
         <ul className="comment">
-          {data.answerComments.length !== 0 &&
-            data.answerComments.map((el, index) => (
-              <Comment
-                originData={originData}
-                data={el}
-                id={id}
-                key={index}
-                status={'answers'}
-                setData={setData}
-              />
-            ))}
+          {data?.answerComments
+            ? data.answerComments.map((el, index) => (
+                <Comment
+                  originData={originData}
+                  data={el}
+                  id={id}
+                  key={index}
+                  status={'answers'}
+                  setData={setData}
+                />
+              ))
+            : null}
         </ul>
         <div>
           {isOpen === false ? (
