@@ -1,5 +1,4 @@
 {
-  "homepage": "http:/121.158.133.23:3000",
   "name": "client",
   "version": "0.1.0",
   "private": true,
@@ -20,7 +19,7 @@
     "web-vitals": "^2.1.4",
     "zustand": "^4.1.1"
   },
-  "proxy": "http://121.158.133.23:8080",
+  "proxy": "http://ec2-3-34-179-16.ap-northeast-2.compute.amazonaws.com:8080",
   "scripts": {
     "start": "set \"GENERATE_SOURCEMAP=false\" && react-scripts start",
     "build": "react-scripts build",
