@@ -45,7 +45,7 @@ const Login = () => {
     e.preventDefault();
     setErrorMessage('처리중입니다');
     axios
-      .post('/members/login', loginInfo)
+      .post(`${process.env.REACT_APP_PROXY_URL}/members/login`, loginInfo)
       .then((res) => {
         if (res.data.data.accessToken) {
           localStorage.setItem('ACCESS_TOKEN', res.data.data.accessToken);
@@ -77,10 +77,9 @@ const Login = () => {
 
   const handleRecovery = (e) => {
     e.preventDefault();
-    // alert('작성하신 이메일로 임시 비밀번호를 발송하였습니다.');
     setErrorMessage('처리중입니다');
     axios
-      .post('/members/recovery', searchInfo)
+      .post(`${process.env.REACT_APP_PROXY_URL}/members/recovery`, searchInfo)
       .then(() => {
         setErrorMessage('');
         alert('작성하신 이메일로 임시 비밀번호를 발송하였습니다.');
