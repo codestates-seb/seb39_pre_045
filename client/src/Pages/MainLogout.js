@@ -14,7 +14,7 @@ export const MainContainer = styled.div`
   min-height: calc(100vh - 50px);
   display: flex;
   flex-direction: column;
-  margin: 50px 0 0 230px;
+  flex: 1 1 80%;
   max-width: 850px;
   .pageDesc {
     padding: 10px;
@@ -56,25 +56,14 @@ export const MainContainer = styled.div`
     margin: 50px auto;
   }
 `;
-export const AlignBtns = styled.div`
-  border: 1px solid #babfc49b;
-  border-radius: 3px;
-`;
-export const SortBtns = styled.button`
-  font-size: 12px;
-  border: none;
-  color: #0c0d0e;
-  background-color: ${(props) => (props.sort ? '#babfc49b' : 'transparent')};
-  cursor: pointer;
-  padding: 8px;
-  border-right: 1px solid #babfc49b;
-  transition: background-color ease-in-out 0.5s;
-  :last-child {
-    border-right: none;
-  }
-`;
-const Div = styled.div`
+export const Div = styled.div`
   display: flex;
+  margin: 50px 0 0 230px;
+  width: 100%;
+  max-width: 1200px;
+  @media screen and (max-width: 768px) {
+    margin: 50px auto;
+  }
 `;
 const MainLogout = () => {
   // const [data, setData] = useState([]);

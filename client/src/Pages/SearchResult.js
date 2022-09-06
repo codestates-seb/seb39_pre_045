@@ -11,11 +11,17 @@ import Loading from '../Components/Loading';
 import SortBtnBar from '../Components/SortBtnBar';
 
 const SearchContainer = styled(MainContainer)`
+  flex: 1 1 1;
+  margin: 50px 0 0 230px;
+  width: 100%;
   .resultQueryDiv {
     padding: 0px 20px 20px;
     font-size: 12px;
     box-sizing: border-box;
     max-width: 850px;
+  }
+  @media screen and (max-width: 768px) {
+    margin: 50px auto;
   }
 `;
 const SearchResult = () => {
@@ -45,7 +51,6 @@ const SearchResult = () => {
       .then(({ data }) => {
         setData(data.data !== undefined ? data.data : []);
         setPageInfo(data.pageInfo);
-        console.log(data);
         setIsPending(false);
       })
       .catch((err) => {
