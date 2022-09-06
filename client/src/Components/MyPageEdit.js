@@ -35,9 +35,9 @@ const MyPageEdit = ({ parsed, setRender }) => {
       })
       .catch((err) => {
         alert(
-          err.response.data.message
+          err.response?.data.message
             ? err.response.data.message
-            : '다시 시도해주세요'
+            : '다시 시도해주세요. 비밀번호는 필수 입력값입니다.'
         );
         setRender(JSON.parse(localStorage.getItem('USER_INFO')));
       });
@@ -87,7 +87,6 @@ const MyPageEdit = ({ parsed, setRender }) => {
           />
           <label htmlFor="new-password">New Password</label>
           <Input
-            required
             value={newPassword}
             onChange={(e) => setNewPassword(e.target.value)}
             autoComplete="off"
