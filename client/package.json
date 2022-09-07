@@ -19,7 +19,7 @@
     "web-vitals": "^2.1.4",
     "zustand": "^4.1.1"
   },
-  "proxy": "http://ec2-3-39-177-200.ap-northeast-2.compute.amazonaws.com:8080",
+  "proxy": "http://ec2-52-79-251-106.ap-northeast-2.compute.amazonaws.com",
   "scripts": {
     "start": "set \"GENERATE_SOURCEMAP=false\" && react-scripts start",
     "build": "react-scripts build",
