@@ -41,7 +41,7 @@ public class SecurityConfig {
         http
                 .httpBasic().disable()
                 .csrf().disable()
-                .sessionManagement().sessionCreationPolicy(STATELESS) //세션 X
+                .cors().configurationSource(corsConfigurationSource())
 
                 .and()
                 .exceptionHandling()
@@ -49,12 +49,16 @@ public class SecurityConfig {
                 .authenticationEntryPoint(authenticationEntryPoint)
 
                 .and()
+                .sessionManagement().sessionCreationPolicy(STATELESS) //세션 X
+
+                .and()
                 .authorizeRequests()
                 .requestMatchers(CorsUtils::isPreFlightRequest).permitAll()
                 .antMatchers("/members/**").permitAll()
                 .antMatchers(HttpMethod.GET, "/questions/**").permitAll()
-                .anyRequest().authenticated().and()
-                .cors().and()
+                .anyRequest().authenticated()
+
+                .and()
                 .apply(new JwtSecurityConfig(tokenProvider, jwtExceptionHandlerFilter));
 
         return http.build();
@@ -69,6 +73,7 @@ public class SecurityConfig {
         configuration.addAllowedHeader("*");
         configuration.setAllowCredentials(true);
         configuration.setMaxAge(3600L);
+        configuration.addExposedHeader("Authorization");
         UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
         source.registerCorsConfiguration("/**", configuration);
         return source;
