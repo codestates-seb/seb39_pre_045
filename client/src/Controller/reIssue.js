@@ -1,4 +1,5 @@
 import axios from 'axios';
+import defAxios from './default';
 
 const reIssue = axios.create({
   baseURL: process.env.REACT_APP_PROXY_URL,
@@ -27,6 +28,7 @@ reIssue.interceptors.response.use(
 
     if (err.response.status === 403) {
       // const accessToken = originalConfig.headers['Authorization'];
+      console.log('dddddd');
       const access = localStorage.getItem('ACCESS_TOKEN');
       const refresh = localStorage.getItem('REFRESH_TOKEN');
       const ddaa = {
@@ -34,7 +36,8 @@ reIssue.interceptors.response.use(
         refreshToken: refresh,
       };
       try {
-        await axios.post('/members/reissue', ddaa).then(({ data }) => {
+        await defAxios.post('/members/reissue', ddaa).then(({ data }) => {
+          console.log('dd');
           localStorage.setItem('ACCESS_TOKEN', data.data.accessToken);
           localStorage.setItem('REFRESH_TOKEN', data.data.refreshToken);
         });
