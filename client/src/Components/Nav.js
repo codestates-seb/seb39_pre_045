@@ -191,7 +191,7 @@ const Nav = ({ handleMobileMenuOpen }) => {
           window.localStorage.removeItem('ACCESS_TOKEN');
           window.localStorage.removeItem('REFRESH_TOKEN');
           setLoginSuccess(false);
-          useNavigate('/');
+          navigate('/');
         }
       })
       .catch((err) => {
