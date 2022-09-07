@@ -1,6 +1,6 @@
 import styled from 'styled-components';
 import useSortStore from '../Store/store-sort';
-import axios from 'axios';
+import defAxios from '../Controller/default';
 const AlignBtns = styled.div`
   border: 1px solid #babfc49b;
   border-radius: 3px;
@@ -28,7 +28,7 @@ const SortBtnBar = ({ setIsPending, setNoResult }) => {
     setSort(sorting);
     setPagination(1);
     setIsPending(true);
-    await axios
+    await defAxios
       .get(`/questions?page=1&sort=${sorting}&filters=`)
       .then(({ data }) => {
         setPageInfo(data.pageInfo);
