@@ -10,7 +10,7 @@ import pre045.board_service.comment.AComment.AnswerComment;
 
 @Generated(
     value = "org.mapstruct.ap.MappingProcessor",
-    date = "2022-09-05T18:25:02+0900",
+    date = "2022-09-07T18:28:45+0900",
     comments = "version: 1.5.2.Final, compiler: javac, environment: Java 11.0.15 (Azul Systems, Inc.)"
 )
 @Component

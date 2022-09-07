@@ -1,11 +1,11 @@
 jwt:
-  secret: Y29kZXN0YXRlcy1wcmUtcHJvamVjdC10ZWFtLTQ1LWJvYXJkLXNlcnZpY2UtcmVhY3Qtd2l0aC1zcHJpbmctYm9vdC1zZWNyZXQta2V5Cg==
+  secret: *
 spring:
   mail:
     host: smtp.gmail.com
     port: 587
-    username: romchanxx@gmail.com
-    password: gleaoglbojprmcly
+    username: *
+    password: *
     properties:
       mail:
         smtp:
@@ -19,6 +19,6 @@ spring:
       ddl-auto: update
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
-    url: jdbc:mysql://121.189.189.136:3306/board_service?createDatabaseIfNotExist=true&testOnBorrow=true&testWhileIdle=true&timeBetweenEvictionRunsMillis=3000&validationQuery="select 1"
-    username: team45
-    password: 1q2w3e4r
+    url: jdbc:mysql://sebteam45.c8ora5gcivw3.ap-northeast-2.rds.amazonaws.com:3306/preProject?useSSL=false
+    username: *
+    password: *

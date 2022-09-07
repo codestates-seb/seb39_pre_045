@@ -57,15 +57,15 @@ public class Question {
     @JsonManagedReference
     // 이 엔티티를 json 으로 출력할 때 순환참조를 막기 위한 애너테이션
     @OneToMany(mappedBy = "question", cascade = CascadeType.REMOVE)
-    private List<Answer> answers = new ArrayList<>();
+    private final List<Answer> answers = new ArrayList<>();
 
     @JsonManagedReference
     @OneToMany(mappedBy = "question", cascade = CascadeType.REMOVE)
-    private List<QuestionComment> questionComments = new ArrayList<>();
+    private final List<QuestionComment> questionComments = new ArrayList<>();
 
     @OneToMany(mappedBy = "question", cascade = CascadeType.REMOVE)
     @JsonIgnore // 리스폰스로 보내지 않아도 됨
-    private List<QuestionVote> questionVotes = new ArrayList<>();
+    private final List<QuestionVote> questionVotes = new ArrayList<>();
 
 
     // dB에서 외래키로 가지고 있어서
