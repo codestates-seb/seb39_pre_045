@@ -70,7 +70,7 @@ public class AnswerVoteService {
                     throw new BusinessLogicException(CANT_DUPLICATE_VOTE);
                 });
 
-        int answerTotalVotes = foundAnswer.getTotalVotes() + 1;
+        int answerTotalVotes = foundAnswer.getTotalVotes() - 1;
         foundAnswer.setTotalVotes(answerTotalVotes);
 
         AnswerVote answerVote = new AnswerVote();
