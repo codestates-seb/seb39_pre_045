@@ -19,6 +19,6 @@ spring:
       ddl-auto: update
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
-    url: jdbc:mysql://sebteam45.c8ora5gcivw3.ap-northeast-2.rds.amazonaws.com:3306/preProject?useSSL=false
+    url: jdbc:mysql://*
     username: *
     password: *
