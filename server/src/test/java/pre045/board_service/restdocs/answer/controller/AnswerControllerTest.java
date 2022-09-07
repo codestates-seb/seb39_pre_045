@@ -178,12 +178,9 @@ class AnswerControllerTest extends RestDocsTestSupport {
     @WithMockUser
     @DisplayName("답변 채택")
     void adoptAnswer() throws Exception {
-<<<<<<< HEAD:server/src/test/java/pre045/board_service/answer/controller/AnswerControllerTest.java
         doNothing().when(answerService).adoptAnswer(1L,2L);
-=======
-        doNothing().when(answerService).adoptAnswer(1L, 1L);
->>>>>>> 60bb51d3137bb4c04f4c867123627a83fad0500c:server/src/test/java/pre045/board_service/restdocs/answer/controller/AnswerControllerTest.java
 
+        doNothing().when(answerService).adoptAnswer(1L, 1L);
         mockMvc.perform(
                     post("/answers/{answer-id}/adopt/{question-id}", 1L, 1L)
                 )
