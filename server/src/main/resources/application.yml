@@ -1,0 +1,24 @@
+jwt:
+  secret: *
+spring:
+  mail:
+    host: smtp.gmail.com
+    port: 587
+    username: *
+    password: *
+    properties:
+      mail:
+        smtp:
+          auth: true
+          starttls:
+            enable: true
+  jpa:
+    generate-ddl: true
+    database: mysql
+    hibernate:
+      ddl-auto: update
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://*
+    username: *
+    password: *
